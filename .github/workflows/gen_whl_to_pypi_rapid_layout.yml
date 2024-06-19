@@ -6,7 +6,7 @@ on:
       - v*
 
 env:
-  RESOURCES_URL: https://github.com/RapidAI/RapidStructure/releases/download/v0.0.0/rapid_layout_models.zip
+  RESOURCES_URL: https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/rapid_layout_models.zip
 
 jobs:
   UnitTesting:
