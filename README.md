@@ -2,7 +2,6 @@
   <div align="center">
     <h1><b>📖 Rapid Layout</b></h1>
   </div>
-  <br/>
 
 <a href="https://swhl-rapidstructuredemo.hf.space" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97-Online Demo-blue"></a>
 <a href=""><img src="https://img.shields.io/badge/Python->=3.6,<3.13-aff.svg"></a>
