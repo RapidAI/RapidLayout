@@ -39,7 +39,7 @@ $ pip install rapid-layout
 #### python脚本运行
 ```python
 import cv2
-from rapid_layout import RapidLayout，vis_layout
+from rapid_layout import RapidLayout, VisLayout
 
 # model_type类型参见上表。指定不同model_type时，会自动下载相应模型到安装目录下的。
 layout_engine = RapidLayout(box_threshold=0.5, model_type="pp_layout_cdla")
