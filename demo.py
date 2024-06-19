@@ -5,7 +5,7 @@ import cv2
 
 from rapid_layout import RapidLayout, VisLayout
 
-layout_engine = RapidLayout(box_threshold=0.5, model_type="pp_layout_cdla")
+layout_engine = RapidLayout(model_type="yolov8n_layout_paper")
 
 img_path = "tests/test_files/layout.png"
 img = cv2.imread(img_path)

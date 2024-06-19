@@ -14,11 +14,11 @@ from .utils import (
     LoadImage,
     OrtInferSession,
     PicoDetPostProcess,
+    PPPreProcess,
     VisLayout,
-    create_operators,
+    YOLOv8PostProcess,
+    YOLOv8PreProcess,
     get_logger,
-    read_yaml,
-    transform,
 )
 
 ROOT_DIR = Path(__file__).resolve().parent
@@ -29,64 +29,86 @@ KEY_TO_MODEL_URL = {
     "pp_layout_cdla": f"{ROOT_URL}/layout_cdla.onnx",
     "pp_layout_publaynet": f"{ROOT_URL}/layout_publaynet.onnx",
     "pp_layout_table": f"{ROOT_URL}/layout_table.onnx",
+    "yolov8n_layout_paper": f"{ROOT_URL}/yolov8n_layout_paper.onnx",
+    "yolov8n_layout_report": f"{ROOT_URL}/yolov8n_layout_report.onnx",
 }
 DEFAULT_MODEL_PATH = str(ROOT_DIR / "models" / "layout_cdla.onnx")
 
 
 class RapidLayout:
+
     def __init__(
         self,
         model_type: str = "pp_layout_cdla",
-        box_threshold: float = 0.5,
+        model_path: Union[str, Path, None] = None,
+        conf_thres: float = 0.5,
+        iou_thres: float = 0.5,
         use_cuda: bool = False,
     ):
-        config_path = str(ROOT_DIR / "config.yaml")
-        config = read_yaml(config_path)
-        config["model_path"] = self.get_model_path(model_type)
-        config["use_cuda"] = use_cuda
-
+        self.model_type = model_type
+        config = {
+            "model_path": self.get_model_path(model_type, model_path),
+            "use_cuda": use_cuda,
+        }
         self.session = OrtInferSession(config)
         labels = self.session.get_character_list()
         logger.info("%s contains %s", model_type, labels)
 
-        self.preprocess_op = create_operators(config["pre_process"])
+        # pp
+        self.pp_preprocess = PPPreProcess(img_size=(800, 608))
+        self.pp_postprocess = PicoDetPostProcess(labels, conf_thres, iou_thres)
 
-        config["post_process"]["score_threshold"] = box_threshold
-        self.postprocess_op = PicoDetPostProcess(labels, **config["post_process"])
+        # yolov8
+        self.yolov8_input_shape = (640, 640)
+        self.yolo_preprocess = YOLOv8PreProcess(img_size=self.yolov8_input_shape)
+        self.yolo_postprocess = YOLOv8PostProcess(labels, conf_thres, iou_thres)
+
         self.load_img = LoadImage()
+
+        self.pp_layout_type = [
+            "pp_layout_cdla",
+            "pp_layout_publaynet",
+            "pp_layout_table",
+        ]
+        self.yolov8_layout_type = ["yolov8n_layout_paper", "yolov8n_layout_report"]
 
     def __call__(
         self, img_content: Union[str, np.ndarray, bytes, Path]
     ) -> Tuple[Optional[np.ndarray], Optional[np.ndarray], Optional[np.ndarray], float]:
         img = self.load_img(img_content)
+        ori_img_shape = img.shape[:2]
 
-        ori_im = img.copy()
-        data = transform({"image": img}, self.preprocess_op)
-        img = data[0]
-        if img is None:
-            return None, None, None, 0.0
+        if self.model_type in self.pp_layout_type:
+            return self.pp_layout(img, ori_img_shape)
 
-        img = np.expand_dims(img, axis=0)
-        img = img.copy()
+        if self.model_type in self.yolov8_layout_type:
+            return self.yolov8_layout(img, ori_img_shape)
 
-        preds, elapse = 0, 1
-        starttime = time.time()
+        raise ValueError(f"{self.model_type} is not supported.")
+
+    def pp_layout(self, img: np.ndarray, ori_img_shape: Tuple[int, int]):
+        s_time = time.time()
+
+        img = self.pp_preprocess(img)
         preds = self.session(img)
+        boxes, scores, class_names = self.pp_postprocess(ori_img_shape, img, preds)
 
-        score_list, boxes_list = [], []
-        num_outs = int(len(preds) / 2)
-        for out_idx in range(num_outs):
-            score_list.append(preds[out_idx])
-            boxes_list.append(preds[out_idx + num_outs])
-
-        boxes, scores, class_names = self.postprocess_op(
-            ori_im, img, {"boxes": score_list, "boxes_num": boxes_list}
-        )
-        elapse = time.time() - starttime
+        elapse = time.time() - s_time
         return boxes, scores, class_names, elapse
 
+    def yolov8_layout(self, img: np.ndarray, ori_img_shape: Tuple[int, int]):
+        input_tensor = self.yolo_preprocess(img)
+        outputs = self.session(input_tensor)
+        boxes, scores, class_names = self.yolo_postprocess(
+            outputs, ori_img_shape, self.yolov8_input_shape
+        )
+        return boxes, scores, class_names
+
     @staticmethod
-    def get_model_path(model_type: str) -> str:
+    def get_model_path(model_type: str, model_path: Union[str, Path, None]) -> str:
+        if model_path is not None:
+            return model_path
+
         model_url = KEY_TO_MODEL_URL.get(model_type, None)
         if model_url:
             model_path = DownloadModel.download(model_url)
@@ -110,11 +132,18 @@ def main():
         help="Support model type",
     )
     parser.add_argument(
-        "--box_threshold",
+        "--conf_thres",
         type=float,
         default=0.5,
         choices=list(KEY_TO_MODEL_URL.keys()),
         help="Box threshold, the range is [0, 1]",
+    )
+    parser.add_argument(
+        "--iou_thres",
+        type=float,
+        default=0.5,
+        choices=list(KEY_TO_MODEL_URL.keys()),
+        help="IoU threshold, the range is [0, 1]",
     )
     parser.add_argument(
         "-v",
@@ -125,7 +154,7 @@ def main():
     args = parser.parse_args()
 
     layout_engine = RapidLayout(
-        model_type=args.model_type, box_threshold=args.box_threshold
+        model_type=args.model_type, conf_thres=args.conf_thres, iou_thres=args.iou_thres
     )
 
     img = cv2.imread(args.img_path)

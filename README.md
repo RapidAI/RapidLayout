@@ -22,10 +22,14 @@
 |`pp_layout_table`|   表格   |   `layout_table.onnx`     |`table` |
 | `pp_layout_publaynet`|   英文   | `layout_publaynet.onnx`   |`text title list table figure` |
 | `pp_layout_table`|   中文   |   `layout_cdla.onnx`    | `text title figure  figure_caption table table_caption` <br> `header footer reference equation` |
+| `yolov8n_layout_paper`|   论文   |   `yolov8n_layout_paper.onnx`    | `text title figure figure_caption table table_caption` <br> `header footer reference equation` |
+| `yolov8n_layout_report`|   研报   |   `yolov8n_layout_report.onnx`    | `text title header footer figure figure_caption table table_caption` <br> `toc` |
 
-模型来源：[PaddleOCR 版面分析](https://github.com/PaddlePaddle/PaddleOCR/blob/133d67f27dc8a241d6b2e30a9f047a0fb75bebbe/ppstructure/layout/README_ch.md)
+PP模型来源：[PaddleOCR 版面分析](https://github.com/PaddlePaddle/PaddleOCR/blob/133d67f27dc8a241d6b2e30a9f047a0fb75bebbe/ppstructure/layout/README_ch.md)
 
-模型下载地址为：[百度网盘](https://pan.baidu.com/s/1PI9fksW6F6kQfJhwUkewWg?pwd=p29g) | [Google Drive](https://drive.google.com/drive/folders/1DAPWSN2zGQ-ED_Pz7RaJGTjfkN2-Mvsf?usp=sharing)
+yolov8n系列来源：[360LayoutAnalysis](https://github.com/360AILAB-NLP/360LayoutAnalysis)
+
+模型下载地址为：[link](https://github.com/RapidAI/RapidLayout/releases/tag/v0.0.0)
 
 ### 安装
 由于模型较小，预先将中文版面分析模型(`layout_cdla.onnx`)打包进了whl包内，如果做中文版面分析，可直接安装使用
@@ -41,7 +45,7 @@ import cv2
 from rapid_layout import RapidLayout, VisLayout
 
 # model_type类型参见上表。指定不同model_type时，会自动下载相应模型到安装目录下的。
-layout_engine = RapidLayout(box_threshold=0.5, model_type="pp_layout_cdla")
+layout_engine = RapidLayout(conf_thres=0.5, model_type="pp_layout_cdla")
 
 img = cv2.imread('test_images/layout.png')
 
@@ -55,18 +59,23 @@ if ploted_img is not None:
 - 用法:
     ```bash
     $ rapid_layout -h
-    usage: rapid_layout [-h] -img IMG_PATH [-m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table}]
-                        [--box_threshold {pp_layout_cdla,pp_layout_publaynet,pp_layout_table}] [-v]
+    usage: rapid_layout [-h] -img IMG_PATH
+                        [-m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}]
+                        [--conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}]
+                        [--iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}]
+                        [-v]
 
     options:
-    -h, --help            show this help message and exit
-    -img IMG_PATH, --img_path IMG_PATH
+      -h, --help            show this help message and exit
+      -img IMG_PATH, --img_path IMG_PATH
                             Path to image for layout.
-    -m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table}, --model_type {pp_layout_cdla,pp_layout_publaynet,pp_layout_table}
+      -m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}, --model_type {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}
                             Support model type
-    --box_threshold {pp_layout_cdla,pp_layout_publaynet,pp_layout_table}
+      --conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}
                             Box threshold, the range is [0, 1]
-    -v, --vis             Wheter to visualize the layout results.
+      --iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}
+                            IoU threshold, the range is [0, 1]
+      -v, --vis             Wheter to visualize the layout results.
     ```
 - 示例:
     ```bash
