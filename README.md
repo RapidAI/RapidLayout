@@ -21,7 +21,7 @@
 | :------ | :----- | :------ | :----- |
 |`pp_layout_table`|   表格   |   `layout_table.onnx`     |`["table"]` |
 | `pp_layout_publaynet`|   英文   | `layout_publaynet.onnx`   |`["text", "title", "list", "table", "figure"]` |
-| `pp_layout_table`|   中文   |   `layout_cdla.onnx`    | `['text', 'title', 'figure', 'figure_caption', 'table', 'table_caption', 'header', 'footer', 'reference', 'equation']` |
+| `pp_layout_cdla`|   中文   |   `layout_cdla.onnx`    | `['text', 'title', 'figure', 'figure_caption', 'table', 'table_caption', 'header', 'footer', 'reference', 'equation']` |
 | `yolov8n_layout_paper`|   论文   |   `yolov8n_layout_paper.onnx`    | `['text', 'title', 'figure', 'figure_caption', 'table', 'table_caption', 'header', 'footer', 'reference', 'equation']` |
 | `yolov8n_layout_report`|   研报   |   `yolov8n_layout_report.onnx`    | `['text', 'title', 'header', 'footer', 'figure', 'figure_caption', 'table', 'table_caption', 'toc']` |
 
