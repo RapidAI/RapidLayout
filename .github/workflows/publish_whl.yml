@@ -33,7 +33,7 @@ jobs:
           unzip $DIR_NAME
           cp $DIR_NAME/*.onnx rapid_layout/models/
           pip install -r requirements.txt
-          pip install pytest wheel get_pypi_latest_version
+          pip install pytest wheel
           pytest tests/test*.py
 
   GenerateWHL_PushPyPi:
@@ -46,6 +46,7 @@ jobs:
       - name: Run setup
         run: |
           pip install -r requirements.txt
+          pip install get_pypi_latest_version
           wget $RESOURCES_URL
           ZIP_NAME=${RESOURCES_URL##*/}
           DIR_NAME=${ZIP_NAME%.*}
