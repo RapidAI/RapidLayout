@@ -6,7 +6,7 @@ from typing import List, Tuple
 import numpy as np
 
 
-class PicoDetPostProcess:
+class PPPostProcess:
     def __init__(self, labels, conf_thres=0.4, iou_thres=0.5):
         self.labels = labels
         self.strides = [8, 16, 32, 64]
@@ -247,7 +247,6 @@ class PicoDetPostProcess:
 
 
 class YOLOv8PostProcess:
-
     def __init__(self, labels: List[str], conf_thres=0.7, iou_thres=0.5):
         self.labels = labels
         self.conf_threshold = conf_thres
@@ -297,7 +296,6 @@ class YOLOv8PostProcess:
         return boxes
 
     def rescale_boxes(self, boxes):
-
         # Rescale boxes to original image dimensions
         input_shape = np.array(
             [self.input_width, self.input_height, self.input_width, self.input_height]
@@ -332,7 +330,6 @@ def nms(boxes, scores, iou_threshold):
 
 
 def multiclass_nms(boxes, scores, class_ids, iou_threshold):
-
     unique_class_ids = np.unique(class_ids)
 
     keep_boxes = []

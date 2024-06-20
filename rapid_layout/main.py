@@ -13,7 +13,7 @@ from .utils import (
     DownloadModel,
     LoadImage,
     OrtInferSession,
-    PicoDetPostProcess,
+    PPPostProcess,
     PPPreProcess,
     VisLayout,
     YOLOv8PostProcess,
@@ -36,7 +36,6 @@ DEFAULT_MODEL_PATH = str(ROOT_DIR / "models" / "layout_cdla.onnx")
 
 
 class RapidLayout:
-
     def __init__(
         self,
         model_type: str = "pp_layout_cdla",
@@ -44,11 +43,19 @@ class RapidLayout:
         conf_thres: float = 0.5,
         iou_thres: float = 0.5,
         use_cuda: bool = False,
+        use_dml: bool = False,
     ):
+        if not self.check_of(conf_thres):
+            raise ValueError(f"conf_thres {conf_thres} is outside of range [0, 1]")
+
+        if not self.check_of(iou_thres):
+            raise ValueError(f"iou_thres {conf_thres} is outside of range [0, 1]")
+
         self.model_type = model_type
         config = {
             "model_path": self.get_model_path(model_type, model_path),
             "use_cuda": use_cuda,
+            "use_dml": use_dml,
         }
         self.session = OrtInferSession(config)
         labels = self.session.get_character_list()
@@ -56,12 +63,12 @@ class RapidLayout:
 
         # pp
         self.pp_preprocess = PPPreProcess(img_size=(800, 608))
-        self.pp_postprocess = PicoDetPostProcess(labels, conf_thres, iou_thres)
+        self.pp_postprocess = PPPostProcess(labels, conf_thres, iou_thres)
 
         # yolov8
         self.yolov8_input_shape = (640, 640)
-        self.yolo_preprocess = YOLOv8PreProcess(img_size=self.yolov8_input_shape)
-        self.yolo_postprocess = YOLOv8PostProcess(labels, conf_thres, iou_thres)
+        self.yolov8_preprocess = YOLOv8PreProcess(img_size=self.yolov8_input_shape)
+        self.yolov8_postprocess = YOLOv8PostProcess(labels, conf_thres, iou_thres)
 
         self.load_img = LoadImage()
 
@@ -97,9 +104,9 @@ class RapidLayout:
         return boxes, scores, class_names, elapse
 
     def yolov8_layout(self, img: np.ndarray, ori_img_shape: Tuple[int, int]):
-        input_tensor = self.yolo_preprocess(img)
+        input_tensor = self.yolov8_preprocess(img)
         outputs = self.session(input_tensor)
-        boxes, scores, class_names = self.yolo_postprocess(
+        boxes, scores, class_names = self.yolov8_postprocess(
             outputs, ori_img_shape, self.yolov8_input_shape
         )
         return boxes, scores, class_names
@@ -116,6 +123,12 @@ class RapidLayout:
 
         logger.info("model url is None, using the default model %s", DEFAULT_MODEL_PATH)
         return DEFAULT_MODEL_PATH
+
+    @staticmethod
+    def check_of(thres: float) -> bool:
+        if 0 <= thres <= 1.0:
+            return True
+        return False
 
 
 def main():

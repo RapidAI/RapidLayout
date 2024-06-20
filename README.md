@@ -13,17 +13,17 @@
 </div>
 
 ### 简介
-主要是做文档类图像的版面分析。具体来说，就是分析给定的文档类别图像（论文截图等），定位其中类别和位置，如标题、段落、表格和图片等各个部分。
+主要是做文档类图像的版面分析。具体来说，就是分析给定的文档类别图像（论文截图、研报等），定位其中类别和位置，如标题、段落、表格和图片等各个部分。
 
 目前支持三种类别的版面分析模型：中文、英文和表格版面分析模型，具体可参见下面表格：
 
 |`model_type`| 版面类型 |        模型名称          |  支持类别|
 | :------ | :----- | :------ | :----- |
-|`pp_layout_table`|   表格   |   `layout_table.onnx`     |`table` |
-| `pp_layout_publaynet`|   英文   | `layout_publaynet.onnx`   |`text title list table figure` |
-| `pp_layout_table`|   中文   |   `layout_cdla.onnx`    | `text title figure  figure_caption table table_caption` <br> `header footer reference equation` |
-| `yolov8n_layout_paper`|   论文   |   `yolov8n_layout_paper.onnx`    | `text title figure figure_caption table table_caption` <br> `header footer reference equation` |
-| `yolov8n_layout_report`|   研报   |   `yolov8n_layout_report.onnx`    | `text title header footer figure figure_caption table table_caption` <br> `toc` |
+|`pp_layout_table`|   表格   |   `layout_table.onnx`     |`["table"]` |
+| `pp_layout_publaynet`|   英文   | `layout_publaynet.onnx`   |`["text", "title", "list", "table", "figure"]` |
+| `pp_layout_table`|   中文   |   `layout_cdla.onnx`    | `['text', 'title', 'figure', 'figure_caption', 'table', 'table_caption', 'header', 'footer', 'reference', 'equation']` |
+| `yolov8n_layout_paper`|   论文   |   `yolov8n_layout_paper.onnx`    | `['text', 'title', 'figure', 'figure_caption', 'table', 'table_caption', 'header', 'footer', 'reference', 'equation']` |
+| `yolov8n_layout_report`|   研报   |   `yolov8n_layout_report.onnx`    | `['text', 'title', 'header', 'footer', 'figure', 'figure_caption', 'table', 'table_caption', 'toc']` |
 
 PP模型来源：[PaddleOCR 版面分析](https://github.com/PaddlePaddle/PaddleOCR/blob/133d67f27dc8a241d6b2e30a9f047a0fb75bebbe/ppstructure/layout/README_ch.md)
 
