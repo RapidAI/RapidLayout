@@ -34,7 +34,7 @@ jobs:
           cp $DIR_NAME/*.onnx rapid_layout/models/
           pip install -r requirements.txt
           pip install pytest wheel get_pypi_latest_version
-          pytest tests/test_layout.py
+          pytest tests/test*.py
 
   GenerateWHL_PushPyPi:
     needs: UnitTesting
@@ -51,7 +51,7 @@ jobs:
           DIR_NAME=${ZIP_NAME%.*}
           unzip $ZIP_NAME
           mv $DIR_NAME/*.onnx rapid_layout/models/
-          python setup_layout.py bdist_wheel ${{ github.ref_name }}
+          python setup.py bdist_wheel ${{ github.ref_name }}
 
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@v1.5.0
