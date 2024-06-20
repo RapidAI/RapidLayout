@@ -3,7 +3,9 @@
     <h1><b>📖 Rapid Layout</b></h1>
   </div>
 
-<a href="https://swhl-rapidstructuredemo.hf.space" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97-Online Demo-blue"></a>
+<a href="https://huggingface.co/spaces/SWHL/RapidLayout" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97-Hugging Face Demo-blue"></a>
+<a href="https://www.modelscope.cn/studios/liekkas/RapidLayout" target="_blank"><img src="https://img.shields.io/badge/ModelScope-Demo-blue"></a>
+<a href="https://aistudio.baidu.com/app/highcode/37154" target="_blank"><img src="https://img.shields.io/badge/AI%20Studio-Demo-blue"></a>
 <a href=""><img src="https://img.shields.io/badge/Python->=3.6,<3.13-aff.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/OS-Linux%2C%20Win%2C%20Mac-pink.svg"></a>
 <a href="https://pypi.org/project/rapid-layout/"><img alt="PyPI" src="https://img.shields.io/pypi/v/rapid-layout"></a>
