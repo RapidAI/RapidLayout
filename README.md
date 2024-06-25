@@ -51,7 +51,7 @@ layout_engine = RapidLayout(conf_thres=0.5, model_type="pp_layout_cdla")
 
 img = cv2.imread('test_images/layout.png')
 
-boxes, scores, class_names, *elapse = layout_engine(img)
+boxes, scores, class_names, elapse = layout_engine(img)
 ploted_img = VisLayout.draw_detections(img, boxes, scores, class_names)
 if ploted_img is not None:
     cv2.imwrite("layout_res.png", ploted_img)
@@ -61,10 +61,9 @@ if ploted_img is not None:
 - 用法:
     ```bash
     $ rapid_layout -h
-    usage: rapid_layout [-h] -img IMG_PATH
-                        [-m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}]
+    usage: rapid_layout [-h] -img IMG_PATH [-m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}]
                         [--conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}]
-                        [--iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}]
+                        [--iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}] [--use_cuda] [--use_dml]
                         [-v]
 
     options:
@@ -77,12 +76,53 @@ if ploted_img is not None:
                             Box threshold, the range is [0, 1]
       --iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}
                             IoU threshold, the range is [0, 1]
+      --use_cuda            Whether to use cuda.
+      --use_dml             Whether to use DirectML, which only works in Windows10+.
       -v, --vis             Wheter to visualize the layout results.
     ```
 - 示例:
     ```bash
     $ rapid_layout -v -img test_images/layout.png
     ```
+
+
+### GPU推理
+- 因为版面分析模型输入图像尺寸固定，故可使用`onnxruntime-gpu`来提速。
+- 因为`rapid_layout`库默认依赖是CPU版`onnxruntime`，如果想要使用GPU推理，需要手动安装`onnxruntime-gpu`。
+- 详细使用和评测可参见[AI Studio](https://aistudio.baidu.com/projectdetail/8094594)
+
+#### 安装
+```bash
+pip install rapid_layout
+pip uninstall onnxruntime
+
+# 这里一定要确定onnxruntime-gpu与GPU对应
+# 可参见https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements
+pip install onnxruntime-gpu
+```
+
+#### 使用
+```python
+import cv2
+from rapid_layout import RapidLayout
+from pathlib import Path
+
+# 注意：这里需要使用use_cuda指定参数
+layout_engine = RapidLayout(conf_thres=0.5, model_type="pp_layout_cdla", use_cuda=True)
+
+# warm up
+layout_engine("images/12027_5.png")
+
+elapses = []
+img_list = list(Path('images').iterdir())
+for img_path in img_list:
+    boxes, scores, class_names, elapse = layout_engine(img_path)
+    print(f"{img_path}: {elapse}s")
+    elapses.append(elapse)
+
+avg_elapse = sum(elapses) / len(elapses)
+print(f'avg elapse: {avg_elapse:.4f}')
+```
 
 ### 可视化结果
 
