@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
-from typing import Optional
+from typing import Optional, Tuple
 
 import cv2
 import numpy as np
@@ -53,7 +53,7 @@ class VisLayout:
     def draw_box(
         image: np.ndarray,
         box: np.ndarray,
-        color: tuple[int, int, int] = (0, 0, 255),
+        color: Tuple[int, int, int] = (0, 0, 255),
         thickness: int = 2,
     ) -> np.ndarray:
         x1, y1, x2, y2 = box.astype(int)
@@ -64,7 +64,7 @@ class VisLayout:
         image: np.ndarray,
         text: str,
         box: np.ndarray,
-        color: tuple[int, int, int] = (0, 0, 255),
+        color: Tuple[int, int, int] = (0, 0, 255),
         font_size: float = 0.001,
         text_thickness: int = 2,
     ) -> np.ndarray:
