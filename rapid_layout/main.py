@@ -158,6 +158,12 @@ def main():
         choices=list(KEY_TO_MODEL_URL.keys()),
         help="IoU threshold, the range is [0, 1]",
     )
+    parser.add_argument("--use_cuda", action="store_true", help="Whether to use cuda.")
+    parser.add_argument(
+        "--use_dml",
+        action="store_true",
+        help="Whether to use DirectML, which only works in Windows10+.",
+    )
     parser.add_argument(
         "-v",
         "--vis",
