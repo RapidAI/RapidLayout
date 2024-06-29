@@ -31,6 +31,8 @@ KEY_TO_MODEL_URL = {
     "pp_layout_table": f"{ROOT_URL}/layout_table.onnx",
     "yolov8n_layout_paper": f"{ROOT_URL}/yolov8n_layout_paper.onnx",
     "yolov8n_layout_report": f"{ROOT_URL}/yolov8n_layout_report.onnx",
+    "yolov8n_layout_publaynet": f"{ROOT_URL}/yolov8n_layout_publaynet.onnx",
+    "yolov8n_layout_general6": f"{ROOT_URL}/yolov8n_layout_general6.onnx",
 }
 DEFAULT_MODEL_PATH = str(ROOT_DIR / "models" / "layout_cdla.onnx")
 
@@ -72,12 +74,10 @@ class RapidLayout:
 
         self.load_img = LoadImage()
 
-        self.pp_layout_type = [
-            "pp_layout_cdla",
-            "pp_layout_publaynet",
-            "pp_layout_table",
+        self.pp_layout_type = [k for k in KEY_TO_MODEL_URL if k.startswith("pp")]
+        self.yolov8_layout_type = [
+            k for k in KEY_TO_MODEL_URL if k.startswith("yolov8n")
         ]
-        self.yolov8_layout_type = ["yolov8n_layout_paper", "yolov8n_layout_report"]
 
     def __call__(
         self, img_content: Union[str, np.ndarray, bytes, Path]
@@ -104,12 +104,15 @@ class RapidLayout:
         return boxes, scores, class_names, elapse
 
     def yolov8_layout(self, img: np.ndarray, ori_img_shape: Tuple[int, int]):
+        s_time = time.time()
+
         input_tensor = self.yolov8_preprocess(img)
         outputs = self.session(input_tensor)
         boxes, scores, class_names = self.yolov8_postprocess(
             outputs, ori_img_shape, self.yolov8_input_shape
         )
-        return boxes, scores, class_names
+        elapse = time.time() - s_time
+        return boxes, scores, class_names, elapse
 
     @staticmethod
     def get_model_path(model_type: str, model_path: Union[str, Path, None]) -> str:

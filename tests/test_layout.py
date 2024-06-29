@@ -21,23 +21,14 @@ img_path = test_file_dir / "layout.png"
 img = cv2.imread(str(img_path))
 
 
-def test_iou_outside_thres():
-    with pytest.raises(ValueError) as exc:
-        engine = RapidLayout(iou_thres=1.2)
-    assert exc.type is ValueError
-
-
-def test_conf_outside_thres():
-    with pytest.raises(ValueError) as exc:
-        engine = RapidLayout(conf_thres=1.2)
-    assert exc.type is ValueError
-
-
-def test_empty():
-    with pytest.raises(LoadImageError) as exc:
-        engine = RapidLayout()
-        engine(None)
-    assert exc.type is LoadImageError
+@pytest.mark.parametrize(
+    "model_type,gt", [("yolov8n_layout_publaynet", 12), ("yolov8n_layout_general6", 13)]
+)
+def test_yolov8n_layout(model_type, gt):
+    img_path = test_file_dir / "PMC3576793_00004.jpg"
+    engine = RapidLayout(model_type=model_type)
+    boxes, scores, class_names, *elapse = engine(img_path)
+    assert len(boxes) == gt
 
 
 @pytest.mark.parametrize(
@@ -56,3 +47,22 @@ def test_yolov8_layout(img_content):
     engine = RapidLayout(model_type="yolov8n_layout_paper")
     boxes, scores, class_names, *elapse = engine(img_content)
     assert len(boxes) == 11
+
+
+def test_iou_outside_thres():
+    with pytest.raises(ValueError) as exc:
+        engine = RapidLayout(iou_thres=1.2)
+    assert exc.type is ValueError
+
+
+def test_conf_outside_thres():
+    with pytest.raises(ValueError) as exc:
+        engine = RapidLayout(conf_thres=1.2)
+    assert exc.type is ValueError
+
+
+def test_empty():
+    with pytest.raises(LoadImageError) as exc:
+        engine = RapidLayout()
+        engine(None)
+    assert exc.type is LoadImageError

@@ -24,8 +24,10 @@
 |`pp_layout_table`|   表格   |   `layout_table.onnx`     |`["table"]` |
 | `pp_layout_publaynet`|   英文   | `layout_publaynet.onnx`   |`["text", "title", "list", "table", "figure"]` |
 | `pp_layout_cdla`|   中文   |   `layout_cdla.onnx`    | `['text', 'title', 'figure', 'figure_caption', 'table', 'table_caption', 'header', 'footer', 'reference', 'equation']` |
-| `yolov8n_layout_paper`|   论文   |   `yolov8n_layout_paper.onnx`    | `['text', 'title', 'figure', 'figure_caption', 'table', 'table_caption', 'header', 'footer', 'reference', 'equation']` |
-| `yolov8n_layout_report`|   研报   |   `yolov8n_layout_report.onnx`    | `['text', 'title', 'header', 'footer', 'figure', 'figure_caption', 'table', 'table_caption', 'toc']` |
+| `yolov8n_layout_paper`|   论文   |   `yolov8n_layout_paper.onnx`    | `['Text', 'Title', 'Header', 'Footer', 'Figure', 'Table', 'Toc', 'Figure caption', 'Table caption']` |
+| `yolov8n_layout_report`|   研报   |   `yolov8n_layout_report.onnx`    | `['Text', 'Title', 'Header', 'Footer', 'Figure', 'Table', 'Toc', 'Figure caption', 'Table caption']` |
+| `yolov8n_layout_publaynet`|   英文   |   `yolov8n_layout_publaynet.onnx`    | `["Text", "Title", "List", "Table", "Figure"]` |
+| `yolov8n_layout_general6`|   通用   |   `yolov8n_layout_general6.onnx`    | `["Text", "Title", "Figure", "Table", "Caption", "Equation"]` |
 
 PP模型来源：[PaddleOCR 版面分析](https://github.com/PaddlePaddle/PaddleOCR/blob/133d67f27dc8a241d6b2e30a9f047a0fb75bebbe/ppstructure/layout/README_ch.md)
 
@@ -58,28 +60,28 @@ if ploted_img is not None:
 ```
 
 #### 终端运行
-- 用法:
-    ```bash
-    $ rapid_layout -h
-    usage: rapid_layout [-h] -img IMG_PATH [-m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}]
-                        [--conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}]
-                        [--iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}] [--use_cuda] [--use_dml]
-                        [-v]
+```bash
+$ rapid_layout -h
+usage: rapid_layout [-h] -img IMG_PATH
+                [-m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6}]
+                [--conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6}]
+                [--iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6}]
+                [--use_cuda] [--use_dml] [-v]
 
-    options:
-      -h, --help            show this help message and exit
-      -img IMG_PATH, --img_path IMG_PATH
-                            Path to image for layout.
-      -m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}, --model_type {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}
-                            Support model type
-      --conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}
-                            Box threshold, the range is [0, 1]
-      --iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report}
-                            IoU threshold, the range is [0, 1]
-      --use_cuda            Whether to use cuda.
-      --use_dml             Whether to use DirectML, which only works in Windows10+.
-      -v, --vis             Wheter to visualize the layout results.
-    ```
+options:
+  -h, --help            show this help message and exit
+  -img IMG_PATH, --img_path IMG_PATH
+                        Path to image for layout.
+  -m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6}, --model_type {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6}
+                        Support model type
+  --conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6}
+                        Box threshold, the range is [0, 1]
+  --iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6}
+                        IoU threshold, the range is [0, 1]
+  --use_cuda            Whether to use cuda.
+  --use_dml             Whether to use DirectML, which only works in Windows10+.
+  -v, --vis             Wheter to visualize the layout results.
+```
 - 示例:
     ```bash
     $ rapid_layout -v -img test_images/layout.png
