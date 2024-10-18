@@ -288,23 +288,61 @@ class YOLOv8PostProcess:
         boxes = predictions[:, :4]
 
         # Scale boxes to original image dimensions
-        boxes = self.rescale_boxes(boxes)
+        boxes = rescale_boxes(
+            boxes, self.input_width, self.input_height, self.img_width, self.img_height
+        )
 
         # Convert boxes to xyxy format
         boxes = xywh2xyxy(boxes)
 
         return boxes
 
-    def rescale_boxes(self, boxes):
+
+class DocLayoutPostProcess:
+    def __init__(self, labels: List[str], conf_thres=0.7, iou_thres=0.5):
+        self.labels = labels
+        self.conf_threshold = conf_thres
+        self.iou_threshold = iou_thres
+        self.input_width, self.input_height = None, None
+        self.img_width, self.img_height = None, None
+
+    def __call__(
+        self,
+        output,
+        ori_img_shape: Tuple[int, int],
+        img_shape: Tuple[int, int] = (1024, 1024),
+    ):
+        self.img_height, self.img_width = ori_img_shape
+        self.input_height, self.input_width = img_shape
+
+        output = output[0].squeeze()
+        boxes = output[:, :-2]
+        confidences = output[:, -2]
+        class_ids = output[:, -1].astype(int)
+
+        mask = confidences > self.conf_threshold
+        boxes = boxes[mask, :]
+        confidences = confidences[mask]
+        class_ids = class_ids[mask]
+
         # Rescale boxes to original image dimensions
-        input_shape = np.array(
-            [self.input_width, self.input_height, self.input_width, self.input_height]
+        boxes = rescale_boxes(
+            boxes,
+            self.input_width,
+            self.input_height,
+            self.img_width,
+            self.img_height,
         )
-        boxes = np.divide(boxes, input_shape, dtype=np.float32)
-        boxes *= np.array(
-            [self.img_width, self.img_height, self.img_width, self.img_height]
-        )
-        return boxes
+        labels = [self.labels[i] for i in class_ids]
+        return boxes, confidences, labels
+
+
+def rescale_boxes(boxes, input_width, input_height, img_width, img_height):
+    # Rescale boxes to original image dimensions
+    input_shape = np.array([input_width, input_height, input_width, input_height])
+    boxes = np.divide(boxes, input_shape, dtype=np.float32)
+    boxes *= np.array([img_width, img_height, img_width, img_height])
+    return boxes
 
 
 def nms(boxes, scores, iou_threshold):

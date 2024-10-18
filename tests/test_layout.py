@@ -22,7 +22,12 @@ img = cv2.imread(str(img_path))
 
 
 @pytest.mark.parametrize(
-    "model_type,gt", [("yolov8n_layout_publaynet", 12), ("yolov8n_layout_general6", 13)]
+    "model_type,gt",
+    [
+        ("yolov8n_layout_publaynet", 12),
+        ("yolov8n_layout_general6", 13),
+        ("doclayout_yolo", 14),
+    ],
 )
 def test_yolov8n_layout(model_type, gt):
     img_path = test_file_dir / "PMC3576793_00004.jpg"

@@ -51,3 +51,17 @@ class YOLOv8PreProcess:
         input_img = input_img.transpose(2, 0, 1)
         input_tensor = input_img[np.newaxis, :, :, :].astype(np.float32)
         return input_tensor
+
+
+class DocLayoutPreProcess:
+
+    def __init__(self, img_size: Tuple[int, int]):
+        self.img_size = img_size
+
+    def __call__(self, image: np.ndarray) -> np.ndarray:
+        input_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        input_img = cv2.resize(image, self.img_size)
+        input_img = input_img / 255.0
+        input_img = input_img.transpose(2, 0, 1)
+        input_tensor = input_img[np.newaxis, :, :, :].astype(np.float32)
+        return input_tensor

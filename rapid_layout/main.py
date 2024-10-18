@@ -10,6 +10,8 @@ import cv2
 import numpy as np
 
 from .utils import (
+    DocLayoutPostProcess,
+    DocLayoutPreProcess,
     DownloadModel,
     LoadImage,
     OrtInferSession,
@@ -33,6 +35,7 @@ KEY_TO_MODEL_URL = {
     "yolov8n_layout_report": f"{ROOT_URL}/yolov8n_layout_report.onnx",
     "yolov8n_layout_publaynet": f"{ROOT_URL}/yolov8n_layout_publaynet.onnx",
     "yolov8n_layout_general6": f"{ROOT_URL}/yolov8n_layout_general6.onnx",
+    "doclayout_yolo": f"{ROOT_URL}/doclayout_yolo_docstructbench_imgsz1024.onnx",
 }
 DEFAULT_MODEL_PATH = str(ROOT_DIR / "models" / "layout_cdla.onnx")
 
@@ -72,12 +75,20 @@ class RapidLayout:
         self.yolov8_preprocess = YOLOv8PreProcess(img_size=self.yolov8_input_shape)
         self.yolov8_postprocess = YOLOv8PostProcess(labels, conf_thres, iou_thres)
 
+        # doclayout
+        self.doclayout_input_shape = (1024, 1024)
+        self.doclayout_preprocess = DocLayoutPreProcess(
+            img_size=self.doclayout_input_shape
+        )
+        self.doclayout_postprocess = DocLayoutPostProcess(labels, conf_thres, iou_thres)
+
         self.load_img = LoadImage()
 
         self.pp_layout_type = [k for k in KEY_TO_MODEL_URL if k.startswith("pp")]
         self.yolov8_layout_type = [
             k for k in KEY_TO_MODEL_URL if k.startswith("yolov8n")
         ]
+        self.doclayout_type = [k for k in KEY_TO_MODEL_URL if k.startswith("doclayout")]
 
     def __call__(
         self, img_content: Union[str, np.ndarray, bytes, Path]
@@ -90,6 +101,9 @@ class RapidLayout:
 
         if self.model_type in self.yolov8_layout_type:
             return self.yolov8_layout(img, ori_img_shape)
+
+        if self.model_type in self.doclayout_type:
+            return self.doclayout_layout(img, ori_img_shape)
 
         raise ValueError(f"{self.model_type} is not supported.")
 
@@ -110,6 +124,17 @@ class RapidLayout:
         outputs = self.session(input_tensor)
         boxes, scores, class_names = self.yolov8_postprocess(
             outputs, ori_img_shape, self.yolov8_input_shape
+        )
+        elapse = time.time() - s_time
+        return boxes, scores, class_names, elapse
+
+    def doclayout_layout(self, img: np.ndarray, ori_img_shape: Tuple[int, int]):
+        s_time = time.time()
+
+        input_tensor = self.doclayout_preprocess(img)
+        outputs = self.session(input_tensor)
+        boxes, scores, class_names = self.doclayout_postprocess(
+            outputs, ori_img_shape, self.doclayout_input_shape
         )
         elapse = time.time() - s_time
         return boxes, scores, class_names, elapse
