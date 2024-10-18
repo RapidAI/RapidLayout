@@ -55,14 +55,15 @@ pip install rapid-layout
 
 ```python
 import cv2
+from imread_from_url import imread_from_url  # pip install imread_from_url
 
 from rapid_layout import RapidLayout, VisLayout
 
 # model_type类型参见上表。指定不同model_type时，会自动下载相应模型到安装目录下的。
 layout_engine = RapidLayout(model_type="doclayout_yolo", conf_thres=0.2)
 
-img_path = "tests/test_files/financial.jpg"
-img = cv2.imread(img_path)
+img_url = "https://raw.githubusercontent.com/opendatalab/DocLayout-YOLO/refs/heads/main/assets/example/financial.jpg"
+img = imread_from_url(img_url)
 
 boxes, scores, class_names, elapse = layout_engine(img)
 ploted_img = VisLayout.draw_detections(img, boxes, scores, class_names)
