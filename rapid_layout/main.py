@@ -35,7 +35,7 @@ KEY_TO_MODEL_URL = {
     "yolov8n_layout_report": f"{ROOT_URL}/yolov8n_layout_report.onnx",
     "yolov8n_layout_publaynet": f"{ROOT_URL}/yolov8n_layout_publaynet.onnx",
     "yolov8n_layout_general6": f"{ROOT_URL}/yolov8n_layout_general6.onnx",
-    "doclayout_yolo": f"{ROOT_URL}/doclayout_yolo_docstructbench_imgsz1024.onnx",
+    "doclayout_yolo": f"{ROOT_URL}/doclayout_yolo_docstructbench_imgsz1024_meta.onnx",
 }
 DEFAULT_MODEL_PATH = str(ROOT_DIR / "models" / "layout_cdla.onnx")
 
