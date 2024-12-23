@@ -35,7 +35,8 @@ PP模型来源：[PaddleOCR 版面分析](https://github.com/PaddlePaddle/Paddle
 
 yolov8n系列来源：[360LayoutAnalysis](https://github.com/360AILAB-NLP/360LayoutAnalysis)
 
-（推荐使用）🔥doclayout_yolo模型来源：[DocLayout-YOLO](https://github.com/opendatalab/DocLayout-YOLO)，该模型是目前最为优秀的开源模型，支持学术论文、Textbook、Financial、Exam Paper、Fuzzy Scans、PPT和Poster 7种文档类型的版面检测。值得一提的是，该模型支持的类别中存在`abandon`一类，主要是文档页面的页眉页脚部分，便于后续快速舍弃。
+doclayout版本暂时有问题，不推荐使用。正在更新中....
+~~（推荐使用）🔥doclayout_yolo模型来源：[DocLayout-YOLO](https://github.com/opendatalab/DocLayout-YOLO)，该模型是目前最为优秀的开源模型，支持学术论文、Textbook、Financial、Exam Paper、Fuzzy Scans、PPT和Poster 7种文档类型的版面检测。值得一提的是，该模型支持的类别中存在`abandon`一类，主要是文档页面的页眉页脚部分，便于后续快速舍弃。~~
 
 模型下载地址为：[link](https://github.com/RapidAI/RapidLayout/releases/tag/v0.0.0)
 
