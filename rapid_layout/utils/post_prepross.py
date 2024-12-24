@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
-import re
 from typing import List, Tuple
 
 import numpy as np
@@ -323,6 +322,14 @@ class DocLayoutPostProcess:
         class_ids = preds[:, 5].astype(int)
         labels = [self.labels[i] for i in class_ids]
         return boxes, confidences, labels
+
+
+def rescale_boxes(boxes, input_width, input_height, img_width, img_height):
+    # Rescale boxes to original image dimensions
+    input_shape = np.array([input_width, input_height, input_width, input_height])
+    boxes = np.divide(boxes, input_shape, dtype=np.float32)
+    boxes *= np.array([img_width, img_height, img_width, img_height])
+    return boxes
 
 
 def scale_boxes(

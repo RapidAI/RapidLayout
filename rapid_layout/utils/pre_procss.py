@@ -13,7 +13,6 @@ InputType = Union[str, np.ndarray, bytes, Path]
 
 
 class PPPreProcess:
-
     def __init__(self, img_size: Tuple[int, int]):
         self.size = img_size
         self.mean = np.array([0.485, 0.456, 0.406])
@@ -43,7 +42,6 @@ class PPPreProcess:
 
 
 class YOLOv8PreProcess:
-
     def __init__(self, img_size: Tuple[int, int]):
         self.img_size = img_size
 
@@ -56,15 +54,12 @@ class YOLOv8PreProcess:
 
 
 class DocLayoutPreProcess:
-
     def __init__(self, img_size: Tuple[int, int]):
         self.img_size = img_size
         self.letterbox = LetterBox(new_shape=img_size, auto=False, stride=32)
 
     def __call__(self, image: np.ndarray) -> np.ndarray:
-        print(image.shape)
         input_img = self.letterbox(image=image)
-        print(input_img.shape)
         input_img = input_img[None, ...]
         input_img = input_img[..., ::-1].transpose(0, 3, 1, 2)
         input_img = np.ascontiguousarray(input_img)
