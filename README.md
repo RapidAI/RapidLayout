@@ -20,23 +20,22 @@
 
 目前支持已经支持的版面分析模型如下：
 
-|`model_type`| 版面类型 |        模型名称          |  支持类别|
-| :------ | :----- | :------ | :----- |
-|`pp_layout_table`|   表格   |   `layout_table.onnx`     |`["table"]` |
-| `pp_layout_publaynet`|   英文   | `layout_publaynet.onnx`   |`["text", "title", "list", "table", "figure"]` |
-| `pp_layout_cdla`|   中文   |   `layout_cdla.onnx`    | `['text', 'title', 'figure', 'figure_caption', 'table', 'table_caption', 'header', 'footer', 'reference', 'equation']` |
-| `yolov8n_layout_paper`|   论文   |   `yolov8n_layout_paper.onnx`    | `['Text', 'Title', 'Header', 'Footer', 'Figure', 'Table', 'Toc', 'Figure caption', 'Table caption']` |
-| `yolov8n_layout_report`|   研报   |   `yolov8n_layout_report.onnx`    | `['Text', 'Title', 'Header', 'Footer', 'Figure', 'Table', 'Toc', 'Figure caption', 'Table caption']` |
-| `yolov8n_layout_publaynet`|   英文   |   `yolov8n_layout_publaynet.onnx`    | `["Text", "Title", "List", "Table", "Figure"]` |
-| `yolov8n_layout_general6`|   通用   |   `yolov8n_layout_general6.onnx`    | `["Text", "Title", "Figure", "Table", "Caption", "Equation"]` |
-| 🔥`doclayout_docstructbench`|   通用   |   `doclayout_yolo_docstructbench_imgsz1024.onnx`    | `['title', 'plain text', 'abandon', 'figure', 'figure_caption', 'table', 'table_caption', 'table_footnote', 'isolate_formula', 'formula_caption']` |
-| 🔥`doclayout_d4la`|   通用   |   `doclayout_yolo_d4la_imgsz1600_docsynth_pretrain.onnx`    | `['DocTitle', 'ParaTitle', 'ParaText', 'ListText', 'RegionTitle', 'Date', 'LetterHead', 'LetterDear', 'LetterSign', 'Question', 'OtherText', 'RegionKV', 'RegionList', 'Abstract', 'Author', 'TableName', 'Table', 'Figure', 'FigureName', 'Equation', 'Reference', 'Footer', 'PageHeader', 'PageFooter', 'Number', 'Catalog', 'PageNumber']` |
-| 🔥`doclayout_docsynth`|   通用   |   `doclayout_yolo_doclaynet_imgsz1120_docsynth_pretrain.onnx`    | `['Caption', 'Footnote', 'Formula', 'List-item', 'Page-footer', 'Page-header', 'Picture', 'Section-header', 'Table', 'Text', 'Title']` |
+|`model_type`| 版面类型 |  支持类别|
+| :------ | :----- | :----- |
+|`pp_layout_table`|   表格   |`["table"]` |
+| `pp_layout_publaynet`|   英文   |`["text", "title", "list", "table", "figure"]` |
+| `pp_layout_cdla`|   中文    | `['text', 'title', 'figure', 'figure_caption', 'table', 'table_caption', 'header', 'footer', 'reference', 'equation']` |
+| `yolov8n_layout_paper`|   论文    | `['Text', 'Title', 'Header', 'Footer', 'Figure', 'Table', 'Toc', 'Figure caption', 'Table caption']` |
+| `yolov8n_layout_report`|   研报    | `['Text', 'Title', 'Header', 'Footer', 'Figure', 'Table', 'Toc', 'Figure caption', 'Table caption']` |
+| `yolov8n_layout_publaynet`|   英文     | `["Text", "Title", "List", "Table", "Figure"]` |
+| `yolov8n_layout_general6`|   通用      | `["Text", "Title", "Figure", "Table", "Caption", "Equation"]` |
+| 🔥`doclayout_docstructbench`|   通用   | `['title', 'plain text', 'abandon', 'figure', 'figure_caption', 'table', 'table_caption', 'table_footnote', 'isolate_formula', 'formula_caption']` |
+| 🔥`doclayout_d4la`|   通用       | `['DocTitle', 'ParaTitle', 'ParaText', 'ListText', 'RegionTitle', 'Date', 'LetterHead', 'LetterDear', 'LetterSign', 'Question', 'OtherText', 'RegionKV', 'RegionList', 'Abstract', 'Author', 'TableName', 'Table', 'Figure', 'FigureName', 'Equation', 'Reference', 'Footer', 'PageHeader', 'PageFooter', 'Number', 'Catalog', 'PageNumber']` |
+| 🔥`doclayout_docsynth`|   通用    | `['Caption', 'Footnote', 'Formula', 'List-item', 'Page-footer', 'Page-header', 'Picture', 'Section-header', 'Table', 'Text', 'Title']` |
 
 PP模型来源：[PaddleOCR 版面分析](https://github.com/PaddlePaddle/PaddleOCR/blob/133d67f27dc8a241d6b2e30a9f047a0fb75bebbe/ppstructure/layout/README_ch.md)
 
 yolov8n系列来源：[360LayoutAnalysis](https://github.com/360AILAB-NLP/360LayoutAnalysis)
-
 
 （推荐使用）🔥doclayout_yolo模型来源：[DocLayout-YOLO](https://github.com/opendatalab/DocLayout-YOLO)，该模型是目前最为优秀的开源模型，挑选了3个基于不同训练集训练得到的模型。其中`doclayout_docstructbench`来自[link](https://huggingface.co/juliozhao/DocLayout-YOLO-DocStructBench/tree/main)，`doclayout_d4la`来自[link](https://huggingface.co/juliozhao/DocLayout-YOLO-D4LA-Docsynth300K_pretrained/blob/main/doclayout_yolo_d4la_imgsz1600_docsynth_pretrain.pt)，`doclayout_docsynth`来自[link](https://huggingface.co/juliozhao/DocLayout-YOLO-DocLayNet-Docsynth300K_pretrained/tree/main)。
 
