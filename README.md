@@ -39,7 +39,7 @@ yolov8n系列来源：[360LayoutAnalysis](https://github.com/360AILAB-NLP/360Lay
 
 （推荐使用）🔥doclayout_yolo模型来源：[DocLayout-YOLO](https://github.com/opendatalab/DocLayout-YOLO)，该模型是目前最为优秀的开源模型，挑选了3个基于不同训练集训练得到的模型。其中`doclayout_docstructbench`来自[link](https://huggingface.co/juliozhao/DocLayout-YOLO-DocStructBench/tree/main)，`doclayout_d4la`来自[link](https://huggingface.co/juliozhao/DocLayout-YOLO-D4LA-Docsynth300K_pretrained/blob/main/doclayout_yolo_d4la_imgsz1600_docsynth_pretrain.pt)，`doclayout_docsynth`来自[link](https://huggingface.co/juliozhao/DocLayout-YOLO-DocLayNet-Docsynth300K_pretrained/tree/main)。
 
-DocLayout模型下载地址为：[link](https://github.com/RapidAI/RapidLayout/releases/tag/v0.0.0)
+上述模型下载地址为：[link](https://github.com/RapidAI/RapidLayout/releases/tag/v0.0.0)
 
 ### 安装
 
@@ -60,7 +60,7 @@ from imread_from_url import imread_from_url  # pip install imread_from_url
 from rapid_layout import RapidLayout, VisLayout
 
 # model_type类型参见上表。指定不同model_type时，会自动下载相应模型到安装目录下的。
-layout_engine = RapidLayout(model_type="doclayout_yolo", conf_thres=0.2)
+layout_engine = RapidLayout(model_type="doclayout_docstructbench", conf_thres=0.2)
 
 img_url = "https://raw.githubusercontent.com/opendatalab/DocLayout-YOLO/refs/heads/main/assets/example/financial.jpg"
 img = imread_from_url(img_url)
@@ -82,20 +82,20 @@ if ploted_img is not None:
 ```bash
 $ rapid_layout -h
 usage: rapid_layout [-h] -img IMG_PATH
-                    [-m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_yolo}]
-                    [--conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_yolo}]
-                    [--iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_yolo}]
+                    [-m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}]
+                    [--conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}]
+                    [--iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}]
                     [--use_cuda] [--use_dml] [-v]
 
 options:
   -h, --help            show this help message and exit
   -img IMG_PATH, --img_path IMG_PATH
                         Path to image for layout.
-  -m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_yolo}, --model_type {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_yolo}
+  -m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}, --model_type {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}
                         Support model type
-  --conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_yolo}
+  --conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}
                         Box threshold, the range is [0, 1]
-  --iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_yolo}
+  --iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}
                         IoU threshold, the range is [0, 1]
   --use_cuda            Whether to use cuda.
   --use_dml             Whether to use DirectML, which only works in Windows10+.
