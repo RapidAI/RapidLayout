@@ -41,6 +41,10 @@ yolov8n系列来源：[360LayoutAnalysis](https://github.com/360AILAB-NLP/360Lay
 
 上述模型下载地址为：[link](https://github.com/RapidAI/RapidLayout/releases/tag/v0.0.0)
 
+### TODO
+
+- [ ] [ PP-DocLayout](https://github.com/PaddlePaddle/PaddleX/blob/release/3.0-rc/docs/module_usage/tutorials/ocr_modules/layout_detection.md)整理
+
 ### 安装
 
 由于模型较小，预先将中文版面分析模型(`layout_cdla.onnx`)打包进了whl包内，如果做中文版面分析，可直接安装使用
