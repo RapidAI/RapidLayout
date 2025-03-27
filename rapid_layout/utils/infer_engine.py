@@ -2,7 +2,7 @@
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
 import os
-import platform
+import sys
 import traceback
 from enum import Enum
 from pathlib import Path
@@ -132,16 +132,16 @@ class OrtInferSession:
         if not self.cfg_use_dml:
             return False
 
-        cur_os = platform.system()
-        if cur_os != "Windows":
+        if sys.platform != "win32":
             self.logger.warning(
-                "DirectML is only supported in Windows OS. The current OS is %s. Use %s inference by default.",
-                cur_os,
+                "DirectML is only supported in Windows OS. The current OS is %s. "
+                "Refer to https://docs.python.org/3/library/sys.html#sys.platform for more details. Use %s inference by default.",
+                sys.platform,
                 self.had_providers[0],
             )
             return False
 
-        cur_window_version = int(platform.release().split(".")[0])
+        cur_window_version = sys.getwindowsversion().major
         if cur_window_version < 10:
             self.logger.warning(
                 "DirectML is only supported in Windows 10 and above OS. The current Windows version is %s. Use %s inference by default.",
