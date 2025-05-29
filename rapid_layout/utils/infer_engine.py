@@ -24,6 +24,7 @@ class EP(Enum):
     CPU_EP = "CPUExecutionProvider"
     CUDA_EP = "CUDAExecutionProvider"
     DIRECTML_EP = "DmlExecutionProvider"
+    CANN_EP = "CANNExecutionProvider"
 
 
 class OrtInferSession:
@@ -35,6 +36,7 @@ class OrtInferSession:
 
         self.cfg_use_cuda = config.get("use_cuda", None)
         self.cfg_use_dml = config.get("use_dml", None)
+        self.cfg_use_cann = config.get("use_cann", None)
 
         self.had_providers: List[str] = get_available_providers()
         EP_list = self._get_ep_list()
@@ -71,6 +73,16 @@ class OrtInferSession:
         }
         EP_list = [(EP.CPU_EP.value, cpu_provider_opts)]
 
+        self.use_cann = self._check_cann()
+        if self.use_cann:
+            cann_provider_opts = {
+                "device_id": 0,
+                "arena_extend_strategy": "kNextPowerOfTwo",
+                "enable_cann_graph": True,
+                "precision_mode": "must_keep_origin_dtype",
+            }
+            EP_list.insert(0, (EP.CANN_EP.value, cann_provider_opts))
+
         cuda_provider_opts = {
             "device_id": 0,
             "arena_extend_strategy": "kNextPowerOfTwo",
@@ -91,6 +103,23 @@ class OrtInferSession:
             )
             EP_list.insert(0, (EP.DIRECTML_EP.value, directml_options))
         return EP_list
+
+    def _check_cann(self) -> bool:
+        if not self.cfg_use_cann:
+            return False
+
+        if EP.CANN_EP.value not in self.had_providers:
+            self.logger.warning(
+                "%s is not in available providers (%s). Use %s inference by default.",
+                EP.CANN_EP.value,
+                self.had_providers,
+                self.had_providers[0],
+            )
+            self.logger.info("To use CANNExecutionProvider, you must:")
+            self.logger.info("1. Install Ascend CANN Toolkit")
+            self.logger.info("2. Install onnxruntime包 with CANN support")
+            return False
+        return True
 
     def _check_cuda(self) -> bool:
         if not self.cfg_use_cuda:
@@ -176,6 +205,12 @@ class OrtInferSession:
         session_providers = self.session.get_providers()
         first_provider = session_providers[0]
 
+        if self.use_cann and first_provider != EP.CANN_EP.value:
+            self.logger.warning(
+                "%s is not available, fallback to %s",
+                EP.CANN_EP.value,
+                first_provider,
+            )
         if self.use_cuda and first_provider != EP.CUDA_EP.value:
             self.logger.warning(
                 "%s is not avaiable for current env, the inference part is automatically shifted to be executed under %s.",
