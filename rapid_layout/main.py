@@ -51,6 +51,7 @@ class RapidLayout:
         iou_thres: float = 0.5,
         use_cuda: bool = False,
         use_dml: bool = False,
+        use_cann: bool = False,
     ):
         if not self.check_of(conf_thres):
             raise ValueError(f"conf_thres {conf_thres} is outside of range [0, 1]")
@@ -63,6 +64,7 @@ class RapidLayout:
             "model_path": self.get_model_path(model_type, model_path),
             "use_cuda": use_cuda,
             "use_dml": use_dml,
+            "use_cann": use_cann,
         }
         self.session = OrtInferSession(config)
         labels = self.session.get_character_list()
