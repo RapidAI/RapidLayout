@@ -8,9 +8,9 @@ from typing import Optional, Union
 import requests
 from tqdm import tqdm
 
-from .logger import get_logger
+from .logger import Logger
 
-logger = get_logger("DownloadModel")
+logger = Logger("DownloadModel").get_log()
 CUR_DIR = Path(__file__).resolve()
 PROJECT_DIR = CUR_DIR.parent.parent
 

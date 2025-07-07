@@ -9,22 +9,18 @@ from typing import Optional, Tuple, Union
 import cv2
 import numpy as np
 
-from .utils import (
+from .process import (
     DocLayoutPostProcess,
     DocLayoutPreProcess,
-    DownloadModel,
-    LoadImage,
-    OrtInferSession,
     PPPostProcess,
     PPPreProcess,
-    VisLayout,
     YOLOv8PostProcess,
     YOLOv8PreProcess,
-    get_logger,
 )
+from .utils import DownloadModel, LoadImage, Logger, OrtInferSession, VisLayout
 
 ROOT_DIR = Path(__file__).resolve().parent
-logger = get_logger("rapid_layout")
+logger = Logger("rapid_layout").get_log()
 
 ROOT_URL = "https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/"
 KEY_TO_MODEL_URL = {
@@ -222,4 +218,7 @@ def main():
 
 
 if __name__ == "__main__":
+    main()
+    main()
+    main()
     main()

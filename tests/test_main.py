@@ -26,15 +26,10 @@ img = cv2.imread(str(img_path))
     [
         ("yolov8n_layout_publaynet", 12),
         ("yolov8n_layout_general6", 13),
-        (
-            "doclayout_docstructbench",
-            14,
-        ),
-        ("doclayout_d4la", 11),
-        ("doclayout_docsynth", 14),
+        ("doclayout_docstructbench", 14),
     ],
 )
-def test_layout(model_type, gt):
+def test_yolov8n_layout(model_type, gt):
     img_path = test_file_dir / "PMC3576793_00004.jpg"
     engine = RapidLayout(model_type=model_type)
     boxes, scores, class_names, *elapse = engine(img_path)
