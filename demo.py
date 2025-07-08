@@ -5,7 +5,7 @@ import cv2
 
 from rapid_layout import RapidLayout, VisLayout
 
-layout_engine = RapidLayout(model_type="doclayout_docsynth")
+layout_engine = RapidLayout()
 
 img_path = "tests/test_files/PMC3576793_00004.jpg"
 img = cv2.imread(img_path)

@@ -1,7 +1,10 @@
 # -*- encoding: utf-8 -*-
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
+from dataclasses import dataclass, field
 from enum import Enum
+from pathlib import Path
+from typing import Dict, List, Optional, Union
 
 
 class ModelType(Enum):
@@ -15,3 +18,28 @@ class ModelType(Enum):
     DOCLAYOUT_DOCSTRUCTBENCH = "doclayout_docstructbench"
     DOCLAYOUT_D4LA = "doclayout_d4la"
     DOCLAYOUT_DOCSYNTH = "doclayout_docsynth"
+
+
+class EngineType(Enum):
+    ONNXRUNTIME = "onnxruntime"
+    OPENVINO = "openvino"
+
+
+@dataclass
+class RapidLayoutInput:
+    model_type: Optional[ModelType] = ModelType.SLANETPLUS
+    model_dir_or_path: Union[str, Path, None, Dict[str, str]] = None
+
+    engine_type: Optional[EngineType] = None
+    engine_cfg: dict = field(default_factory=dict)
+
+    conf_thresh: float = 0.5
+    iou_thresh: float = 0.5
+
+
+@dataclass
+class RapidLayoutOutput:
+    boxes: Optional[List[List[float]]] = None
+    class_names: Optional[List[str]] = None
+    scores: Optional[List[float]] = None
+    elapse: Optional[float] = None

@@ -9,6 +9,15 @@ from urllib.parse import urlparse
 
 import cv2
 import numpy as np
+from omegaconf import DictConfig, OmegaConf
+
+
+def mkdir(dir_path):
+    Path(dir_path).mkdir(parents=True, exist_ok=True)
+
+
+def read_yaml(file_path: Union[str, Path]) -> DictConfig:
+    return OmegaConf.load(file_path)
 
 
 def quads_to_rect_bbox(bbox: np.ndarray) -> Tuple[float, float, float, float]:

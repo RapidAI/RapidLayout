@@ -3,7 +3,6 @@
 # @Contact: liekkaskono@163.com
 import abc
 from dataclasses import dataclass
-from enum import Enum
 from pathlib import Path
 from typing import Dict, Union
 
@@ -11,11 +10,12 @@ import numpy as np
 from omegaconf import OmegaConf
 
 from ..utils.logger import Logger
-from ..utils.typings import EngineType, ModelType, OCRVersion, TaskType
+from ..utils.typings import EngineType, ModelType
 from ..utils.utils import import_package
 
 cur_dir = Path(__file__).resolve().parent.parent
-MODEL_URL_PATH = cur_dir / "default_models.yaml"
+MODEL_URL_PATH = cur_dir / "configs" / "default_models.yaml"
+ENGINE_CFG_PATH = cur_dir / "configs" / "engine_cfg.yaml"
 
 logger = Logger(logger_name=__name__).get_log()
 
@@ -39,38 +39,20 @@ def get_engine(engine_type: EngineType):
 
         return OpenVINOInferSession
 
-    if engine_type == EngineType.PADDLE:
-        if not import_package(engine_type.value):
-            raise ImportError(f"{engine_type.value} is not installed")
-
-        from .paddle import PaddleInferSession
-
-        return PaddleInferSession
-
-    if engine_type == EngineType.TORCH:
-        if not import_package(engine_type.value):
-            raise ImportError(f"{engine_type.value} is not installed")
-
-        from .torch import TorchInferSession
-
-        return TorchInferSession
-
     raise ValueError(f"Unsupported engine: {engine_type.value}")
 
 
 @dataclass
 class FileInfo:
     engine_type: EngineType
-    ocr_version: OCRVersion
-    task_type: TaskType
-    lang_type: Enum
     model_type: ModelType
 
 
 class InferSession(abc.ABC):
     model_info = OmegaConf.load(MODEL_URL_PATH)
     DEFAULT_MODEL_PATH = cur_dir / "models"
-    logger = Logger(logger_name=__name__).get_log()
+
+    engine_info = OmegaConf.load(ENGINE_CFG_PATH)
 
     @abc.abstractmethod
     def __init__(self, config):
@@ -103,22 +85,8 @@ class InferSession(abc.ABC):
             f"{file_info.engine_type.value}.{file_info.ocr_version.value}.{file_info.task_type.value}",
         )
 
-        # 优先查找 server 模型
-        if file_info.model_type == ModelType.SERVER:
-            for k in model_dict:
-                if (
-                    k.startswith(file_info.lang_type.value)
-                    and file_info.model_type.value in k
-                ):
-                    return model_dict[k]
-
         for k in model_dict:
             if k.startswith(file_info.lang_type.value):
                 return model_dict[k]
 
         raise KeyError("File not found")
-
-    @classmethod
-    def get_dict_key_url(cls, file_info: FileInfo) -> str:
-        model_dict = cls.get_model_url(file_info)
-        return model_dict["dict_url"]

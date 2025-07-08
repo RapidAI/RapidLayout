@@ -9,7 +9,9 @@ from typing import Optional, Tuple, Union
 import cv2
 import numpy as np
 
-from .process import (
+from rapid_layout.model_processor.main import ModelProcessor
+
+from .model_handler import (
     DocLayoutPostProcess,
     DocLayoutPreProcess,
     PPPostProcess,
@@ -17,49 +19,38 @@ from .process import (
     YOLOv8PostProcess,
     YOLOv8PreProcess,
 )
-from .utils import DownloadModel, LoadImage, Logger, OrtInferSession, VisLayout
+from .utils.download_file import DownloadFile
+from .utils.load_image import LoadImage
+from .utils.logger import Logger
+from .utils.typings import ModelType, RapidLayoutInput, RapidLayoutOutput
 
 ROOT_DIR = Path(__file__).resolve().parent
 logger = Logger("rapid_layout").get_log()
 
-ROOT_URL = "https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/"
-KEY_TO_MODEL_URL = {
-    "pp_layout_cdla": f"{ROOT_URL}/layout_cdla.onnx",
-    "pp_layout_publaynet": f"{ROOT_URL}/layout_publaynet.onnx",
-    "pp_layout_table": f"{ROOT_URL}/layout_table.onnx",
-    "yolov8n_layout_paper": f"{ROOT_URL}/yolov8n_layout_paper.onnx",
-    "yolov8n_layout_report": f"{ROOT_URL}/yolov8n_layout_report.onnx",
-    "yolov8n_layout_publaynet": f"{ROOT_URL}/yolov8n_layout_publaynet.onnx",
-    "yolov8n_layout_general6": f"{ROOT_URL}/yolov8n_layout_general6.onnx",
-    "doclayout_docstructbench": f"{ROOT_URL}/doclayout_yolo_docstructbench_imgsz1024.onnx",
-    "doclayout_d4la": f"{ROOT_URL}/doclayout_yolo_d4la_imgsz1600_docsynth_pretrain.onnx",
-    "doclayout_docsynth": f"{ROOT_URL}/doclayout_yolo_doclaynet_imgsz1120_docsynth_pretrain.onnx",
-}
-DEFAULT_MODEL_PATH = str(ROOT_DIR / "models" / "layout_cdla.onnx")
+# ROOT_URL = "https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/"
+# KEY_TO_MODEL_URL = {
+#     "pp_layout_cdla": f"{ROOT_URL}/layout_cdla.onnx",
+#     "pp_layout_publaynet": f"{ROOT_URL}/layout_publaynet.onnx",
+#     "pp_layout_table": f"{ROOT_URL}/layout_table.onnx",
+#     "yolov8n_layout_paper": f"{ROOT_URL}/yolov8n_layout_paper.onnx",
+#     "yolov8n_layout_report": f"{ROOT_URL}/yolov8n_layout_report.onnx",
+#     "yolov8n_layout_publaynet": f"{ROOT_URL}/yolov8n_layout_publaynet.onnx",
+#     "yolov8n_layout_general6": f"{ROOT_URL}/yolov8n_layout_general6.onnx",
+#     "doclayout_docstructbench": f"{ROOT_URL}/doclayout_yolo_docstructbench_imgsz1024.onnx",
+#     "doclayout_d4la": f"{ROOT_URL}/doclayout_yolo_d4la_imgsz1600_docsynth_pretrain.onnx",
+#     "doclayout_docsynth": f"{ROOT_URL}/doclayout_yolo_doclaynet_imgsz1120_docsynth_pretrain.onnx",
+# }
+# DEFAULT_MODEL_PATH = str(ROOT_DIR / "models" / "layout_cdla.onnx")
 
 
 class RapidLayout:
-    def __init__(
-        self,
-        model_type: str = "pp_layout_cdla",
-        model_path: Union[str, Path, None] = None,
-        conf_thres: float = 0.5,
-        iou_thres: float = 0.5,
-        use_cuda: bool = False,
-        use_dml: bool = False,
-    ):
-        if not self.check_of(conf_thres):
-            raise ValueError(f"conf_thres {conf_thres} is outside of range [0, 1]")
+    def __init__(self, cfg: Optional[RapidLayoutInput] = None):
+        if cfg is None:
+            cfg = RapidLayoutInput()
 
-        if not self.check_of(iou_thres):
-            raise ValueError(f"iou_thres {conf_thres} is outside of range [0, 1]")
+        if not cfg.model_dir_or_path:
+            cfg.model_dir_or_path = ModelProcessor.get_model_path(cfg.model_type)
 
-        self.model_type = model_type
-        config = {
-            "model_path": self.get_model_path(model_type, model_path),
-            "use_cuda": use_cuda,
-            "use_dml": use_dml,
-        }
         self.session = OrtInferSession(config)
         labels = self.session.get_character_list()
         logger.info("%s contains %s", model_type, labels)
