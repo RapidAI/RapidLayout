@@ -4,50 +4,14 @@
 from enum import Enum
 
 
-class LangDet(Enum):
-    CH = "ch"
-    EN = "en"
-    MULTI = "multi"
-
-
-class LangCls(Enum):
-    CH = "ch"
-
-
-class LangRec(Enum):
-    CH = "ch"
-    CH_DOC = "ch_doc"
-    EN = "en"
-    ARABIC = "arabic"
-    CHINESE_CHT = "chinese_cht"
-    CYRILLIC = "cyrillic"
-    DEVANAGARI = "devanagari"
-    JAPAN = "japan"
-    KOREAN = "korean"
-    KA = "ka"
-    LATIN = "latin"
-    TA = "ta"
-    TE = "te"
-
-
-class OCRVersion(Enum):
-    PPOCRV4 = "PP-OCRv4"
-    PPOCRV5 = "PP-OCRv5"
-
-
-class EngineType(Enum):
-    ONNXRUNTIME = "onnxruntime"
-    OPENVINO = "openvino"
-    PADDLE = "paddle"
-    TORCH = "torch"
-
-
 class ModelType(Enum):
-    MOBILE = "mobile"
-    SERVER = "server"
-
-
-class TaskType(Enum):
-    DET = "det"
-    CLS = "cls"
-    REC = "rec"
+    PP_LAYOUT_CDLA = "pp_layout_cdla"
+    PP_LAYOUT_PUBLAYNET = "pp_layout_publaynet"
+    PP_LAYOUT_TABLE = "pp_layout_table"
+    YOLOV8N_LAYOUT_PAPER = "yolov8n_layout_paper"
+    YOLOV8N_LAYOUT_REPORT = "yolov8n_layout_report"
+    YOLOV8N_LAYOUT_PUBLAYNET = "yolov8n_layout_publaynet"
+    YOLOV8N_LAYOUT_GENERAL6 = "yolov8n_layout_general6"
+    DOCLAYOUT_DOCSTRUCTBENCH = "doclayout_docstructbench"
+    DOCLAYOUT_D4LA = "doclayout_d4la"
+    DOCLAYOUT_DOCSYNTH = "doclayout_docsynth"
