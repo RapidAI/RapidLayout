@@ -9,9 +9,8 @@ from typing import Any, Dict, List
 import numpy as np
 from onnxruntime import GraphOptimizationLevel, InferenceSession, SessionOptions
 
-from ...utils import DownloadFile, DownloadFileInput
 from ...utils.logger import Logger
-from ..base import FileInfo, InferSession
+from ..base import InferSession
 from .provider_config import ProviderConfig
 
 
@@ -31,34 +30,18 @@ class OrtInferSession(InferSession):
             self.session = session
             return
 
-        model_path = cfg.get("model_path", None)
-        if model_path is None:
-            # 说明用户没有指定自己模型，使用默认模型
-            model_info = self.get_model_url(
-                FileInfo(
-                    engine_type=cfg.engine_type,
-                    ocr_version=cfg.ocr_version,
-                    task_type=cfg.task_type,
-                    lang_type=cfg.lang_type,
-                    model_type=cfg.model_type,
-                )
-            )
-            model_path = self.DEFAULT_MODEL_PATH / Path(model_info["model_dir"]).name
-            download_params = DownloadFileInput(
-                file_url=model_info["model_dir"],
-                sha256=model_info["SHA256"],
-                save_path=model_path,
-                logger=self.logger,
-            )
-            DownloadFile.run(download_params)
-
+        model_path = cfg.get("model_dir_or_path", None)
         self.logger.info(f"Using {model_path}")
         model_path = Path(model_path)
         self._verify_model(model_path)
 
-        sess_opt = self._init_sess_opts(cfg.engine_cfg)
+        engine_cfg = self.update_params(
+            self.engine_cfg[cfg["engine_type"].value], cfg["engine_cfg"]
+        )
 
-        provider_cfg = ProviderConfig(engine_cfg=cfg.engine_cfg)
+        sess_opt = self._init_sess_opts(engine_cfg)
+
+        provider_cfg = ProviderConfig(engine_cfg=engine_cfg)
         self.session = InferenceSession(
             model_path,
             sess_options=sess_opt,

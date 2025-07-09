@@ -9,17 +9,8 @@ from typing import Optional, Tuple, Union
 import cv2
 import numpy as np
 
-from rapid_layout.model_processor.main import ModelProcessor
-
-from .model_handler import (
-    DocLayoutPostProcess,
-    DocLayoutPreProcess,
-    PPPostProcess,
-    PPPreProcess,
-    YOLOv8PostProcess,
-    YOLOv8PreProcess,
-)
-from .utils.download_file import DownloadFile
+from .inference_engine.base import get_engine
+from .model_handler import ModelHandler, ModelProcessor
 from .utils.load_image import LoadImage
 from .utils.logger import Logger
 from .utils.typings import ModelType, RapidLayoutInput, RapidLayoutOutput
@@ -51,33 +42,35 @@ class RapidLayout:
         if not cfg.model_dir_or_path:
             cfg.model_dir_or_path = ModelProcessor.get_model_path(cfg.model_type)
 
-        self.session = OrtInferSession(config)
+        self.session = get_engine(cfg.engine_type)(cfg)
         labels = self.session.get_character_list()
-        logger.info("%s contains %s", model_type, labels)
-
-        # pp
-        self.pp_preprocess = PPPreProcess(img_size=(800, 608))
-        self.pp_postprocess = PPPostProcess(labels, conf_thres, iou_thres)
-
-        # yolov8
-        self.yolov8_input_shape = (640, 640)
-        self.yolov8_preprocess = YOLOv8PreProcess(img_size=self.yolov8_input_shape)
-        self.yolov8_postprocess = YOLOv8PostProcess(labels, conf_thres, iou_thres)
-
-        # doclayout
-        self.doclayout_input_shape = (1024, 1024)
-        self.doclayout_preprocess = DocLayoutPreProcess(
-            img_size=self.doclayout_input_shape
-        )
-        self.doclayout_postprocess = DocLayoutPostProcess(labels, conf_thres, iou_thres)
+        logger.info(f"{cfg.model_type} contains {labels}")
 
         self.load_img = LoadImage()
 
-        self.pp_layout_type = [k for k in KEY_TO_MODEL_URL if k.startswith("pp")]
-        self.yolov8_layout_type = [
-            k for k in KEY_TO_MODEL_URL if k.startswith("yolov8n")
-        ]
-        self.doclayout_type = [k for k in KEY_TO_MODEL_URL if k.startswith("doclayout")]
+        self.model_handler = ModelHandler(labels, cfg.conf_thresh, cfg.iou_thresh)
+
+        # # pp
+        # self.pp_preprocess = PPPreProcess(img_size=(800, 608))
+        # self.pp_postprocess = PPPostProcess(labels, conf_thres, iou_thres)
+
+        # # yolov8
+        # self.yolov8_input_shape = (640, 640)
+        # self.yolov8_preprocess = YOLOv8PreProcess(img_size=self.yolov8_input_shape)
+        # self.yolov8_postprocess = YOLOv8PostProcess(labels, conf_thres, iou_thres)
+
+        # # doclayout
+        # self.doclayout_input_shape = (1024, 1024)
+        # self.doclayout_preprocess = DocLayoutPreProcess(
+        #     img_size=self.doclayout_input_shape
+        # )
+        # self.doclayout_postprocess = DocLayoutPostProcess(labels, conf_thres, iou_thres)
+
+        # self.pp_layout_type = [k for k in KEY_TO_MODEL_URL if k.startswith("pp")]
+        # self.yolov8_layout_type = [
+        #     k for k in KEY_TO_MODEL_URL if k.startswith("yolov8n")
+        # ]
+        # self.doclayout_type = [k for k in KEY_TO_MODEL_URL if k.startswith("doclayout")]
 
     def __call__(
         self, img_content: Union[str, np.ndarray, bytes, Path]

@@ -9,9 +9,9 @@ import numpy as np
 from omegaconf import DictConfig
 from openvino.runtime import Core
 
-from ..utils import Logger
 from ..utils.download_file import DownloadFile, DownloadFileInput
-from .base import FileInfo, InferSession
+from ..utils.logger import Logger
+from .base import InferSession
 
 
 class OpenVINOInferSession(InferSession):
@@ -21,32 +21,17 @@ class OpenVINOInferSession(InferSession):
 
         core = Core()
 
-        model_path = cfg.get("model_path", None)
-        if model_path is None:
-            model_info = self.get_model_url(
-                FileInfo(
-                    engine_type=cfg.engine_type,
-                    ocr_version=cfg.ocr_version,
-                    task_type=cfg.task_type,
-                    lang_type=cfg.lang_type,
-                    model_type=cfg.model_type,
-                )
-            )
-            model_path = self.DEFAULT_MODEL_PATH / Path(model_info["model_dir"]).name
-            download_params = DownloadFileInput(
-                file_url=model_info["model_dir"],
-                sha256=model_info["SHA256"],
-                save_path=model_path,
-                logger=self.logger,
-            )
-            DownloadFile.run(download_params)
-
+        model_path = cfg.get("model_dir_or_path", None)
         self.logger.info(f"Using {model_path}")
         model_path = Path(model_path)
         self._verify_model(model_path)
 
+        engine_cfg = self.update_params(
+            self.engine_cfg[cfg["engine_type"].value], cfg["engine_cfg"]
+        )
+
         cpu_nums = os.cpu_count()
-        infer_num_threads = cfg.get("inference_num_threads", -1)
+        infer_num_threads = engine_cfg.get("inference_num_threads", -1)
         if infer_num_threads != -1 and 1 <= infer_num_threads <= cpu_nums:
             core.set_property("CPU", {"INFERENCE_NUM_THREADS": str(infer_num_threads)})
 

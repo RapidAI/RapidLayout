@@ -3,8 +3,10 @@
 # @Contact: liekkaskono@163.com
 import cv2
 
-from rapid_layout import RapidLayout, VisLayout
+from rapid_layout import RapidLayout
+from rapid_layout.utils.typings import EngineType, ModelType, RapidLayoutInput
 
+input_args = RapidLayoutInput(engine_type=EngineType.ONNXRUNTIME)
 layout_engine = RapidLayout()
 
 img_path = "tests/test_files/PMC3576793_00004.jpg"
