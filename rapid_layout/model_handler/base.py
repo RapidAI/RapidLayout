@@ -6,14 +6,14 @@ from abc import ABC, abstractmethod
 
 class BaseModelHandler(ABC):
     @abstractmethod
-    def preprocess(self, image):
-        """图像预处理抽象方法"""
+    def preprocess(self):
+        pass
 
     @abstractmethod
-    def postprocess(self, model_output):
-        """模型输出后处理抽象方法"""
+    def postprocess(self):
+        pass
 
     @property
     @abstractmethod
     def input_shape(self):
-        """模型输入尺寸属性"""
+        pass

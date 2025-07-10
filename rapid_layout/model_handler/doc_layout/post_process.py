@@ -30,6 +30,3 @@ class DocLayoutPostProcess:
         class_ids = preds[:, 5].astype(int)
         labels = [self.labels[i] for i in class_ids]
         return boxes, confidences, labels
-        return boxes, confidences, labels
-        return boxes, confidences, labels
-        return boxes, confidences, labels

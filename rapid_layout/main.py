@@ -13,7 +13,7 @@ from .inference_engine.base import get_engine
 from .model_handler import ModelHandler, ModelProcessor
 from .utils.load_image import LoadImage
 from .utils.logger import Logger
-from .utils.typings import ModelType, RapidLayoutInput, RapidLayoutOutput
+from .utils.typings import RapidLayoutInput
 
 ROOT_DIR = Path(__file__).resolve().parent
 logger = Logger("rapid_layout").get_log()
@@ -43,12 +43,14 @@ class RapidLayout:
             cfg.model_dir_or_path = ModelProcessor.get_model_path(cfg.model_type)
 
         self.session = get_engine(cfg.engine_type)(cfg)
-        labels = self.session.get_character_list()
+        labels = self.session.characters
         logger.info(f"{cfg.model_type} contains {labels}")
 
         self.load_img = LoadImage()
 
-        self.model_handler = ModelHandler(labels, cfg.conf_thresh, cfg.iou_thresh)
+        self.model_handler = ModelHandler(
+            labels, cfg.conf_thresh, cfg.iou_thresh, self.session
+        )
 
         # # pp
         # self.pp_preprocess = PPPreProcess(img_size=(800, 608))
@@ -76,18 +78,22 @@ class RapidLayout:
         self, img_content: Union[str, np.ndarray, bytes, Path]
     ) -> Tuple[Optional[np.ndarray], Optional[np.ndarray], Optional[np.ndarray], float]:
         img = self.load_img(img_content)
-        ori_img_shape = img.shape[:2]
 
-        if self.model_type in self.pp_layout_type:
-            return self.pp_layout(img, ori_img_shape)
+        result = self.model_handler(img)
+        return result
 
-        if self.model_type in self.yolov8_layout_type:
-            return self.yolov8_layout(img, ori_img_shape)
+        # ori_img_shape = img.shape[:2]
 
-        if self.model_type in self.doclayout_type:
-            return self.doclayout_layout(img, ori_img_shape)
+        # if self.model_type in self.pp_layout_type:
+        #     return self.pp_layout(img, ori_img_shape)
 
-        raise ValueError(f"{self.model_type} is not supported.")
+        # if self.model_type in self.yolov8_layout_type:
+        #     return self.yolov8_layout(img, ori_img_shape)
+
+        # if self.model_type in self.doclayout_type:
+        #     return self.doclayout_layout(img, ori_img_shape)
+
+        # raise ValueError(f"{self.model_type} is not supported.")
 
     def pp_layout(self, img: np.ndarray, ori_img_shape: Tuple[int, int]):
         s_time = time.time()

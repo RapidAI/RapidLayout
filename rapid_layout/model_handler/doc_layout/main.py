@@ -2,7 +2,7 @@
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
 from ..base import BaseModelHandler
-from .pose_process import DocLayoutPostProcess
+from .post_process import DocLayoutPostProcess
 from .pre_process import DocLayoutPreProcess
 
 
@@ -15,8 +15,8 @@ class DocLayoutModelHandler(BaseModelHandler):
     def preprocess(self, image):
         return self.doclayout_preprocess(image)
 
-    def postprocess(self, model_output):
-        return self.doclayout_postprocess(model_output)
+    def postprocess(self, preds, ori_img_shape, img_shape):
+        return self.doclayout_postprocess(preds, ori_img_shape, img_shape)
 
     @property
     def input_shape(self):

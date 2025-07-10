@@ -4,9 +4,10 @@
 import os
 import traceback
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import numpy as np
+from omegaconf import DictConfig
 from onnxruntime import GraphOptimizationLevel, InferenceSession, SessionOptions
 
 from ...utils.logger import Logger
@@ -15,28 +16,15 @@ from .provider_config import ProviderConfig
 
 
 class OrtInferSession(InferSession):
-    def __init__(self, cfg: Dict[str, Any]):
+    def __init__(self, cfg: Optional[DictConfig] = None):
         self.logger = Logger(logger_name=__name__).get_log()
 
-        # support custom session (PR #451)
-        session = cfg.get("session", None)
-        if session is not None:
-            if not isinstance(session, InferenceSession):
-                raise TypeError(
-                    f"Expected session to be an InferenceSession, got {type(session)}"
-                )
-
-            self.logger.debug("Using the provided InferenceSession for inference.")
-            self.session = session
-            return
-
-        model_path = cfg.get("model_dir_or_path", None)
-        self.logger.info(f"Using {model_path}")
-        model_path = Path(model_path)
+        model_path = Path(cfg.model_dir_or_path)
         self._verify_model(model_path)
+        self.logger.info(f"Using {model_path}")
 
         engine_cfg = self.update_params(
-            self.engine_cfg[cfg["engine_type"].value], cfg["engine_cfg"]
+            self.engine_cfg[cfg.engine_type.value], cfg.engine_cfg
         )
 
         sess_opt = self._init_sess_opts(engine_cfg)
@@ -80,6 +68,10 @@ class OrtInferSession(InferSession):
 
     def get_output_names(self) -> List[str]:
         return [v.name for v in self.session.get_outputs()]
+
+    @property
+    def characters(self):
+        return self.get_character_list()
 
     def get_character_list(self, key: str = "character") -> List[str]:
         meta_dict = self.session.get_modelmeta().custom_metadata_map

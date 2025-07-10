@@ -22,15 +22,14 @@ class ModelType(Enum):
 
 class EngineType(Enum):
     ONNXRUNTIME = "onnxruntime"
-    OPENVINO = "openvino"
 
 
 @dataclass
 class RapidLayoutInput:
-    model_type: Optional[ModelType] = ModelType.PP_LAYOUT_CDLA
+    model_type: ModelType = ModelType.PP_LAYOUT_CDLA
     model_dir_or_path: Union[str, Path, None, Dict[str, str]] = None
 
-    engine_type: Optional[EngineType] = EngineType.ONNXRUNTIME
+    engine_type: EngineType = EngineType.ONNXRUNTIME
     engine_cfg: dict = field(default_factory=dict)
 
     conf_thresh: float = 0.5

@@ -3,7 +3,7 @@
 # @Contact: liekkaskono@163.com
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Dict, Union
+from typing import Any, Dict, List, Union
 
 import numpy as np
 from omegaconf import DictConfig, OmegaConf
@@ -23,7 +23,7 @@ class InferSession(ABC):
     model_info = OmegaConf.load(MODEL_URL_PATH)
     DEFAULT_MODEL_PATH = cur_dir / "models"
 
-    engine_info = OmegaConf.load(ENGINE_CFG_PATH)
+    engine_cfg = OmegaConf.load(ENGINE_CFG_PATH)
 
     @abstractmethod
     def __init__(self, config):
@@ -47,6 +47,10 @@ class InferSession(ABC):
 
     @abstractmethod
     def have_key(self, key: str = "character") -> bool:
+        pass
+
+    @abstractmethod
+    def get_character_list(self, key: str = "character") -> List[str]:
         pass
 
     @staticmethod
