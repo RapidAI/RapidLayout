@@ -4,7 +4,7 @@
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Dict, List, Optional, Union
+from typing import List, Optional, Union
 
 import numpy as np
 
@@ -34,7 +34,7 @@ class EngineType(Enum):
 @dataclass
 class RapidLayoutInput:
     model_type: ModelType = ModelType.PP_LAYOUT_CDLA
-    model_dir_or_path: Union[str, Path, None, Dict[str, str]] = None
+    model_dir_or_path: Union[str, Path, None] = None
 
     engine_type: EngineType = EngineType.ONNXRUNTIME
     engine_cfg: dict = field(default_factory=dict)

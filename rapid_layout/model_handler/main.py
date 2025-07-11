@@ -4,21 +4,24 @@
 from typing import Any
 
 import numpy as np
-from omegaconf import DictConfig
 
 from ..inference_engine.base import InferSession
-from ..utils.typings import RapidLayoutOutput
+from ..utils.logger import Logger
+from ..utils.typings import RapidLayoutInput, RapidLayoutOutput
 from .doc_layout import DocLayoutModelHandler
 from .pp import PPModelHandler
 from .yolov8 import YOLOv8ModelHandler
 
 
 class ModelHandler:
-    def __init__(self, cfg: DictConfig, session: InferSession):
+    def __init__(self, cfg: RapidLayoutInput, session: InferSession):
+        self.logger = Logger(logger_name=__name__).get_log()
         self.model_processors = self._init_handler(cfg, session)
 
-    def _init_handler(self, cfg: DictConfig, session: InferSession) -> Any:
+    def _init_handler(self, cfg: RapidLayoutInput, session: InferSession) -> Any:
         model_type = cfg.model_type.value
+        self.logger.info(f"{model_type} contains {session.characters}")
+
         if model_type.startswith("pp"):
             return PPModelHandler(
                 session.characters, cfg.conf_thresh, cfg.iou_thresh, session

@@ -5,7 +5,7 @@
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
 from pathlib import Path
-from typing import Dict, Union
+from typing import Dict
 
 import cv2
 import numpy as np
@@ -29,7 +29,7 @@ class ModelProcessor:
     model_map = read_yaml(DEFAULT_MODEL_PATH)
 
     @classmethod
-    def get_model_path(cls, model_type: ModelType) -> Union[str, Dict[str, str]]:
+    def get_model_path(cls, model_type: ModelType) -> str:
         return cls.get_single_model_path(model_type)
 
     @classmethod

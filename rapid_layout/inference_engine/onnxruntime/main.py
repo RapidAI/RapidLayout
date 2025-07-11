@@ -4,22 +4,28 @@
 import os
 import traceback
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, List
 
 import numpy as np
 from omegaconf import DictConfig
 from onnxruntime import GraphOptimizationLevel, InferenceSession, SessionOptions
 
+from ...model_handler.utils import ModelProcessor
 from ...utils.logger import Logger
+from ...utils.typings import RapidLayoutInput
 from ..base import InferSession
 from .provider_config import ProviderConfig
 
 
 class OrtInferSession(InferSession):
-    def __init__(self, cfg: Optional[DictConfig] = None):
+    def __init__(self, cfg: RapidLayoutInput):
         self.logger = Logger(logger_name=__name__).get_log()
 
-        model_path = Path(cfg.model_dir_or_path)
+        if cfg.model_dir_or_path is None:
+            model_path = ModelProcessor.get_model_path(cfg.model_type)
+        else:
+            model_path = Path(cfg.model_dir_or_path)
+
         self._verify_model(model_path)
         self.logger.info(f"Using {model_path}")
 
@@ -38,7 +44,7 @@ class OrtInferSession(InferSession):
         provider_cfg.verify_providers(self.session.get_providers())
 
     @staticmethod
-    def _init_sess_opts(cfg: Dict[str, Any]) -> SessionOptions:
+    def _init_sess_opts(cfg: DictConfig) -> SessionOptions:
         sess_opt = SessionOptions()
         sess_opt.log_severity_level = 4
         sess_opt.enable_cpu_mem_arena = cfg.enable_cpu_mem_arena
@@ -55,7 +61,7 @@ class OrtInferSession(InferSession):
 
         return sess_opt
 
-    def __call__(self, input_content: np.ndarray) -> np.ndarray:
+    def __call__(self, input_content: np.ndarray) -> Any:
         input_dict = dict(zip(self.get_input_names(), [input_content]))
         try:
             return self.session.run(self.get_output_names(), input_dict)

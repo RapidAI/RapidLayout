@@ -26,17 +26,14 @@ class RapidLayout:
             cfg.model_dir_or_path = ModelProcessor.get_model_path(cfg.model_type)
 
         self.session = get_engine(cfg.engine_type)(cfg)
-        labels = self.session.characters
-        logger.info(f"{cfg.model_type} contains {labels}")
+        self.model_handler = ModelHandler(cfg, self.session)
 
         self.load_img = LoadImage()
-        self.model_handler = ModelHandler(cfg, self.session)
 
     def __call__(
         self, img_content: Union[str, np.ndarray, bytes, Path]
     ) -> RapidLayoutOutput:
         img = self.load_img(img_content)
-
         result = self.model_handler(img)
         return result
 

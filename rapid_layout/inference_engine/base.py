@@ -58,7 +58,7 @@ class InferSession(ABC):
         pass
 
     @staticmethod
-    def update_params(cfg: DictConfig, params: Dict[str, Any]):
+    def update_params(cfg: DictConfig, params: Dict[str, Any]) -> DictConfig:
         for k, v in params.items():
             OmegaConf.update(cfg, k, v)
         return cfg
