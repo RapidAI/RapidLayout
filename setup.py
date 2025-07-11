@@ -5,8 +5,8 @@ import sys
 from pathlib import Path
 from typing import List, Union
 
-import setuptools
 from get_pypi_latest_version import GetPyPiLatestVersion
+from setuptools import find_packages, setup
 
 
 def read_txt(txt_path: Union[Path, str]) -> List[str]:
@@ -35,7 +35,7 @@ if len(sys.argv) > 2:
         VERSION_NUM = matched_versions
 sys.argv = sys.argv[:2]
 
-setuptools.setup(
+setup(
     name=MODULE_NAME,
     version=VERSION_NUM,
     platforms="Any",
@@ -48,8 +48,8 @@ setuptools.setup(
     license="Apache-2.0",
     include_package_data=True,
     install_requires=read_txt("requirements.txt"),
-    packages=[MODULE_NAME, f"{MODULE_NAME}.models", f"{MODULE_NAME}.utils"],
-    package_data={"": ["layout_cdla.onnx"]},
+    packages=find_packages(),
+    package_data={"": ["*.onnx", "*.yaml"]},
     keywords=["ppstructure,layout,rapidocr,rapid_layout"],
     classifiers=[
         "Programming Language :: Python :: 3.6",
@@ -59,7 +59,8 @@ setuptools.setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
     ],
-    python_requires=">=3.6,<3.13",
+    python_requires=">=3.6",
     entry_points={"console_scripts": [f"{MODULE_NAME}={MODULE_NAME}.main:main"]},
 )

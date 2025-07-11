@@ -15,7 +15,9 @@ class PPPostProcess:
         self.nms_top_k = 1000
         self.keep_top_k = 100
 
-    def __call__(self, ori_shape, img, preds):
+    def __call__(
+        self, ori_shape, img: np.ndarray, preds: List[np.ndarray]
+    ) -> Tuple[List[List[float]], List[float], List[str]]:
         scores, raw_boxes = [], []
         num_outs = int(len(preds) / 2)
         for out_idx in range(num_outs):
@@ -120,10 +122,10 @@ class PPPostProcess:
         for dt in out_boxes_list:
             clsid, bbox, score = int(dt[0]), dt[2:], dt[1]
             label = self.labels[clsid]
-            boxes.append(bbox)
-            scores.append(score)
+            boxes.append(bbox.tolist())
+            scores.append(float(score))
             class_names.append(label)
-        return np.array(boxes), np.array(scores), np.array(class_names)
+        return boxes, scores, class_names
 
     def warp_boxes(self, boxes, ori_shape):
         """Apply transform to boxes"""
@@ -244,205 +246,3 @@ class PPPostProcess:
         """
         hw = np.clip(right_bottom - left_top, 0.0, None)
         return hw[..., 0] * hw[..., 1]
-
-
-class YOLOv8PostProcess:
-    def __init__(self, labels: List[str], conf_thres=0.7, iou_thres=0.5):
-        self.labels = labels
-        self.conf_threshold = conf_thres
-        self.iou_threshold = iou_thres
-        self.input_width, self.input_height = None, None
-        self.img_width, self.img_height = None, None
-
-    def __call__(
-        self, output, ori_img_shape: Tuple[int, int], img_shape: Tuple[int, int]
-    ):
-        self.img_height, self.img_width = ori_img_shape
-        self.input_height, self.input_width = img_shape
-
-        predictions = np.squeeze(output[0]).T
-
-        # Filter out object confidence scores below threshold
-        scores = np.max(predictions[:, 4:], axis=1)
-        predictions = predictions[scores > self.conf_threshold, :]
-        scores = scores[scores > self.conf_threshold]
-
-        if len(scores) == 0:
-            return [], [], []
-
-        # Get the class with the highest confidence
-        class_ids = np.argmax(predictions[:, 4:], axis=1)
-
-        # Get bounding boxes for each object
-        boxes = self.extract_boxes(predictions)
-
-        # Apply non-maxima suppression to suppress weak, overlapping bounding boxes
-        # indices = nms(boxes, scores, self.iou_threshold)
-        indices = multiclass_nms(boxes, scores, class_ids, self.iou_threshold)
-
-        labels = [self.labels[i] for i in class_ids[indices]]
-        return boxes[indices], scores[indices], labels
-
-    def extract_boxes(self, predictions):
-        # Extract boxes from predictions
-        boxes = predictions[:, :4]
-
-        # Scale boxes to original image dimensions
-        boxes = rescale_boxes(
-            boxes, self.input_width, self.input_height, self.img_width, self.img_height
-        )
-
-        # Convert boxes to xyxy format
-        boxes = xywh2xyxy(boxes)
-
-        return boxes
-
-
-class DocLayoutPostProcess:
-    def __init__(self, labels: List[str], conf_thres=0.2, iou_thres=0.5):
-        self.labels = labels
-        self.conf_threshold = conf_thres
-        self.iou_threshold = iou_thres
-        self.input_width, self.input_height = None, None
-        self.img_width, self.img_height = None, None
-
-    def __call__(
-        self,
-        preds,
-        ori_img_shape: Tuple[int, int],
-        img_shape: Tuple[int, int] = (1024, 1024),
-    ):
-        preds = preds[0]
-        mask = preds[..., 4] > self.conf_threshold
-        preds = [p[mask[idx]] for idx, p in enumerate(preds)][0]
-        preds[:, :4] = scale_boxes(list(img_shape), preds[:, :4], list(ori_img_shape))
-
-        boxes = preds[:, :4]
-        confidences = preds[:, 4]
-        class_ids = preds[:, 5].astype(int)
-        labels = [self.labels[i] for i in class_ids]
-        return boxes, confidences, labels
-
-
-def rescale_boxes(boxes, input_width, input_height, img_width, img_height):
-    # Rescale boxes to original image dimensions
-    input_shape = np.array([input_width, input_height, input_width, input_height])
-    boxes = np.divide(boxes, input_shape, dtype=np.float32)
-    boxes *= np.array([img_width, img_height, img_width, img_height])
-    return boxes
-
-
-def scale_boxes(
-    img1_shape, boxes, img0_shape, ratio_pad=None, padding=True, xywh=False
-):
-    """
-    Rescales bounding boxes (in the format of xyxy by default) from the shape of the image they were originally
-    specified in (img1_shape) to the shape of a different image (img0_shape).
-
-    Args:
-        img1_shape (tuple): The shape of the image that the bounding boxes are for, in the format of (height, width).
-        boxes (torch.Tensor): the bounding boxes of the objects in the image, in the format of (x1, y1, x2, y2)
-        img0_shape (tuple): the shape of the target image, in the format of (height, width).
-        ratio_pad (tuple): a tuple of (ratio, pad) for scaling the boxes. If not provided, the ratio and pad will be
-            calculated based on the size difference between the two images.
-        padding (bool): If True, assuming the boxes is based on image augmented by yolo style. If False then do regular
-            rescaling.
-        xywh (bool): The box format is xywh or not, default=False.
-
-    Returns:
-        boxes (torch.Tensor): The scaled bounding boxes, in the format of (x1, y1, x2, y2)
-    """
-    if ratio_pad is None:  # calculate from img0_shape
-        gain = min(
-            img1_shape[0] / img0_shape[0], img1_shape[1] / img0_shape[1]
-        )  # gain  = old / new
-        pad = (
-            round((img1_shape[1] - img0_shape[1] * gain) / 2 - 0.1),
-            round((img1_shape[0] - img0_shape[0] * gain) / 2 - 0.1),
-        )  # wh padding
-    else:
-        gain = ratio_pad[0][0]
-        pad = ratio_pad[1]
-
-    if padding:
-        boxes[..., 0] -= pad[0]  # x padding
-        boxes[..., 1] -= pad[1]  # y padding
-        if not xywh:
-            boxes[..., 2] -= pad[0]  # x padding
-            boxes[..., 3] -= pad[1]  # y padding
-    boxes[..., :4] /= gain
-    return clip_boxes(boxes, img0_shape)
-
-
-def clip_boxes(boxes, shape):
-    boxes[..., [0, 2]] = boxes[..., [0, 2]].clip(0, shape[1])  # x1, x2
-    boxes[..., [1, 3]] = boxes[..., [1, 3]].clip(0, shape[0])  # y1, y2
-    return boxes
-
-
-def nms(boxes, scores, iou_threshold):
-    # Sort by score
-    sorted_indices = np.argsort(scores)[::-1]
-
-    keep_boxes = []
-    while sorted_indices.size > 0:
-        # Pick the last box
-        box_id = sorted_indices[0]
-        keep_boxes.append(box_id)
-
-        # Compute IoU of the picked box with the rest
-        ious = compute_iou(boxes[box_id, :], boxes[sorted_indices[1:], :])
-
-        # Remove boxes with IoU over the threshold
-        keep_indices = np.where(ious < iou_threshold)[0]
-
-        # print(keep_indices.shape, sorted_indices.shape)
-        sorted_indices = sorted_indices[keep_indices + 1]
-
-    return keep_boxes
-
-
-def multiclass_nms(boxes, scores, class_ids, iou_threshold):
-    unique_class_ids = np.unique(class_ids)
-
-    keep_boxes = []
-    for class_id in unique_class_ids:
-        class_indices = np.where(class_ids == class_id)[0]
-        class_boxes = boxes[class_indices, :]
-        class_scores = scores[class_indices]
-
-        class_keep_boxes = nms(class_boxes, class_scores, iou_threshold)
-        keep_boxes.extend(class_indices[class_keep_boxes])
-
-    return keep_boxes
-
-
-def compute_iou(box, boxes):
-    # Compute xmin, ymin, xmax, ymax for both boxes
-    xmin = np.maximum(box[0], boxes[:, 0])
-    ymin = np.maximum(box[1], boxes[:, 1])
-    xmax = np.minimum(box[2], boxes[:, 2])
-    ymax = np.minimum(box[3], boxes[:, 3])
-
-    # Compute intersection area
-    intersection_area = np.maximum(0, xmax - xmin) * np.maximum(0, ymax - ymin)
-
-    # Compute union area
-    box_area = (box[2] - box[0]) * (box[3] - box[1])
-    boxes_area = (boxes[:, 2] - boxes[:, 0]) * (boxes[:, 3] - boxes[:, 1])
-    union_area = box_area + boxes_area - intersection_area
-
-    # Compute IoU
-    iou = intersection_area / union_area
-
-    return iou
-
-
-def xywh2xyxy(x):
-    # Convert bounding box (x, y, w, h) to bounding box (x1, y1, x2, y2)
-    y = np.copy(x)
-    y[..., 0] = x[..., 0] - x[..., 2] / 2
-    y[..., 1] = x[..., 1] - x[..., 3] / 2
-    y[..., 2] = x[..., 0] + x[..., 2] / 2
-    y[..., 3] = x[..., 1] + x[..., 3] / 2
-    return y
