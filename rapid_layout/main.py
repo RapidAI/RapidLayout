@@ -10,11 +10,7 @@ import numpy as np
 from .inference_engine.base import get_engine
 from .model_handler import ModelHandler, ModelProcessor
 from .utils.load_image import LoadImage
-from .utils.logger import Logger
 from .utils.typings import ModelType, RapidLayoutInput, RapidLayoutOutput
-
-ROOT_DIR = Path(__file__).resolve().parent
-logger = Logger("rapid_layout").get_log()
 
 
 class RapidLayout:
@@ -73,7 +69,8 @@ def parse_args(arg_list: Optional[List[str]] = None):
 
 def main(arg_list: Optional[List[str]] = None):
     args = parse_args(arg_list)
-    img_path = args.img_path
+
+    img_path = Path(args.img_path)
 
     input_args = RapidLayoutInput(
         model_type=ModelType(args.model_type),
@@ -86,7 +83,7 @@ def main(arg_list: Optional[List[str]] = None):
     print(results)
 
     if args.vis:
-        save_path = Path(img_path).resolve().parent / "layout_vis.jpg"
+        save_path = img_path.resolve().parent / "layout_vis.jpg"
         results.vis(save_path)
 
 

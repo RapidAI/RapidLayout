@@ -25,15 +25,3 @@ onnxruntime:
         optypelist_for_implmode: "Gelu"
         enable_cann_graph: true
 
-openvino:
-    inference_num_threads: -1
-
-paddle:
-    cpu_math_library_num_threads: -1
-    use_cuda: false
-    gpu_id: 0
-    gpu_mem: 500
-
-torch:
-    use_cuda: false
-    gpu_id: 0
