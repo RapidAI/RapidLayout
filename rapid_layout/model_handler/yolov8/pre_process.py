@@ -1,13 +1,10 @@
 # -*- encoding: utf-8 -*-
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
-from pathlib import Path
-from typing import Tuple, Union
+from typing import Tuple
 
 import cv2
 import numpy as np
-
-InputType = Union[str, np.ndarray, bytes, Path]
 
 
 class YOLOv8PreProcess:
@@ -18,5 +15,4 @@ class YOLOv8PreProcess:
         input_img = cv2.resize(image, self.img_size)
         input_img = input_img / 255.0
         input_img = input_img.transpose(2, 0, 1)
-        input_tensor = input_img[np.newaxis, :, :, :].astype(np.float32)
-        return input_tensor
+        return input_img[np.newaxis, :, :, :].astype(np.float32)

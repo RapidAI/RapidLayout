@@ -139,8 +139,7 @@ class LetterBox:
             labels["img"] = img
             labels["resized_shape"] = new_shape
             return labels
-        else:
-            return img
+        return img
 
     def _update_labels(self, labels, ratio, padw, padh):
         """Update labels."""

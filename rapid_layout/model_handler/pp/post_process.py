@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
+from typing import List, Tuple
+
 import numpy as np
 
 
@@ -13,7 +15,9 @@ class PPPostProcess:
         self.nms_top_k = 1000
         self.keep_top_k = 100
 
-    def __call__(self, ori_shape, img, preds):
+    def __call__(
+        self, ori_shape, img: np.ndarray, preds: List[np.ndarray]
+    ) -> Tuple[List[List[float]], List[float], List[str]]:
         scores, raw_boxes = [], []
         num_outs = int(len(preds) / 2)
         for out_idx in range(num_outs):
@@ -118,10 +122,10 @@ class PPPostProcess:
         for dt in out_boxes_list:
             clsid, bbox, score = int(dt[0]), dt[2:], dt[1]
             label = self.labels[clsid]
-            boxes.append(bbox)
-            scores.append(score)
+            boxes.append(bbox.tolist())
+            scores.append(float(score))
             class_names.append(label)
-        return np.array(boxes), np.array(scores), np.array(class_names)
+        return boxes, scores, class_names
 
     def warp_boxes(self, boxes, ori_shape):
         """Apply transform to boxes"""

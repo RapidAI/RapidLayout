@@ -17,8 +17,11 @@ class YOLOv8PostProcess:
         self.img_width, self.img_height = None, None
 
     def __call__(
-        self, output, ori_img_shape: Tuple[int, int], img_shape: Tuple[int, int]
-    ):
+        self,
+        output: List[np.ndarray],
+        ori_img_shape: Tuple[int, int],
+        img_shape: Tuple[int, int],
+    ) -> Tuple[np.ndarray, np.ndarray, List[str]]:
         self.img_height, self.img_width = ori_img_shape
         self.input_height, self.input_width = img_shape
 
@@ -45,7 +48,7 @@ class YOLOv8PostProcess:
         labels = [self.labels[i] for i in class_ids[indices]]
         return boxes[indices], scores[indices], labels
 
-    def extract_boxes(self, predictions):
+    def extract_boxes(self, predictions: np.ndarray) -> np.ndarray:
         # Extract boxes from predictions
         boxes = predictions[:, :4]
 

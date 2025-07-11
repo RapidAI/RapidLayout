@@ -58,7 +58,7 @@ class OrtInferSession(InferSession):
     def __call__(self, input_content: np.ndarray) -> np.ndarray:
         input_dict = dict(zip(self.get_input_names(), [input_content]))
         try:
-            return self.session.run(self.get_output_names(), input_dict)[0]
+            return self.session.run(self.get_output_names(), input_dict)
         except Exception as e:
             error_info = traceback.format_exc()
             raise ONNXRuntimeError(error_info) from e

@@ -6,6 +6,13 @@ from enum import Enum
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
+import numpy as np
+
+from .logger import Logger
+from .utils import save_img
+
+logger = Logger(logger_name=__name__).get_log()
+
 
 class ModelType(Enum):
     PP_LAYOUT_CDLA = "pp_layout_cdla"
@@ -38,7 +45,27 @@ class RapidLayoutInput:
 
 @dataclass
 class RapidLayoutOutput:
+    img: Optional[np.ndarray] = None
     boxes: Optional[List[List[float]]] = None
     class_names: Optional[List[str]] = None
     scores: Optional[List[float]] = None
     elapse: Optional[float] = None
+
+    def vis(self, save_path: Union[str, Path, None] = None) -> Optional[np.ndarray]:
+        if self.img is None or self.boxes is None:
+            logger.warning("No image or boxes to visualize.")
+            return None
+
+        from .vis_res import VisLayout
+
+        vis_img = VisLayout.draw_detections(
+            self.img,
+            np.array(self.boxes),
+            np.array(self.scores),
+            np.array(self.class_names),
+        )
+        if save_path is not None and vis_img is not None:
+            save_img(save_path, vis_img)
+            logger.info(f"Visualization saved as {save_path}")
+
+        return vis_img

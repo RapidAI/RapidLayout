@@ -49,6 +49,10 @@ class InferSession(ABC):
     def have_key(self, key: str = "character") -> bool:
         pass
 
+    @property
+    def characters(self):
+        return self.get_character_list()
+
     @abstractmethod
     def get_character_list(self, key: str = "character") -> List[str]:
         pass
