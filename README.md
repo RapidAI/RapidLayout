@@ -118,6 +118,27 @@ print(results)
 results.vis("layout_res.png")
 ```
 
+### NPU使用
+
+详细配置参数参见：[link](https://github.com/RapidAI/RapidLayout/blob/a7ab63ff291bd72e1a98ac2bb11860575514f432/rapid_layout/configs/engine_cfg.yaml)
+
+```python
+from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
+
+cfg = RapidLayoutInput(
+    model_type=ModelType.PP_LAYOUT_CDLA,
+    engine_type=EngineType.ONNXRUNTIME,
+    engine_cfg={"use_cann": True, "cann_ep_cfg.gpu_id": 0},
+)
+layout_engine = RapidLayout(cfg=cfg)
+
+img_path = "https://raw.githubusercontent.com/opendatalab/DocLayout-YOLO/refs/heads/main/assets/example/financial.jpg"
+results = layout_engine(img_path)
+print(results)
+
+results.vis("layout_res.png")
+```
+
 ### 参考项目
 
 - [DocLayout-YOLO](https://github.com/opendatalab/DocLayout-YOLO)
