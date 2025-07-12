@@ -11,6 +11,7 @@ from .inference_engine.base import get_engine
 from .model_handler import ModelHandler, ModelProcessor
 from .utils.load_image import LoadImage
 from .utils.typings import ModelType, RapidLayoutInput, RapidLayoutOutput
+from .utils.utils import is_url
 
 
 class RapidLayout:
@@ -70,8 +71,6 @@ def parse_args(arg_list: Optional[List[str]] = None):
 def main(arg_list: Optional[List[str]] = None):
     args = parse_args(arg_list)
 
-    img_path = Path(args.img_path)
-
     input_args = RapidLayoutInput(
         model_type=ModelType(args.model_type),
         iou_thresh=args.iou_thresh,
@@ -79,11 +78,13 @@ def main(arg_list: Optional[List[str]] = None):
     )
     layout_engine = RapidLayout(input_args)
 
-    results = layout_engine(img_path)
+    results = layout_engine(args.img_path)
     print(results)
 
     if args.vis:
-        save_path = img_path.resolve().parent / "layout_vis.jpg"
+        save_path = "layout_vis.jpg"
+        if not is_url(args.img_path):
+            save_path = args.img_path.resolve().parent / "layout_vis.jpg"
         results.vis(save_path)
 
 

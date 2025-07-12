@@ -3,11 +3,7 @@
 # @Contact: liekkaskono@163.com
 from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
 
-cfg = RapidLayoutInput(
-    model_type=ModelType.PP_LAYOUT_CDLA,
-    engine_type=EngineType.ONNXRUNTIME,
-    engine_cfg={"use_cuda": True, "cuda_ep_cfg.gpu_id": 1},
-)
+cfg = RapidLayoutInput()
 layout_engine = RapidLayout(cfg=cfg)
 
 img_path = "https://raw.githubusercontent.com/opendatalab/DocLayout-YOLO/refs/heads/main/assets/example/financial.jpg"
