@@ -63,7 +63,7 @@ from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
 cfg = RapidLayoutInput()
 layout_engine = RapidLayout(cfg=cfg)
 
-img_path = "https://raw.githubusercontent.com/opendatalab/DocLayout-YOLO/refs/heads/main/assets/example/financial.jpg"
+img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/refs/heads/develop/tests/test_files/layout.jpg"
 results = layout_engine(img_path)
 print(results)
 
@@ -73,7 +73,7 @@ results.vis("layout_res.png")
 ### 可视化结果
 
 <div align="center">
-    <img src="https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/layout_res.png" width="80%" height="80%">
+    <img src="https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/layout_vis.jpg" width="80%" height="80%">
 </div>
 
 #### 终端运行
@@ -111,7 +111,7 @@ cfg = RapidLayoutInput(
 )
 layout_engine = RapidLayout(cfg=cfg)
 
-img_path = "https://raw.githubusercontent.com/opendatalab/DocLayout-YOLO/refs/heads/main/assets/example/financial.jpg"
+img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/refs/heads/develop/tests/test_files/layout.jpg"
 results = layout_engine(img_path)
 print(results)
 
@@ -132,7 +132,7 @@ cfg = RapidLayoutInput(
 )
 layout_engine = RapidLayout(cfg=cfg)
 
-img_path = "https://raw.githubusercontent.com/opendatalab/DocLayout-YOLO/refs/heads/main/assets/example/financial.jpg"
+img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/refs/heads/develop/tests/test_files/layout.jpg"
 results = layout_engine(img_path)
 print(results)
 

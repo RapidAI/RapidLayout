@@ -3,10 +3,9 @@
 # @Contact: liekkaskono@163.com
 from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
 
-cfg = RapidLayoutInput()
-layout_engine = RapidLayout(cfg=cfg)
+layout_engine = RapidLayout()
 
-img_path = "https://raw.githubusercontent.com/opendatalab/DocLayout-YOLO/refs/heads/main/assets/example/financial.jpg"
+img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/refs/heads/develop/tests/test_files/layout.jpg"
 results = layout_engine(img_path)
 print(results)
 
