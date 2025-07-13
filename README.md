@@ -4,7 +4,7 @@
   </div>
 
 <a href="https://huggingface.co/spaces/SWHL/RapidLayout" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97-Hugging Face Demo-blue"></a>
-<a href=""><img src="https://img.shields.io/badge/Python->=3.6,<3.13-aff.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/Python->=3.6-aff.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/OS-Linux%2C%20Win%2C%20Mac-pink.svg"></a>
 <a href="https://pypi.org/project/rapid-layout/"><img alt="PyPI" src="https://img.shields.io/pypi/v/rapid-layout"></a>
 <a href="https://pepy.tech/project/rapid-layout"><img src="https://static.pepy.tech/personalized-badge/rapid-layout?period=total&units=abbreviation&left_color=grey&right_color=blue&left_text=Downloads"></a>
@@ -43,14 +43,14 @@ yolov8n系列来源：[360LayoutAnalysis](https://github.com/360AILAB-NLP/360Lay
 
 ### TODO
 
-- [ ] [ PP-DocLayout](https://github.com/PaddlePaddle/PaddleX/blob/release/3.0-rc/docs/module_usage/tutorials/ocr_modules/layout_detection.md)整理
+- [ ] [PP-DocLayout](https://github.com/PaddlePaddle/PaddleX/blob/release/3.0-rc/docs/module_usage/tutorials/ocr_modules/layout_detection.md)整理
 
 ### 安装
 
 由于模型较小，预先将中文版面分析模型(`layout_cdla.onnx`)打包进了whl包内，如果做中文版面分析，可直接安装使用
 
 ```bash
-pip install rapid-layout
+pip install rapid-layout onnxruntime
 ```
 
 ### 使用方式
@@ -58,59 +58,29 @@ pip install rapid-layout
 #### python脚本运行
 
 ```python
-import cv2
-from imread_from_url import imread_from_url  # pip install imread_from_url
+from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
 
-from rapid_layout import RapidLayout, VisLayout
+cfg = RapidLayoutInput()
+layout_engine = RapidLayout(cfg=cfg)
 
-# model_type类型参见上表。指定不同model_type时，会自动下载相应模型到安装目录下的。
-layout_engine = RapidLayout(model_type="doclayout_docstructbench", conf_thres=0.2)
+img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/refs/heads/develop/tests/test_files/layout.jpg"
+results = layout_engine(img_path)
+print(results)
 
-img_url = "https://raw.githubusercontent.com/opendatalab/DocLayout-YOLO/refs/heads/main/assets/example/financial.jpg"
-img = imread_from_url(img_url)
-
-boxes, scores, class_names, elapse = layout_engine(img)
-ploted_img = VisLayout.draw_detections(img, boxes, scores, class_names)
-if ploted_img is not None:
-    cv2.imwrite("layout_res.png", ploted_img)
+results.vis("layout_res.png")
 ```
 
 ### 可视化结果
 
 <div align="center">
-    <img src="https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/layout_res.png" width="80%">
+    <img src="https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/layout_vis.jpg" width="80%" height="80%">
 </div>
 
 #### 终端运行
 
 ```bash
-$ rapid_layout -h
-usage: rapid_layout [-h] -img IMG_PATH
-                    [-m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}]
-                    [--conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}]
-                    [--iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}]
-                    [--use_cuda] [--use_dml] [-v]
-
-options:
-  -h, --help            show this help message and exit
-  -img IMG_PATH, --img_path IMG_PATH
-                        Path to image for layout.
-  -m {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}, --model_type {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}
-                        Support model type
-  --conf_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}
-                        Box threshold, the range is [0, 1]
-  --iou_thres {pp_layout_cdla,pp_layout_publaynet,pp_layout_table,yolov8n_layout_paper,yolov8n_layout_report,yolov8n_layout_publaynet,yolov8n_layout_general6,doclayout_docstructbench,doclayout_d4la,doclayout_docsynth}
-                        IoU threshold, the range is [0, 1]
-  --use_cuda            Whether to use cuda.
-  --use_dml             Whether to use DirectML, which only works in Windows10+.
-  -v, --vis             Wheter to visualize the layout results.
+rapid_layout test_images/layout.png
 ```
-
-- 示例:
-
-    ```bash
-    rapid_layout -v -img test_images/layout.png
-    ```
 
 ### GPU推理
 
@@ -132,25 +102,41 @@ pip install onnxruntime-gpu
 #### 使用
 
 ```python
-import cv2
-from rapid_layout import RapidLayout
-from pathlib import Path
+from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
 
-# 注意：这里需要使用use_cuda指定参数
-layout_engine = RapidLayout(model_type="doclayout_yolo", conf_thres=0.2, use_cuda=True)
+cfg = RapidLayoutInput(
+    model_type=ModelType.PP_LAYOUT_CDLA,
+    engine_type=EngineType.ONNXRUNTIME,
+    engine_cfg={"use_cuda": True, "cuda_ep_cfg.gpu_id": 1},
+)
+layout_engine = RapidLayout(cfg=cfg)
 
-# warm up
-layout_engine("images/12027_5.png")
+img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/refs/heads/develop/tests/test_files/layout.jpg"
+results = layout_engine(img_path)
+print(results)
 
-elapses = []
-img_list = list(Path('images').iterdir())
-for img_path in img_list:
-    boxes, scores, class_names, elapse = layout_engine(img_path)
-    print(f"{img_path}: {elapse}s")
-    elapses.append(elapse)
+results.vis("layout_res.png")
+```
 
-avg_elapse = sum(elapses) / len(elapses)
-print(f'avg elapse: {avg_elapse:.4f}')
+### NPU使用
+
+详细配置参数参见：[link](https://github.com/RapidAI/RapidLayout/blob/a7ab63ff291bd72e1a98ac2bb11860575514f432/rapid_layout/configs/engine_cfg.yaml)
+
+```python
+from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
+
+cfg = RapidLayoutInput(
+    model_type=ModelType.PP_LAYOUT_CDLA,
+    engine_type=EngineType.ONNXRUNTIME,
+    engine_cfg={"use_cann": True, "cann_ep_cfg.gpu_id": 0},
+)
+layout_engine = RapidLayout(cfg=cfg)
+
+img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/refs/heads/develop/tests/test_files/layout.jpg"
+results = layout_engine(img_path)
+print(results)
+
+results.vis("layout_res.png")
 ```
 
 ### 参考项目
