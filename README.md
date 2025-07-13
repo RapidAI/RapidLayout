@@ -74,7 +74,7 @@ results.vis("layout_res.png")
 ### 可视化结果
 
 <div align="center">
-    <img src="https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/layout_vis.jpg" width="80%" height="80%">
+    <img src="https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/layout_vis.jpg" width="80%">
 </div>
 
 #### 终端运行
