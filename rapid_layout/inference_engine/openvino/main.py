@@ -112,9 +112,12 @@ class OpenVINOInferSession(InferSession):
         rt_info = self.model.get_rt_info()
         framework_info = rt_info.get("framework", {})
         val = framework_info.get(key)
-        if val is None:
+        if val is None or not hasattr(val, "value"):
             return []
-        return val.value.splitlines()
+        value = getattr(val, "value", None)
+        if value is None:
+            return []
+        return value.splitlines()
 
     def have_key(self, key: str = "character") -> bool:
         try:
