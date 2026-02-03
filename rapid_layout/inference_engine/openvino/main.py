@@ -111,7 +111,9 @@ class OpenVINOInferSession(InferSession):
     def get_character_list(self, key: str = "character") -> List[str]:
         rt_info = self.model.get_rt_info()
         framework_info = rt_info.get("framework", {})
-        val = framework_info[key]
+        val = framework_info.get(key)
+        if val is None:
+            return []
         return val.value.splitlines()
 
     def have_key(self, key: str = "character") -> bool:
