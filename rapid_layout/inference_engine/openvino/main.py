@@ -63,22 +63,18 @@ class OpenVINOInferSession(InferSession):
         if inference_num_threads > 0:
             cpu_count = os.cpu_count()
             if cpu_count is not None:
-                _set("INFERENCE_NUM_THREADS",
-                     inference_num_threads,
-                     cast=lambda x: str(min(x, cpu_count)))
+                _set(
+                    "INFERENCE_NUM_THREADS",
+                    inference_num_threads,
+                    cast=lambda x: str(min(x, cpu_count)),
+                )
 
-        _set("PERFORMANCE_HINT",
-             cfg.get("performance_hint"))
-        _set("PERFORMANCE_HINT_NUM_REQUESTS",
-             cfg.get("performance_num_requests"))
-        _set("ENABLE_CPU_PINNING",
-             cfg.get("enable_cpu_pinning"))
-        _set("NUM_STREAMS",
-             cfg.get("num_streams"))
-        _set("ENABLE_HYPER_THREADING",
-             cfg.get("enable_hyper_threading"))
-        _set("SCHEDULING_CORE_TYPE",
-             cfg.get("scheduling_core_type"))
+        _set("PERFORMANCE_HINT", cfg.get("performance_hint"))
+        _set("PERFORMANCE_HINT_NUM_REQUESTS", cfg.get("performance_num_requests"))
+        _set("ENABLE_CPU_PINNING", cfg.get("enable_cpu_pinning"))
+        _set("NUM_STREAMS", cfg.get("num_streams"))
+        _set("ENABLE_HYPER_THREADING", cfg.get("enable_hyper_threading"))
+        _set("SCHEDULING_CORE_TYPE", cfg.get("scheduling_core_type"))
 
         if config:
             self.logger.info("OpenVINO runtime config: %s", config)
@@ -113,7 +109,9 @@ class OpenVINOInferSession(InferSession):
         return self.get_character_list()
 
     def get_character_list(self, key: str = "character") -> List[str]:
-        val = self.model.get_rt_info()["framework"][key]
+        rt_info = self.model.get_rt_info()
+        framework_info = rt_info.get("framework", {})
+        val = framework_info[key]
         return val.value.splitlines()
 
     def have_key(self, key: str = "character") -> bool:
