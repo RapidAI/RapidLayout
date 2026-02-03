@@ -1,3 +1,4 @@
+import os
 import traceback
 from pathlib import Path
 from typing import Any, Dict, List
@@ -51,28 +52,33 @@ class OpenVINOInferSession(InferSession):
 
     def _init_config(self, cfg: DictConfig) -> Dict[str, str]:
         config = {}
-        engine_cfg = cfg.get("engine_cfg", {})
 
         def _set(k, v, *, cast=str):
             if v is not None and v != -1:
-                config[k] = cast(v)
+                casted_value = cast(v)
+                if casted_value is not None:
+                    config[k] = casted_value
 
-        _set("INFERENCE_NUM_THREADS",
-             engine_cfg.get("inference_num_threads", -1),
-             cast=lambda x: str(min(x, os.cpu_count())) if x > 0 else None)
+        inference_num_threads = cfg.get("inference_num_threads", -1)
+        if inference_num_threads > 0:
+            cpu_count = os.cpu_count()
+            if cpu_count is not None:
+                _set("INFERENCE_NUM_THREADS",
+                     inference_num_threads,
+                     cast=lambda x: str(min(x, cpu_count)))
 
         _set("PERFORMANCE_HINT",
-             engine_cfg.get("performance_hint"))
+             cfg.get("performance_hint"))
         _set("PERFORMANCE_HINT_NUM_REQUESTS",
-             engine_cfg.get("performance_num_requests"))
+             cfg.get("performance_num_requests"))
         _set("ENABLE_CPU_PINNING",
-             engine_cfg.get("enable_cpu_pinning"))
+             cfg.get("enable_cpu_pinning"))
         _set("NUM_STREAMS",
-             engine_cfg.get("num_streams"))
+             cfg.get("num_streams"))
         _set("ENABLE_HYPER_THREADING",
-             engine_cfg.get("enable_hyper_threading"))
+             cfg.get("enable_hyper_threading"))
         _set("SCHEDULING_CORE_TYPE",
-             engine_cfg.get("scheduling_core_type"))
+             cfg.get("scheduling_core_type"))
 
         if config:
             self.logger.info("OpenVINO runtime config: %s", config)
@@ -113,8 +119,9 @@ class OpenVINOInferSession(InferSession):
     def have_key(self, key: str = "character") -> bool:
         try:
             rt_info = self.model.get_rt_info()
-            return key in rt_info
-        except:
+            framework_info = rt_info.get("framework", {})
+            return key in framework_info
+        except (AttributeError, TypeError, KeyError):
             return False
 
 
