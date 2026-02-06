@@ -26,11 +26,11 @@ onnxruntime:
         enable_cann_graph: true
 
 openvino:
-  device: "CPU"
-  inference_num_threads: -1
-  performance_hint: "LATENCY"
-  performance_num_requests: -1
-  enable_cpu_pinning: null
-  num_streams: -1
-  enable_hyper_threading: null
-  scheduling_core_type: null
+    device: "CPU"
+    inference_num_threads: -1
+    performance_hint: "LATENCY"
+    performance_num_requests: -1
+    enable_cpu_pinning: null
+    num_streams: -1
+    enable_hyper_threading: null
+    scheduling_core_type: null
