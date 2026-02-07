@@ -1,4 +1,11 @@
-# 贡献指南
+---
+comments: true
+title: 贡献指南
+hide:
+  - navigation
+  - toc
+---
+
 
 感谢你对 Rapid Layout 的关注与贡献！欢迎通过以下方式参与项目。
 
@@ -23,7 +30,7 @@
 
 ### 环境准备
 
-```bash
+```bash linenums="1"
 git clone https://github.com/RapidAI/RapidLayout.git
 cd RapidLayout
 pip install -r requirements.txt
@@ -34,7 +41,7 @@ pip install -e .
 
 项目使用 [black](https://github.com/psf/black) 做代码格式化，并配合 pre-commit 做提交前检查。建议在本地安装 pre-commit：
 
-```bash
+```bash linenums="1"
 pip install pre-commit
 pre-commit install
 ```
@@ -45,7 +52,7 @@ pre-commit install
 
 修改 `docs/` 下内容后，可使用 MkDocs 本地预览：
 
-```bash
+```bash linenums="1"
 pip install -r requirements.txt
 mkdocs serve
 ```
