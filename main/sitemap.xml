@@ -13,23 +13,7 @@
          <lastmod>2026-02-07</lastmod>
     </url>
     <url>
-         <loc>https://rapidai.github.io/RapidLayout/main/gpu-inference/</loc>
-         <lastmod>2026-02-07</lastmod>
-    </url>
-    <url>
-         <loc>https://rapidai.github.io/RapidLayout/main/installation/</loc>
-         <lastmod>2026-02-07</lastmod>
-    </url>
-    <url>
          <loc>https://rapidai.github.io/RapidLayout/main/models/</loc>
-         <lastmod>2026-02-07</lastmod>
-    </url>
-    <url>
-         <loc>https://rapidai.github.io/RapidLayout/main/npu-usage/</loc>
-         <lastmod>2026-02-07</lastmod>
-    </url>
-    <url>
-         <loc>https://rapidai.github.io/RapidLayout/main/online_demo/</loc>
          <lastmod>2026-02-07</lastmod>
     </url>
     <url>
@@ -37,15 +21,19 @@
          <lastmod>2026-02-07</lastmod>
     </url>
     <url>
-         <loc>https://rapidai.github.io/RapidLayout/main/references/</loc>
-         <lastmod>2026-02-07</lastmod>
-    </url>
-    <url>
-         <loc>https://rapidai.github.io/RapidLayout/main/usage/</loc>
-         <lastmod>2026-02-07</lastmod>
-    </url>
-    <url>
          <loc>https://rapidai.github.io/RapidLayout/main/blog/</loc>
+         <lastmod>2026-02-07</lastmod>
+    </url>
+    <url>
+         <loc>https://rapidai.github.io/RapidLayout/main/install_usage/how_to_use_other_engine/</loc>
+         <lastmod>2026-02-07</lastmod>
+    </url>
+    <url>
+         <loc>https://rapidai.github.io/RapidLayout/main/install_usage/installation/</loc>
+         <lastmod>2026-02-07</lastmod>
+    </url>
+    <url>
+         <loc>https://rapidai.github.io/RapidLayout/main/install_usage/usage/</loc>
          <lastmod>2026-02-07</lastmod>
     </url>
 </urlset>

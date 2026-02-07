@@ -15,21 +15,21 @@
         <link rel="canonical" href="https://rapidai.github.io/RapidLayout/main/models/">
       
       
-        <link rel="prev" href="../usage/">
+        <link rel="prev" href="../quickstart/">
       
       
-        <link rel="next" href="../gpu-inference/">
+        <link rel="next" href="../install_usage/installation/">
       
       
         
       
       
-      <link rel="icon" href="../material/file-document-multiple">
+      <link rel="icon" href="../static/logo.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>支持的模型 - RapidLayout 文档</title>
+        <title>模型列表 - RapidLayout 文档</title>
       
     
     
@@ -120,23 +120,6 @@
     </div>
     <div data-md-component="announce">
       
-        <aside class="md-banner">
-          <div class="md-banner__inner md-grid md-typeset">
-            
-              <button class="md-banner__button md-icon" aria-label="不再显示此消息">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-              </button>
-            
-            
-    <p class="banner"> ⚡️ RapidOCR与PaddleOCR速度对比 → <a href="https://rapidai.github.io/RapidOCRDocs/latest/blog/2026/02/06/rapidocr-vs-paddleocr/" target="_blank">link</a></p>
-
-          </div>
-          
-            <script>var el=document.querySelector("[data-md-component=announce]");if(el){var content=el.querySelector(".md-typeset");__md_hash(content.innerHTML)===__md_get("__announce")&&(el.hidden=!0)}</script>
-          
-        </aside>
-      
     </div>
     
       <div data-md-color-scheme="default" data-md-component="outdated" hidden>
@@ -182,7 +165,7 @@ You're not viewing the latest version.
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              支持的模型
+              模型列表
             
           </span>
         </div>
@@ -340,15 +323,17 @@ You're not viewing the latest version.
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../online_demo/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
     
   
-  在线 Demo
+  模型列表
 
       </a>
     </li>
@@ -359,13 +344,11 @@ You're not viewing the latest version.
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../installation/" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../install_usage/installation/" class="md-tabs__link">
           
   
   
@@ -437,7 +420,9 @@ You're not viewing the latest version.
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -529,17 +514,42 @@ You're not viewing the latest version.
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../online_demo/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型列表
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    在线 Demo
+    模型列表
   
 
     
@@ -548,6 +558,46 @@ You're not viewing the latest version.
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模型来源
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模型下载
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -556,18 +606,10 @@ You're not viewing the latest version.
       
   
   
-    
   
   
-  
     
     
-      
-        
-      
-        
-      
-        
       
         
       
@@ -579,20 +621,19 @@ You're not viewing the latest version.
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
             
   
   
@@ -610,7 +651,7 @@ You're not viewing the latest version.
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -628,7 +669,7 @@ You're not viewing the latest version.
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../install_usage/installation/" class="md-nav__link">
         
   
   
@@ -656,7 +697,7 @@ You're not viewing the latest version.
   
   
     <li class="md-nav__item">
-      <a href="../usage/" class="md-nav__link">
+      <a href="../install_usage/usage/" class="md-nav__link">
         
   
   
@@ -681,170 +722,17 @@ You're not viewing the latest version.
                 
   
   
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    支持的模型
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    支持的模型
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        模型来源
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        模型下载
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
   
     <li class="md-nav__item">
-      <a href="../gpu-inference/" class="md-nav__link">
+      <a href="../install_usage/how_to_use_other_engine/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    GPU 推理
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../npu-usage/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    NPU 使用
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../references/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    参考项目
+    使用其他推理引擎
   
 
     
@@ -969,7 +857,9 @@ You're not viewing the latest version.
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -977,8 +867,6 @@ You're not viewing the latest version.
 <nav class="md-nav md-nav--secondary" aria-label="目录">
   
   
-  
-    
   
   
     <label class="md-nav__title" for="__toc">
@@ -988,7 +876,7 @@ You're not viewing the latest version.
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         模型来源
@@ -999,7 +887,7 @@ You're not viewing the latest version.
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         模型下载
@@ -1046,6 +934,8 @@ You're not viewing the latest version.
 
 <!-- Tags -->
 
+  
+
 
 
 <!-- Actions -->
@@ -1072,11 +962,16 @@ You're not viewing the latest version.
   page title (or respectively site name) is used as the main headline.
 -->
 
+<h1>模型列表</h1>
+
 
 
 
 <!-- Page content -->
-<h1 id="_1">支持的模型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>由于不同场景下的版面差异较大，现阶段不存在一个模型可以搞定所有场景。如果实际业务需要，以下模型效果不好的话，建议构建自己的训练集微调。</p>
+</div>
 <table>
 <thead>
 <tr>
@@ -1138,17 +1033,17 @@ You're not viewing the latest version.
 </tr>
 </tbody>
 </table>
-<h2 id="_2">模型来源<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_1">模型来源<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><strong>PP 模型</strong>：<a href="https://github.com/PaddlePaddle/PaddleOCR/blob/133d67f27dc8a241d6b2e30a9f047a0fb75bebbe/ppstructure/layout/README_ch.md">PaddleOCR 版面分析</a></p>
+<p><strong>yolov8n 系列</strong>：<a href="https://github.com/360AILAB-NLP/360LayoutAnalysis">360LayoutAnalysis</a></p>
+<p><strong>🔥 doclayout_yolo（推荐）</strong>：<a href="https://github.com/opendatalab/DocLayout-YOLO">DocLayout-YOLO</a>，目前较为优秀的开源版面分析模型，提供基于不同训练集的三个模型：</p>
 <ul>
-<li><strong>PP 模型</strong>：<a href="https://github.com/PaddlePaddle/PaddleOCR/blob/133d67f27dc8a241d6b2e30a9f047a0fb75bebbe/ppstructure/layout/README_ch.md">PaddleOCR 版面分析</a></li>
-<li><strong>yolov8n 系列</strong>：<a href="https://github.com/360AILAB-NLP/360LayoutAnalysis">360LayoutAnalysis</a></li>
-<li><strong>🔥 doclayout_yolo（推荐）</strong>：<a href="https://github.com/opendatalab/DocLayout-YOLO">DocLayout-YOLO</a>，目前较为优秀的开源版面分析模型，提供基于不同训练集的三个模型：</li>
 <li><code>doclayout_docstructbench</code>：<a href="https://huggingface.co/juliozhao/DocLayout-YOLO-DocStructBench/tree/main">Hugging Face</a></li>
 <li><code>doclayout_d4la</code>：<a href="https://huggingface.co/juliozhao/DocLayout-YOLO-D4LA-Docsynth300K_pretrained/blob/main/doclayout_yolo_d4la_imgsz1600_docsynth_pretrain.pt">Hugging Face</a></li>
 <li><code>doclayout_docsynth</code>：<a href="https://huggingface.co/juliozhao/DocLayout-YOLO-DocLayNet-Docsynth300K_pretrained/tree/main">Hugging Face</a></li>
 </ul>
-<h2 id="_3">模型下载<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>上述模型下载地址：<a href="https://github.com/RapidAI/RapidLayout/releases/tag/v0.0.0">Releases</a></p>
+<h2 id="_2">模型下载<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>模型均已经托管在<a href="https://www.modelscope.cn/models/RapidAI/RapidLayout/files">魔搭平台</a>。</p>
 
 <!-- Source file information -->
 
@@ -1173,7 +1068,7 @@ You're not viewing the latest version.
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="2026年2月7日 08:45:52 CST">2026-02-07 08:45:52</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="2026年2月7日 11:11:53 CST">2026-02-07 11:11:53</span>
   </span>
 
     
@@ -1218,9 +1113,66 @@ You're not viewing the latest version.
 <!-- Was this page helpful? -->
 
 
+  
+
 
 
 <!-- Comment system -->
+
+<h2 id="__comments">评论</h2>
+<!-- Insert generated snippet here -->
+
+<script src="https://giscus.app/client.js"
+    data-repo="RapidAI/RapidLayout"
+    data-repo-id="R_kgDOMLOtcQ"
+    data-category="General"
+    data-category-id="DIC_kwDOMLOtcc4CgMBG"
+    data-mapping="url"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="https://cdn.jsdelivr.net/gh/L33Z22L11/giscus-theme/lxgw-wenkai.css"
+    data-lang="zh-CN"
+    data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+
+
+<!-- Synchronize Giscus theme with palette -->
+<script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    // Set palette on initial load
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+        var theme = palette.color.scheme === "slate"
+            ? "transparent_dark"
+            : "light"
+
+        // Instruct Giscus to set theme
+        giscus.setAttribute("data-theme", theme)
+    }
+
+    // Register event handlers after documented loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        var ref = document.querySelector("[data-md-component=palette]")
+        ref.addEventListener("change", function () {
+            var palette = __md_get("__palette")
+            if (palette && typeof palette.color === "object") {
+                var theme = palette.color.scheme === "slate"
+                    ? "transparent_dark"
+                    : "light"
+
+                // Instruct Giscus to change theme
+                var frame = document.querySelector(".giscus-frame")
+                frame.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme } } },
+                    "https://giscus.app"
+                )
+            }
+        })
+    })
+</script>
 
                 
               </article>
@@ -1240,84 +1192,53 @@ You're not viewing the latest version.
         
       </main>
       
-        <!--
-  Copyright (c) 2016-2025 Martin Donath <martin.donath@squidfunk.com>
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to
-  deal in the Software without restriction, including without limitation the
-  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-  sell copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-  IN THE SOFTWARE.
--->
-
-<!-- Footer -->
-<footer class="md-footer">
-
-    <!-- Link to previous and/or next page -->
+        <footer class="md-footer">
+  
     
-    
-    
-    <nav class="md-footer__inner md-grid" aria-label="页脚" >
-
-        <!-- Link to previous page -->
+      
         
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
-        <a href="../usage/" class="md-footer__link md-footer__link--prev"
-            aria-label="上一页: 使用方式">
+          
+          <a href="../quickstart/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 快速开始">
             <div class="md-footer__button md-icon">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
             </div>
             <div class="md-footer__title">
-                <span class="md-footer__direction">
-                    上一页
-                </span>
-                <div class="md-ellipsis">
-                    使用方式
-                </div>
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                快速开始
+              </div>
             </div>
-        </a>
-        
-
-        <!-- Link to next page -->
+          </a>
         
         
-        <a href="../gpu-inference/" class="md-footer__link md-footer__link--next"
-            aria-label="下一页: GPU 推理">
+          
+          <a href="../install_usage/installation/" class="md-footer__link md-footer__link--next" aria-label="下一页: 安装">
             <div class="md-footer__title">
-                <span class="md-footer__direction">
-                    下一页
-                </span>
-                <div class="md-ellipsis">
-                    GPU 推理
-                </div>
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                安装
+              </div>
             </div>
             <div class="md-footer__button md-icon">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg>
             </div>
-        </a>
+          </a>
         
-    </nav>
+      </nav>
     
-    
-
-    <!-- Further information -->
-    <div class="md-footer-meta md-typeset">
-        <div class="md-footer-meta__inner md-grid">
-            <div class="md-copyright">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
   
     <div class="md-copyright__highlight">
       Copyright &copy; 2026 Maintained by SWHL.
@@ -1330,26 +1251,8 @@ You're not viewing the latest version.
     </a>
   
 </div>
-
-            <!-- Site Visits 访客统计 -->
-            <style>
-                .site-visit-count {
-                    padding: 0 12px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 0.85rem;
-                    /* color: black; */
-                }
-            </style>
-            <script async src="//finicounter.eu.org/finicounter.js"></script>
-            <div class="site-visit-count">
-                <span>本站访问量：</span><span id="finicount_views"></span>
-            </div>
-
-            <!-- Social links -->
-            
-            
+      
+        
 <div class="md-social">
   
     
@@ -1381,14 +1284,14 @@ You're not viewing the latest version.
       
       
     
-    <a href="https://pypi.org/project/rapidocr/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+    <a href="https://pypi.org/project/rapid-layout/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
     </a>
   
 </div>
-            
-        </div>
+      
     </div>
+  </div>
 </footer>
       
     </div>
