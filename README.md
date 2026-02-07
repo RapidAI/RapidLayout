@@ -1,5 +1,5 @@
 <div align="center">
-  <h1><b>📖 Rapid Layout</b></h1>
+  <h1><b>Rapid <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f4c4.svg" width="28" height="28" alt="📄" style="vertical-align: middle"> Layout</b></h1>
   <div>&nbsp;</div>
   <b><font size="4"><i>文档版面分析 - 定位标题、段落、表格与图片等版面元素</i></font></b>
   <div>&nbsp;</div>
@@ -55,6 +55,10 @@ results.vis("layout_res.png")
 
 完整文档（安装、使用方式、模型列表、GPU/NPU 配置、参考项目等）请移步：[**Rapid Layout 文档**](https://rapidai.github.io/RapidLayout/)
 
+### 📋 更新日志
+
+版本更新与发布说明请查看：[**Releases**](https://github.com/RapidAI/RapidLayout/releases)。
+
 ### 🙏 致谢
 
 - [DocLayout-YOLO](https://github.com/opendatalab/DocLayout-YOLO)
@@ -71,7 +75,7 @@ results.vis("layout_res.png")
 
 <p align="left">
   <a href="https://github.com/RapidAI/RapidLayout/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=RapidAI/RapidLayout&max=400&columns=10" width="60%"/>
+    <img src="https://contrib.rocks/image?repo=RapidAI/RapidLayout&max=400&columns=10" width="40%"/>
   </a>
 </p>
 

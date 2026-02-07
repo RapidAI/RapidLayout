@@ -7,7 +7,7 @@ hide:
 
 <div align="center">
   <div align="center">
-    <h1><b>Rapid Layout</b></h1>
+    <h1><b>Rapid <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@latest/assets/svg/1f4c4.svg" width="28" height="28" alt="📄" style="vertical-align: middle"> Layout</b></h1>
   </div>
 
 <a href="https://huggingface.co/spaces/RapidAI/RapidLayoutv1" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%A4%97-Hugging Face Demo-blue"></a>
@@ -27,4 +27,3 @@ hide:
 ### TODO
 
 - [ ] [PP-DocLayout](https://github.com/PaddlePaddle/PaddleX/blob/release/3.0-rc/docs/module_usage/tutorials/ocr_modules/layout_detection.md)整理
-
