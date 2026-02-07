@@ -21,7 +21,7 @@ pip install onnxruntime-gpu
 
 ## 使用
 
-```python linenum="1"
+```python linenums="1"
 from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
 
 cfg = RapidLayoutInput(
@@ -42,7 +42,7 @@ results.vis("layout_res.png")
 
 详细配置参数参见：[engine_cfg.yaml](https://github.com/RapidAI/RapidLayout/blob/a7ab63ff291bd72e1a98ac2bb11860575514f432/rapid_layout/configs/engine_cfg.yaml)
 
-```python linenum="1"
+```python linenums="1"
 from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
 
 cfg = RapidLayoutInput(
