@@ -29,7 +29,7 @@ jobs:
             mkdocs-material-
       - run: pip install -r requirements.txt
       - run: |
-          git fetch origin gh-pages --depth=1
+          git fetch origin gh-pages --depth=1 || true
           mkdocs build
           ls -la site/
           mike deploy --push --update-aliases main latest
