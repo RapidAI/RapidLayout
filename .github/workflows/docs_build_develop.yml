@@ -1,9 +1,11 @@
 name: Build/Publish Develop Docs
 on:
   push:
-    branches:
-      - master
-      - main
+    paths:
+      - "docs/**"
+      - ".github/workflows/docs_build_develop.yml"
+      - ".github/workflows/docs_build_release.yml"
+      - "mkdocs.yml"
 permissions:
   contents: write
 jobs:
