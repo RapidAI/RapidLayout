@@ -13,7 +13,7 @@ edit_uri: https://github.com/RapidAI/RapidLayout/blob/main/docs
 
 theme:
   name: material
-  favicon: material/file-document-multiple
+  favicon: ./static/logo.svg
   language: zh
   custom_dir: docs/overrides
   features:
@@ -85,8 +85,6 @@ plugins:
       enable_creation_date: true
       timezone: Asia/Shanghai
       type: iso_datetime
-      exclude:
-        - "index.md"
 
 
 hooks:
@@ -105,7 +103,7 @@ extra:
     - icon: fontawesome/brands/weixin
       link: https://raw.githubusercontent.com/RapidAI/.github/main/assets/RapidAI_poster_compose.png
     - icon: fontawesome/brands/python
-      link: https://pypi.org/project/rapidocr/
+      link: https://pypi.org/project/rapid-layout/
   version:
     provider: mike
   expiry_days: 180
@@ -150,14 +148,11 @@ markdown_extensions:
 nav:
   - 概览: index.md
   - 快速开始: quickstart.md
-  - 在线 Demo: online_demo.md
+  - 模型列表: models.md
   - 安装及使用:
-    - 安装: installation.md
-    - 使用方式: usage.md
-    - 支持的模型: models.md
-    - GPU 推理: gpu-inference.md
-    - NPU 使用: npu-usage.md
-    - 参考项目: references.md
+    - 安装: install_usage/installation.md
+    - 使用方式: install_usage/usage.md
+    - 使用其他推理引擎: install_usage/how_to_use_other_engine.md
   - 贡献指南: contributing.md
   - 博客:
     - blog/index.md

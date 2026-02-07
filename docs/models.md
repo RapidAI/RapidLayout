@@ -1,4 +1,14 @@
-# 支持的模型
+---
+comments: true
+title: 模型列表
+hide:
+  - navigation
+  - toc
+---
+
+!!! tip
+
+    由于不同场景下的版面差异较大，现阶段不存在一个模型可以搞定所有场景。如果实际业务需要，以下模型效果不好的话，建议构建自己的训练集微调。
 
 | `model_type` | 版面类型 | 支持类别 |
 | :------ | :----- | :----- |
@@ -15,13 +25,16 @@
 
 ## 模型来源
 
-- **PP 模型**：[PaddleOCR 版面分析](https://github.com/PaddlePaddle/PaddleOCR/blob/133d67f27dc8a241d6b2e30a9f047a0fb75bebbe/ppstructure/layout/README_ch.md)
-- **yolov8n 系列**：[360LayoutAnalysis](https://github.com/360AILAB-NLP/360LayoutAnalysis)
-- **🔥 doclayout_yolo（推荐）**：[DocLayout-YOLO](https://github.com/opendatalab/DocLayout-YOLO)，目前较为优秀的开源版面分析模型，提供基于不同训练集的三个模型：
-  - `doclayout_docstructbench`：[Hugging Face](https://huggingface.co/juliozhao/DocLayout-YOLO-DocStructBench/tree/main)
-  - `doclayout_d4la`：[Hugging Face](https://huggingface.co/juliozhao/DocLayout-YOLO-D4LA-Docsynth300K_pretrained/blob/main/doclayout_yolo_d4la_imgsz1600_docsynth_pretrain.pt)
-  - `doclayout_docsynth`：[Hugging Face](https://huggingface.co/juliozhao/DocLayout-YOLO-DocLayNet-Docsynth300K_pretrained/tree/main)
+**PP 模型**：[PaddleOCR 版面分析](https://github.com/PaddlePaddle/PaddleOCR/blob/133d67f27dc8a241d6b2e30a9f047a0fb75bebbe/ppstructure/layout/README_ch.md)
+
+**yolov8n 系列**：[360LayoutAnalysis](https://github.com/360AILAB-NLP/360LayoutAnalysis)
+
+**🔥 doclayout_yolo（推荐）**：[DocLayout-YOLO](https://github.com/opendatalab/DocLayout-YOLO)，目前较为优秀的开源版面分析模型，提供基于不同训练集的三个模型：
+
+- `doclayout_docstructbench`：[Hugging Face](https://huggingface.co/juliozhao/DocLayout-YOLO-DocStructBench/tree/main)
+- `doclayout_d4la`：[Hugging Face](https://huggingface.co/juliozhao/DocLayout-YOLO-D4LA-Docsynth300K_pretrained/blob/main/doclayout_yolo_d4la_imgsz1600_docsynth_pretrain.pt)
+- `doclayout_docsynth`：[Hugging Face](https://huggingface.co/juliozhao/DocLayout-YOLO-DocLayNet-Docsynth300K_pretrained/tree/main)
 
 ## 模型下载
 
-上述模型下载地址：[Releases](https://github.com/RapidAI/RapidLayout/releases/tag/v0.0.0)
+模型均已经托管在[魔搭平台](https://www.modelscope.cn/models/RapidAI/RapidLayout/files)。

@@ -1,4 +1,10 @@
-# 快速开始
+---
+comments: true
+title: 快速开始
+hide:
+  - navigation
+  - toc
+---
 
 ## 安装
 
@@ -6,19 +12,31 @@
 pip install rapid-layout onnxruntime
 ```
 
-## 第一个示例
+## 运行
 
-```python
-from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
+=== "Python脚本运行"
 
-cfg = RapidLayoutInput()
-layout_engine = RapidLayout(cfg=cfg)
+    ```python linenums="1"
+    from rapid_layout import EngineType, ModelType, RapidLayout, RapidLayoutInput
 
-img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/718b60e927ab893c2fad67c98f753b2105a6f421/tests/test_files/layout.jpg"
-results = layout_engine(img_path)
-print(results)
+    cfg = RapidLayoutInput()
+    layout_engine = RapidLayout(cfg=cfg)
 
-results.vis("layout_res.png")
-```
+    img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/718b60e927ab893c2fad67c98f753b2105a6f421/tests/test_files/layout.jpg"
+    results = layout_engine(img_path)
+    print(results)
 
-更多用法见 [使用方式](usage.md)，支持的模型见 [支持的模型](models.md)。
+    results.vis("layout_res.png")
+    ```
+
+=== "终端运行"
+
+    ```bash linenums="1"
+    rapid_layout test_images/layout.png
+    ```
+
+## 可视化结果
+
+<div align="center">
+    <img src="https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/layout_vis.jpg" width="60%">
+</div>
