@@ -1,7 +1,10 @@
 name: discord message
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+  # release:
+  #   types: [published]
 
 jobs:
   build:
