@@ -1,6 +1,8 @@
 name: Build/Publish Develop Docs
 on:
   push:
+    branches:
+      - main
     paths:
       - "docs/**"
       - ".github/workflows/docs_build_develop.yml"
