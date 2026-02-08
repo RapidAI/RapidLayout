@@ -15,24 +15,21 @@ jobs:
       - name: Prepare Discord message
         id: prepare_message
         run: |
-          # 使用 push 事件中的真实数据
           full_msg="🚀 **New Push to \`main\`**
 
-**Repository:** ${{ github.repository }}
-**Commit:** ${{ github.sha }}
-**Author:** ${{ github.actor }}
-**Message:** ${{ github.event.head_commit.message }}
+          **Repository:** ${{ github.repository }}
+          **Commit:** ${{ github.sha }}
+          **Author:** ${{ github.actor }}
+          **Message:** ${{ github.event.head_commit.message }}
 
-[View Changes](${{ github.event.compare }})"
+          [View Changes](${{ github.event.compare }})"
 
-          # 安全截断到 1990 字符
           if [ ${#full_msg} -gt 1990 ]; then
             truncated_msg="${full_msg:0:1987}..."
           else
             truncated_msg="$full_msg"
           fi
 
-          # 输出到 GitHub Actions output
           echo "message<<EOF" >> "$GITHUB_OUTPUT"
           echo "$truncated_msg" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
