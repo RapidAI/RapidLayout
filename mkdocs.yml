@@ -151,7 +151,7 @@ nav:
   - 模型列表: models.md
   - 安装及使用:
     - 安装: install_usage/installation.md
-    - 使用方式: install_usage/usage.md
+    - 使用: install_usage/usage.md
     - 使用其他推理引擎: install_usage/how_to_use_other_engine.md
   - 贡献指南: contributing.md
   - 博客:

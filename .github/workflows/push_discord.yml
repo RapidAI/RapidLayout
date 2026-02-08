@@ -1,0 +1,27 @@
+name: discord message
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_USERNAME: Github Actions
+          DISCORD_AVATAR: https://cdn.discordapp.com/avatars/1460099944252702846/e57fd67dc7ca0cc840a0e87a82281bc5.webp?size=80
+        uses: Ilshidur/action-discord@0.4.0
+        with:
+          args: |
+            🚀 **New Release!** ${{ github.event.release.name }}
+
+            **Tag:** ${{ github.event.release.tag_name }}
+            **Author:** ${{ github.event.release.author.login }}
+
+            **Release Notes:**
+            ${{ github.event.release.body }}
