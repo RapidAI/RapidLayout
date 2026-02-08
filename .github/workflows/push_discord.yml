@@ -16,26 +16,23 @@ jobs:
       - name: Prepare Discord message
         id: prepare_message
         run: |
-          # 构造完整消息
           full_msg="🚀 **New Release!** ${{ github.event.release.name }}
 
-          **Tag:** ${{ github.event.release.tag_name }}
-          **Author:** ${{ github.event.release.author.login }}
+      **Tag:** ${{ github.event.release.tag_name }}
+      **Author:** ${{ github.event.release.author.login }}
 
-          **Release Notes:**
-          ${{ github.event.release.body }}"
+      **Release Notes:**
+      ${{ github.event.release.body }}"
 
-              # 截断到 1990 字符（留 10 字符给可能的 ... 和安全余量）
-              if [ ${#full_msg} -gt 1990 ]; then
-                truncated_msg="${full_msg:0:1987}..."
-              else
-                truncated_msg="$full_msg"
-              fi
+          if [ ${#full_msg} -gt 1990 ]; then
+            truncated_msg="${full_msg:0:1987}..."
+          else
+            truncated_msg="$full_msg"
+          fi
 
-              # 转义换行符和特殊字符，以便通过 env 传递（可选，但更安全）
-              echo "DISCORD_MSG<<EOF" >> $GITHUB_ENV
-              echo "$truncated_msg" >> $GITHUB_ENV
-              echo "EOF" >> $GITHUB_ENV
+          echo "message<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$truncated_msg" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
 
       - name: Send to Discord
         env:
@@ -44,5 +41,4 @@ jobs:
           DISCORD_AVATAR: https://cdn.discordapp.com/avatars/1460099944252702846/e57fd67dc7ca0cc840a0e87a82281bc5.webp?size=80
         uses: Ilshidur/action-discord@0.4.0
         with:
-          args: |
-            ${{ env.DISCORD_MSG }}
+          args: ${{ steps.prepare_message.outputs.message }}
