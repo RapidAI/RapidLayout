@@ -2,6 +2,7 @@
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
 import argparse
+import dataclasses
 from pathlib import Path
 from typing import List, Optional, Union
 
@@ -15,9 +16,24 @@ from .utils.utils import is_url
 
 
 class RapidLayout:
-    def __init__(self, cfg: Optional[RapidLayoutInput] = None):
+    def __init__(self, cfg: Optional[RapidLayoutInput] = None, **kwargs):
+        """初始化布局检测引擎。
+
+        Args:
+            cfg: 可选，完整配置；若为 None 则仅用 kwargs 构造配置。
+
+        Kwargs（与 RapidLayoutInput 字段一致，传入时会覆盖 cfg 中同名字段）:
+            model_type: 模型类型，ModelType 或 str（如 "pp_layout_cdla"），默认 PP_LAYOUT_CDLA。
+            model_dir_or_path: 模型目录或单文件路径，str | Path | None，默认 None（按 model_type 自动解析）。
+            engine_type: 推理引擎，EngineType 或 str（"onnxruntime" | "openvino"），默认 onnxruntime。
+            engine_cfg: 引擎额外配置，dict，默认 {}。
+            conf_thresh: 框置信度阈值 [0, 1]，默认 0.5。
+            iou_thresh: IoU 阈值 [0, 1]，默认 0.5。
+        """
         if cfg is None:
-            cfg = RapidLayoutInput()
+            cfg = RapidLayoutInput(**RapidLayoutInput.normalize_kwargs(kwargs))
+        elif kwargs:
+            cfg = dataclasses.replace(cfg, **RapidLayoutInput.normalize_kwargs(kwargs))
 
         if not cfg.model_dir_or_path:
             cfg.model_dir_or_path = ModelProcessor.get_model_path(cfg.model_type)

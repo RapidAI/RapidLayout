@@ -1,21 +1,17 @@
 # -*- encoding: utf-8 -*-
-# @Author: Jocker1212
-# @Contact: xinyijianggo@gmail.com
 import logging
-from typing import Optional
 
 import colorlog
 
 
 class Logger:
-
-    def __init__(self, logger_name: Optional[str] = None, log_level=logging.DEBUG):
+    def __init__(self, log_level=logging.INFO, logger_name=None):
         self.logger = logging.getLogger(logger_name)
         self.logger.setLevel(log_level)
         self.logger.propagate = False
 
         formatter = colorlog.ColoredFormatter(
-            "%(log_color)s[%(levelname)s] %(asctime)s [RapidTable] %(filename)s:%(lineno)d: %(message)s",
+            f"%(log_color)s[%(levelname)s] %(asctime)s [{logger_name}] %(filename)s:%(lineno)d: %(message)s",
             log_colors={
                 "DEBUG": "cyan",
                 "INFO": "green",
@@ -37,3 +33,6 @@ class Logger:
 
     def get_log(self):
         return self.logger
+
+
+logger = Logger(log_level=logging.INFO, logger_name="RapidLayout").get_log()

@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
+import dataclasses
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
@@ -42,6 +43,17 @@ class RapidLayoutInput:
 
     conf_thresh: float = 0.5
     iou_thresh: float = 0.5
+
+    @classmethod
+    def normalize_kwargs(cls, kwargs: dict) -> dict:
+        """只保留本 dataclass 的字段，并将 model_type/engine_type 从 str 转为枚举。"""
+        valid = {f.name for f in dataclasses.fields(cls)}
+        filtered = {k: v for k, v in kwargs.items() if k in valid}
+        if "model_type" in filtered and isinstance(filtered["model_type"], str):
+            filtered["model_type"] = ModelType(filtered["model_type"])
+        if "engine_type" in filtered and isinstance(filtered["engine_type"], str):
+            filtered["engine_type"] = EngineType(filtered["engine_type"])
+        return filtered
 
 
 @dataclass

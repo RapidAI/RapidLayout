@@ -56,3 +56,41 @@ def test_main_cli(capsys, command, expected_output):
     main(shlex.split(command))
     output = capsys.readouterr().out.rstrip()
     assert len(output) > expected_output
+
+
+def test_init_with_kwargs():
+    """仅用关键字参数构造，不传 cfg。"""
+    engine = RapidLayout(model_type=ModelType.PP_LAYOUT_CDLA, conf_thresh=0.5)
+    img_path = test_dir / "layout.jpg"
+    results = engine(img_path)
+    assert results.boxes is not None
+    assert len(results.boxes) == 14
+
+
+def test_init_with_kwargs_model_type_string():
+    """kwargs 中 model_type 传字符串，应被正确转为枚举。"""
+    engine = RapidLayout(model_type="pp_layout_cdla", conf_thresh=0.5)
+    img_path = test_dir / "layout.jpg"
+    results = engine(img_path)
+    assert results.boxes is not None
+    assert len(results.boxes) == 14
+
+
+def test_init_with_cfg():
+    """仅用配置对象构造。"""
+    cfg = RapidLayoutInput(model_type=ModelType.PP_LAYOUT_CDLA, conf_thresh=0.5)
+    engine = RapidLayout(cfg=cfg)
+    img_path = test_dir / "layout.jpg"
+    results = engine(img_path)
+    assert results.boxes is not None
+    assert len(results.boxes) == 14
+
+
+def test_init_with_cfg_and_kwargs_override():
+    """传入 cfg 的同时用 kwargs 覆盖部分字段。"""
+    cfg = RapidLayoutInput(model_type=ModelType.PP_LAYOUT_CDLA, conf_thresh=0.5)
+    engine = RapidLayout(cfg=cfg, conf_thresh=0.4)
+    img_path = test_dir / "layout.jpg"
+    results = engine(img_path)
+    assert results.boxes is not None
+    assert len(results.boxes) == 15
