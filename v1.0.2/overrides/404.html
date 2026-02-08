@@ -1,0 +1,39 @@
+<!-- overrides/404.html -->
+{% extends "main.html" %}
+
+{% block content %}
+<div class="md-content md-grid" style="margin-top: 2rem;">
+    <div class="md-main__inner md-grid">
+        <div class="md-content__inner md-typeset">
+            <h1>页面未找到</h1>
+            <p>
+                抱歉，您访问的页面 <code>{{ page.url | url }}</code> 不存在。
+            </p>
+            <p>
+                可能的原因：
+            </p>
+            <ul>
+                <li>链接已失效或拼写错误</li>
+                <li>该页面已在当前版本中被移除</li>
+                <li>您正在访问旧版文档中的链接</li>
+            </ul>
+
+            <h2>接下来您可以：</h2>
+            <ul>
+                <li>使用上方搜索框查找相关内容</li>
+                <li><a href="{{ config.site_url | default('/') }}">返回文档首页</a></li>
+                <li>
+                    <a href="https://github.com/RapidAI/RapidLayout/issues/new?title=死链报告：%20{{ page.url | urlencode }}&body=访问了不存在的页面：%20{{ page.url | urlencode }}%0A%0A**期望内容**：%0A%0A**浏览器信息**：%0A"
+                        target="_blank" rel="noopener">
+                        🐞 报告此死链（点击跳转到 GitHub Issues）
+                    </a>
+                </li>
+            </ul>
+
+            <p style="font-size: 0.9em; color: var(--md-default-fg-color--light);">
+                注：该页面返回 HTTP 404 状态，搜索引擎将不会索引此地址。
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
