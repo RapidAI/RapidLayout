@@ -47,6 +47,9 @@ paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json 
 但是从可视化示例图结果来看，两者并无明显区别。可能在某些图上会有较大区别。
 
 ```python linenums="1"
+
+# 省略前面代码... ...
+
 import onnxruntime
 import numpy as np
 
