@@ -1157,7 +1157,7 @@ You're not viewing the latest version.
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>paddle2onnx<span class="w">  </span>--model_dir<span class="o">=</span>models/PP-DocLayoutV2<span class="w">  </span>--model_filename<span class="w"> </span>inference.json<span class="w"> </span>--params_filename<span class="w"> </span>inference.pdiparams<span class="w">  </span>--save_file<span class="o">=</span>./models/PP-DocLayoutV2/inference_v2.onnx<span class="w">  </span>--enable_onnx_checker<span class="o">=</span>True
 </span></code></pre></div>
 <h4 id="_4">比较结果<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
-<p>我在<code>/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py</code>中插入以下代码（在**L103** 行左右），来保证输入相同，比较输出。</p>
+<p>我在<code>/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py</code>中插入以下代码（在 <strong>L103</strong> 行左右），来保证输入相同，比较输出。</p>
 <p>按照上面直接转换后，在相同输入下，ONNX模型和Paddle模型推理结果误差为 <strong>14.8%</strong> 。在我看来，这个误差其实挺大的。</p>
 <p>但是从可视化示例图结果来看，两者并无明显区别。可能在某些图上会有较大区别。</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
@@ -1277,7 +1277,7 @@ You're not viewing the latest version.
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="2026年2月10日 11:45:20 CST">2026-02-10 11:45:20</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="2026年2月10日 12:53:27 CST">2026-02-10 12:53:27</span>
   </span>
 
     
