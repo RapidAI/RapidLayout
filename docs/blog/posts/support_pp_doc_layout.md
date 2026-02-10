@@ -40,7 +40,7 @@ paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json 
 
 #### 比较结果
 
-我在`/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py`中插入以下代码（在**L103** 行左右），来保证输入相同，比较输出。
+我在`/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py`中插入以下代码（在 **L103** 行左右），来保证输入相同，比较输出。
 
 按照上面直接转换后，在相同输入下，ONNX模型和Paddle模型推理结果误差为 **14.8%** 。在我看来，这个误差其实挺大的。
 
