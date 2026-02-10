@@ -35,7 +35,7 @@ PP-DocLayout系列模型在版面分析方面效果很好，目前已经作为Pa
 ### 转换命令
 
 ```bash
-paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json --params_filename inference.pdiparams  --save_file=./models/PP-DocLayoutV2/inference_v2.onnx  --enable_onnx_checker=True
+paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json --params_filename inference.pdiparams  --save_file=./models/PP-DocLayoutV2/inference.onnx  --enable_onnx_checker=True
 ```
 
 ### 比较结果
@@ -46,7 +46,7 @@ paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json 
 
 但是从可视化示例图结果来看，两者并无明显区别。可能在某些图上会有较大区别。
 
-```python linenums="1"
+```python linenums="1" title="比较两种格式模型推理结果"
 
 # 省略前面代码... ...
 
@@ -110,3 +110,94 @@ Max relative difference: 194.
 因为PaddleOCR库中需要兼容的推理代码较多，大而全。这也导致了有些臃肿。这是难以避免的。但是如果只看PP-DocLayout推理代码的话，很多问题就很简单了。
 
 完整的推理代码，我放到了Gist上 → [link](https://gist.github.com/SWHL/c9455e8947f4abdfbbd8439c0bb83410)
+
+### 字典写入 ONNX
+
+```python linenums="1" title="write_dict.py"
+from pathlib import Path
+from typing import List, Union
+
+import onnx
+import onnxruntime as ort
+from onnx import ModelProto
+
+
+class ONNXMetaOp:
+    @classmethod
+    def add_meta(
+        cls,
+        model_path: Union[str, Path],
+        key: str,
+        value: List[str],
+        delimiter: str = "\n",
+    ) -> ModelProto:
+        model = onnx.load_model(model_path)
+        meta = model.metadata_props.add()
+        meta.key = key
+        meta.value = delimiter.join(value)
+        return model
+
+    @classmethod
+    def get_meta(
+        cls, model_path: Union[str, Path], key: str, split_sym: str = "\n"
+    ) -> List[str]:
+        sess = ort.InferenceSession(model_path)
+        meta_map = sess.get_modelmeta().custom_metadata_map
+        key_content = meta_map.get(key)
+        key_list = key_content.split(split_sym)
+        return key_list
+
+    @classmethod
+    def del_meta(cls, model_path: Union[str, Path]) -> ModelProto:
+        model = onnx.load_model(model_path)
+        del model.metadata_props[:]
+        return model
+
+    @classmethod
+    def save_model(cls, save_path: Union[str, Path], model: ModelProto):
+        onnx.save_model(model, save_path)
+
+
+paper_label = [
+    "abstract",
+    "algorithm",
+    "aside_text",
+    "chart",
+    "content",
+    "display_formula",
+    "doc_title",
+    "figure_title",
+    "footer",
+    "footer_image",
+    "footnote",
+    "formula_number",
+    "header",
+    "header_image",
+    "image",
+    "inline_formula",
+    "number",
+    "paragraph_title",
+    "reference",
+    "reference_content",
+    "seal",
+    "table",
+    "text",
+    "vertical_text",
+    "vision_footnote",
+]
+model_path = "models/inference.onnx"
+model = ONNXMetaOp.add_meta(model_path, key="character", value=paper_label)
+
+new_model_path = "models/pp_doc_layoutv2.onnx"
+ONNXMetaOp.save_model(new_model_path, model)
+
+t = ONNXMetaOp.get_meta(new_model_path, key="character")
+print(t)
+```
+
+输出以下`label`，则认为成功：
+
+```bash linenums="1"
+$ python write_dict.py
+['abstract', 'algorithm', 'aside_text', 'chart', 'content', 'display_formula', 'doc_title', 'figure_title', 'footer', 'footer_image', 'footnote', 'formula_number', 'header', 'header_image', 'image', 'inline_formula', 'number', 'paragraph_title', 'reference', 'reference_content', 'seal', 'table', 'text', 'vertical_text', 'vision_footnote']
+```
