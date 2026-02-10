@@ -3,7 +3,7 @@ comments: true
 title: 贡献指南
 hide:
   - navigation
-  - toc
+#   - toc
 ---
 
 感谢你对 Rapid Layout 的关注与贡献！本文档说明如何参与项目的代码开发与文档贡献，包括环境准备、开发流程和提交流程。
