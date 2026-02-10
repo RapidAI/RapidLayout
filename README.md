@@ -68,7 +68,7 @@ results.vis("layout_res.png")
 
 ### 🤝 贡献指南
 
-欢迎通过 Issue 反馈问题与建议，或通过 Pull Request 参与代码与文档贡献。完整流程请参阅：[贡献指南](https://rapidai.github.io/RapidLayout/contributing/)。
+欢迎通过 Issue 反馈问题与建议，或通过 Pull Request 参与代码与文档贡献。完整流程请参阅：[贡献指南](https://rapidai.github.io/RapidLayout/main/contributing/)。
 
 ### 🎖 贡献者
 
