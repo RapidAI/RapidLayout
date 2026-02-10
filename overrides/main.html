@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block announce %}
+<p class="banner">🎉 支持PP-DocLayoutV2/V3系列模型 → <a
+        href="https://rapidai.github.io/RapidLayout/latest/blog/2026/02/10/support-PP-DocLayoutv2-v3/" target="_blank">link</a>
+</p>
+{% endblock %}
+
+
+{% block outdated %}
+You're not viewing the latest version.
+<a href="{{ '../' ~ base_url }}">
+    <strong>Click here to go to latest.</strong>
+</a>
+{% endblock %}

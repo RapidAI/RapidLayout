@@ -15,7 +15,7 @@ theme:
   name: material
   favicon: ./static/logo.svg
   language: zh
-  custom_dir: docs/overrides
+  custom_dir: overrides
   features:
     - announce.dismiss
     - content.tooltips
