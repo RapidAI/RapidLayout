@@ -73,5 +73,5 @@ rapid_layout test_images/layout.png -m pp_layout_cdla --conf_thresh 0.5 --iou_th
 ## 可视化结果
 
 <div align="center">
-    <img src="https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/layout_vis.jpg" width="80%">
+    <img src="https://www.modelscope.cn/models/RapidAI/RapidLayout/resolve/master/resources/images/layout_vis.jpg" width="80%">
 </div>

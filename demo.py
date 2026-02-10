@@ -8,8 +8,8 @@ layout_engine = RapidLayout(
     model_type=ModelType.PP_DOC_LAYOUTV2,
 )
 
-img_path = "tests/test_files/pp_doc_layoutv2_layout.jpg"
-results = layout_engine(img_path)
+img_url = "https://www.modelscope.cn/models/RapidAI/RapidLayout/resolve/master/resources/test_files/pp_doc_layoutv2_layout.jpg"
+results = layout_engine(img_url)
 print(results)
 
 results.vis("layout_res.png")

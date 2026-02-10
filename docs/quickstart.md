@@ -89,5 +89,5 @@ pip install rapid-layout onnxruntime
 ## 可视化结果
 
 <div align="center">
-    <img src="https://github.com/RapidAI/RapidLayout/releases/download/v0.0.0/layout_vis.jpg" width="60%">
+    <img src="https://www.modelscope.cn/models/RapidAI/RapidLayout/resolve/master/resources/images/layout_vis.jpg" width="60%">
 </div>

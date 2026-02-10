@@ -201,3 +201,22 @@ print(t)
 $ python write_dict.py
 ['abstract', 'algorithm', 'aside_text', 'chart', 'content', 'display_formula', 'doc_title', 'figure_title', 'footer', 'footer_image', 'footnote', 'formula_number', 'header', 'header_image', 'image', 'inline_formula', 'number', 'paragraph_title', 'reference', 'reference_content', 'seal', 'table', 'text', 'vertical_text', 'vision_footnote']
 ```
+
+### 使用
+
+目前已经在`rapid-layout>=1.1.0`支持。使用示例：
+
+```python linenums="1"
+from rapid_layout import EngineType, ModelType, RapidLayout
+
+layout_engine = RapidLayout(
+    engine_type=EngineType.ONNXRUNTIME,
+    model_type=ModelType.PP_DOC_LAYOUTV2,
+)
+
+img_url = "https://www.modelscope.cn/models/RapidAI/RapidLayout/resolve/master/resources/test_files/pp_doc_layoutv2_layout.jpg"
+results = layout_engine(img_url)
+print(results)
+
+results.vis("layout_res.png")
+```
