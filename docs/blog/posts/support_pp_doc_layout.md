@@ -38,7 +38,7 @@ PP-DocLayout系列模型在版面分析方面效果很好，目前已经作为Pa
 paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json --params_filename inference.pdiparams  --save_file=./models/PP-DocLayoutV2/inference_v2.onnx  --enable_onnx_checker=True
 ```
 
-#### 比较结果
+### 比较结果
 
 我在`/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py`中插入以下代码（在 **L103** 行左右），来保证输入相同，比较输出。
 
@@ -102,3 +102,11 @@ Max relative difference: 194.
         2.900000e+02, 2.900000e+02],
        [2.200000e+01, 9.888635e-01, 3.372382e+01, ..., 8.526024e+02,...
 ```
+
+暂时先用这个ONNX模型，该问题已经反馈到了Paddle2ONNX issue [#1608](https://github.com/PaddlePaddle/Paddle2ONNX/issues/1608#issuecomment-3875561303)
+
+### 剥离推理代码
+
+因为PaddleOCR库中需要兼容的推理代码较多，大而全。这也导致了有些臃肿。这是难以避免的。但是如果只看PP-DocLayout推理代码的话，很多问题就很简单了。
+
+完整的推理代码，我放到了Gist上 → [link](https://gist.github.com/SWHL/c9455e8947f4abdfbbd8439c0bb83410)
