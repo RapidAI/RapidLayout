@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 # @Author: SWHL
 # @Contact: liekkaskono@163.com
-"""单元测试：分别测试 onnxruntime 与 openvino 两种推理引擎。"""
-
 import sys
 from pathlib import Path
 

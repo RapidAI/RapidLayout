@@ -62,7 +62,11 @@ class OrtInferSession(InferSession):
         return sess_opt
 
     def __call__(self, input_content: np.ndarray) -> Any:
-        input_dict = dict(zip(self.get_input_names(), [input_content]))
+        if isinstance(input_content, list):
+            input_dict = dict(zip(self.get_input_names(), input_content))
+        else:
+            input_dict = dict(zip(self.get_input_names(), [input_content]))
+
         try:
             return self.session.run(self.get_output_names(), input_dict)
         except Exception as e:

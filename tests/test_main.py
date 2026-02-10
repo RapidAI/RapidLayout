@@ -35,13 +35,13 @@ def get_engine(params: Optional[RapidLayoutInput] = None):
         ("PMC3576793_00004.jpg", "yolov8n_layout_publaynet", 12),
         ("PMC3576793_00004.jpg", "yolov8n_layout_general6", 13),
         ("PMC3576793_00004.jpg", "doclayout_docstructbench", 14),
+        ("pp_doc_layoutv2_layout.jpg", "pp_doc_layoutv2", 13),
     ],
 )
 def test_normal(img_name, model_type, gt):
     img_path = test_dir / img_name
     engine = get_engine(params=RapidLayoutInput(model_type=ModelType(model_type)))
     results = engine(img_path)
-
     assert results.boxes is not None
     assert len(results.boxes) == gt
 

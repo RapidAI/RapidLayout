@@ -26,6 +26,7 @@ class ModelType(Enum):
     DOCLAYOUT_DOCSTRUCTBENCH = "doclayout_docstructbench"
     DOCLAYOUT_D4LA = "doclayout_d4la"
     DOCLAYOUT_DOCSYNTH = "doclayout_docsynth"
+    PP_DOC_LAYOUTV2 = "pp_doc_layoutv2"
 
 
 class EngineType(Enum):

@@ -4,10 +4,11 @@
 from rapid_layout import EngineType, ModelType, RapidLayout
 
 layout_engine = RapidLayout(
-    engine_type=EngineType.OPENVINO, model_type=ModelType.PP_LAYOUT_CDLA
+    engine_type=EngineType.ONNXRUNTIME,
+    model_type=ModelType.PP_DOC_LAYOUTV2,
 )
 
-img_path = "https://raw.githubusercontent.com/RapidAI/RapidLayout/718b60e927ab893c2fad67c98f753b2105a6f421/tests/test_files/layout.jpg"
+img_path = "tests/test_files/pp_doc_layoutv2_layout.jpg"
 results = layout_engine(img_path)
 print(results)
 

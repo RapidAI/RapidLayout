@@ -29,7 +29,7 @@ class OpenVINOInferSession(InferSession):
 
         core = Core()
         self.model = core.read_model(model=str(model_path))
-        self.input_tensor = self.model.inputs[0]
+        self.input_tensors = self.model.inputs
         self.output_tensors = self.model.outputs
 
         engine_cfg = self.update_params(
@@ -42,9 +42,18 @@ class OpenVINOInferSession(InferSession):
         self.infer_request = self.compiled_model.create_infer_request()
 
     def __call__(self, input_content: np.ndarray) -> Any:
+        if not isinstance(input_content, list):
+            input_content = [input_content]
+
+        if len(input_content) != len(self.input_tensors):
+            raise OpenVINOError(
+                f"The number of inputs ({len(input_content)}) does not match the number of model inputs ({len(self.input_tensors)})."
+            )
+
         try:
-            input_tensor_name = self.input_tensor.get_any_name()
-            self.infer_request.set_tensor(input_tensor_name, Tensor(input_content))
+            for input_tensor, input_content in zip(self.input_tensors, input_content):
+                input_tensor_name = input_tensor.get_any_name()
+                self.infer_request.set_tensor(input_tensor_name, Tensor(input_content))
             self.infer_request.infer()
 
             outputs = []
