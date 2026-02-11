@@ -42,6 +42,8 @@ paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json 
 
 我在`/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py`中插入以下代码（在 **L103** 行左右），来保证输入相同，比较输出。
 
+#### PP-DocLayoutV2
+
 按照上面直接转换后，在相同输入下，ONNX模型和Paddle模型推理结果误差为 **14.8%** 。在我看来，这个误差其实挺大的。
 
 但是从可视化示例图结果来看，两者并无明显区别。可能在某些图上会有较大区别。
@@ -53,7 +55,7 @@ paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json 
 import onnxruntime
 import numpy as np
 
-model_path = "models/PP-DocLayoutV2/inference_v5_op15_pd_cpu_fixed.onnx"
+model_path = "models/PP-DocLayoutV2/inference.onnx"
 ort_session = onnxruntime.InferenceSession(model_path)
 ort_inputs = {
     "im_shape": batch_inputs[0],
@@ -104,6 +106,25 @@ Max relative difference: 194.
 ```
 
 暂时先用这个ONNX模型，该问题已经反馈到了Paddle2ONNX issue [#1608](https://github.com/PaddlePaddle/Paddle2ONNX/issues/1608#issuecomment-3875561303)
+
+#### PP-DocLayoutV3
+
+和 PP-DocLayoutV2 相同环境，相同转换代码，这个模型误差就小很多了，仅有 **1.57%**了。
+
+```bash
+AssertionError:
+Not equal to tolerance rtol=0, atol=0.001
+
+Mismatched elements: 33 / 2100 (1.57%)
+Max absolute difference among violations: 1.
+Max relative difference among violations: 0.01754386
+ ACTUAL: array([[2.200000e+01, 9.658169e-01, 3.387792e+01, ..., 3.626684e+02,
+        8.528884e+02, 1.540000e+02],
+       [2.200000e+01, 9.657925e-01, 3.363610e+01, ..., 3.633332e+02,...
+ DESIRED: array([[2.200000e+01, 9.658167e-01, 3.387791e+01, ..., 3.626685e+02,
+        8.528885e+02, 1.530000e+02],
+       [2.200000e+01, 9.657924e-01, 3.363615e+01, ..., 3.633333e+02,...
+```
 
 ### 剥离推理代码
 
@@ -202,9 +223,11 @@ $ python write_dict.py
 ['abstract', 'algorithm', 'aside_text', 'chart', 'content', 'display_formula', 'doc_title', 'figure_title', 'footer', 'footer_image', 'footnote', 'formula_number', 'header', 'header_image', 'image', 'inline_formula', 'number', 'paragraph_title', 'reference', 'reference_content', 'seal', 'table', 'text', 'vertical_text', 'vision_footnote']
 ```
 
+PP-DocLayoutV2 和 PP-DocLayoutV3 字典是一样的。
+
 ### 使用
 
-目前已经在`rapid-layout>=1.1.0`支持。使用示例：
+目前 PP-DocLayoutV2 在`rapid_layout>=1.1.0`已经支持。PP-DocLayoutV3 在`rapid_layout>=1.2.0`中支持。使用示例：
 
 ```python linenums="1"
 from rapid_layout import EngineType, ModelType, RapidLayout

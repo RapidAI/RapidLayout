@@ -12,7 +12,8 @@ hide:
 
 | `model_type` | 版面类型 | 支持类别 |
 | :------ | :----- | :----- |
-|`pp_doc_layoutv2 (rapid_layout>=1.1.0)`|通用|`['abstract', 'algorithm', 'aside_text', 'chart', 'content', 'display_formula', 'doc_title', 'figure_title', 'footer', 'footer_image', 'footnote', 'formula_number', 'header', 'header_image', 'image', 'inline_formula', 'number', 'paragraph_title', 'reference', 'reference_content', 'seal', 'table', 'text', 'vertical_text', 'vision_footnote']`|
+|`pp_doc_layoutv3 (rapid_layout>=1.2.0)`|文档|`['abstract', 'algorithm', 'aside_text', 'chart', 'content', 'display_formula', 'doc_title', 'figure_title', 'footer', 'footer_image', 'footnote', 'formula_number', 'header', 'header_image', 'image', 'inline_formula', 'number', 'paragraph_title', 'reference', 'reference_content', 'seal', 'table', 'text', 'vertical_text', 'vision_footnote']`|
+|`pp_doc_layoutv2 (rapid_layout>=1.1.0)`|文档|`['abstract', 'algorithm', 'aside_text', 'chart', 'content', 'display_formula', 'doc_title', 'figure_title', 'footer', 'footer_image', 'footnote', 'formula_number', 'header', 'header_image', 'image', 'inline_formula', 'number', 'paragraph_title', 'reference', 'reference_content', 'seal', 'table', 'text', 'vertical_text', 'vision_footnote']`|
 ||||
 | `pp_layout_table` | 表格 | `["table"]` |
 | `pp_layout_publaynet` | 英文 | `["text", "title", "list", "table", "figure"]` |
@@ -28,6 +29,8 @@ hide:
 | `doclayout_docsynth` | 通用 | `['Caption', 'Footnote', 'Formula', 'List-item', 'Page-footer', 'Page-header', 'Picture', 'Section-header', 'Table', 'Text', 'Title']` |
 
 ## 模型来源
+
+**🔥 PP-DocLayoutV3**: [PP-DocLayoutV2](https://huggingface.co/PaddlePaddle/PP-DocLayoutV3)
 
 **🔥 PP-DocLayoutV2**: [PP-DocLayoutV2](https://huggingface.co/PaddlePaddle/PP-DocLayoutV2)
 

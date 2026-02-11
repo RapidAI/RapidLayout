@@ -1,3 +1,7 @@
+pp_doc_layoutv3:
+  model_dir_or_path: https://www.modelscope.cn/models/RapidAI/RapidLayout/resolve/master/onnx/pp_doc_layout/pp_doc_layoutv3.onnx
+  SHA256: 250dbad1dfb9e4983fab75e1bf5085cd56ec3f41d5c7d0f8623ec74856e7aa67
+
 pp_doc_layoutv2:
   model_dir_or_path: https://www.modelscope.cn/models/RapidAI/RapidLayout/resolve/v1.1.0/onnx/pp_doc_layout/pp_doc_layoutv2.onnx
   SHA256: 0bd2ea0997fe0789f0300292291f8bbf897d890b44a9a3bd5be72afd6198aa90
