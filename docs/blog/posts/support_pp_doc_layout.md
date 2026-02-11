@@ -109,7 +109,7 @@ Max relative difference: 194.
 
 #### PP-DocLayoutV3
 
-和 PP-DocLayoutV2 相同环境，相同转换代码，这个模型误差就小很多了，仅有 **1.57%**了。
+和 PP-DocLayoutV2 相同环境，相同转换代码，这个模型误差就小很多了，仅有 **1.57%** 了。
 
 ```bash
 AssertionError:

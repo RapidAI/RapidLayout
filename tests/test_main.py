@@ -36,6 +36,7 @@ def get_engine(params: Optional[RapidLayoutInput] = None):
         ("PMC3576793_00004.jpg", "yolov8n_layout_general6", 13),
         ("PMC3576793_00004.jpg", "doclayout_docstructbench", 14),
         ("pp_doc_layoutv2_layout.jpg", "pp_doc_layoutv2", 13),
+        ("pp_doc_layoutv2_layout.jpg", "pp_doc_layoutv3", 13),
     ],
 )
 def test_normal(img_name, model_type, gt):
