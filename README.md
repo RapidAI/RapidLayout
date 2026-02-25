@@ -25,7 +25,7 @@ Rapid Layout 汇集全网开源的版面分析能力，对文档类图像（论�
 ### 🎥 效果展示
 
 <div align="center">
-    <img src="https://www.modelscope.cn/models/RapidAI/RapidLayout/resolve/master/resources/images/layout_vis.jpg" width="40%">
+    <img src="docs/images/layout_vis.jpg" width="50%">
 </div>
 
 ### 🛠️ 安装
