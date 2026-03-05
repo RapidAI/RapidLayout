@@ -94,7 +94,7 @@ hooks:
 
 extra_css:
   - stylesheets/extra.css
-  - stylesheets/font.css
+  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-web/style.css
 
 extra:
   social:
