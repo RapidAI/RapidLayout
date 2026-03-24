@@ -10,7 +10,7 @@ import numpy as np
 
 from .inference_engine.base import get_engine
 from .model_handler import ModelHandler, ModelProcessor
-from .utils.load_image import LoadImage
+from .utils.load_image import InputType, LoadImage
 from .utils.typings import ModelType, RapidLayoutInput, RapidLayoutOutput
 from .utils.utils import is_url
 
@@ -43,9 +43,7 @@ class RapidLayout:
 
         self.load_img = LoadImage()
 
-    def __call__(
-        self, img_content: Union[str, np.ndarray, bytes, Path]
-    ) -> RapidLayoutOutput:
+    def __call__(self, img_content: InputType) -> RapidLayoutOutput:
         img = self.load_img(img_content)
         result = self.model_handler(img)
         return result

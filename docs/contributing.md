@@ -58,7 +58,7 @@ pip install -e .
 
 ## 三、安装代码格式化与 pre-commit 钩子
 
-在已激活的虚拟环境中安装 pre-commit，并在**仓库根目录**启用 Git 提交前钩子，以便自动做代码格式检查与整理（如 black、autoflake 等）：
+在已激活的虚拟环境中安装 pre-commit，并在 **仓库根目录** 启用 Git 提交前钩子，以便自动做代码格式检查与整理（如 black, autoflake 等）：
 
 ```bash
 pip install pre-commit
@@ -75,7 +75,7 @@ pre-commit run --all-files
 
 ## 四、运行单元测试
 
-在**仓库根目录**下执行：
+在 **仓库根目录** 下执行：
 
 ```bash
 # 运行全部测试
@@ -150,7 +150,7 @@ def test_your_new_feature():
 
 ## 七、运行所有单元测试
 
-在**仓库根目录**下再次全量跑测，确保无回归：
+在 **仓库根目录** 下再次全量跑测，确保无回归：
 
 ```bash
 pytest tests/ -v
@@ -207,7 +207,7 @@ git push myfork fix/xxx
 | `style`    | 代码格式（不影响逻辑） |
 | `refactor` | 重构                   |
 | `test`     | 测试相关               |
-| `chore`    | 构建/工具等            |
+| `chore`    | 构建 / 工具等            |
 
 示例：`fix: 修复某条件下版面结果为空`、`feat: 支持 xxx 输入格式`、`docs: 更新安装说明`。
 
@@ -235,7 +235,7 @@ git push myfork fix/xxx
 | 3 | 安装 pre-commit（`pip install pre-commit`），在仓库根目录执行 `pre-commit install` |
 | 4 | 运行单元测试（`pytest tests/ -v`），确认基线通过 |
 | 5 | 复现问题或实现新功能 |
-| 6 | 编写/补充对应单元测试 |
+| 6 | 编写 / 补充对应单元测试 |
 | 7 | 在仓库根目录运行全部测试并确认通过 |
 | 8 | Fork 主仓库到个人账号 |
 | 9 | 按约定式提交规范编写 commit，将修改提交并推送到个人 Fork 的对应分支 |

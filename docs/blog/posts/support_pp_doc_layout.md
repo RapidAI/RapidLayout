@@ -9,20 +9,20 @@ categories:
 comments: true
 ---
 
-本篇文章主要记录如何集成PP-DocLayoutV2/V3模型的
+本篇文章主要记录如何集成 PP-DocLayoutV2/V3 模型的
 
 <!-- more -->
 
 ### 引言
 
-PP-DocLayout系列模型在版面分析方面效果很好，目前已经作为PaddleOCR-VL系列模型的前置，起着至关重要的作用。
+PP-DocLayout 系列模型在版面分析方面效果很好，目前已经作为 PaddleOCR-VL 系列模型的前置，起着至关重要的作用。
 
-文档智能的关键地方就在于此。因此，想着将该模型纳入RapidLayout系列模型中，方便小伙伴们快速使用。
+文档智能的关键地方就在于此。因此，想着将该模型纳入 RapidLayout 系列模型中，方便小伙伴们快速使用。
 
 ### 运行环境
 
-- 操作系统： Ubuntu
-- Python： 3.10.14
+- 操作系统：Ubuntu
+- Python：3.10.14
 - 其他依赖环境：
 
     ```text linenums="1"
@@ -40,11 +40,11 @@ paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json 
 
 ### 比较结果
 
-我在`/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py`中插入以下代码（在 **L103** 行左右），来保证输入相同，比较输出。
+我在 `/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py` 中插入以下代码（在 **L103** 行左右），来保证输入相同，比较输出。
 
 #### PP-DocLayoutV2
 
-按照上面直接转换后，在相同输入下，ONNX模型和Paddle模型推理结果误差为 **14.8%** 。在我看来，这个误差其实挺大的。
+⚠️注意：按照上面直接转换后，在相同输入下，ONNX 模型和 Paddle 模型推理结果误差为 **14.8%**。在我看来，这个误差其实挺大的。
 
 但是从可视化示例图结果来看，两者并无明显区别。可能在某些图上会有较大区别。
 
@@ -105,7 +105,7 @@ Max relative difference: 194.
        [2.200000e+01, 9.888635e-01, 3.372382e+01, ..., 8.526024e+02,...
 ```
 
-暂时先用这个ONNX模型，该问题已经反馈到了Paddle2ONNX issue [#1608](https://github.com/PaddlePaddle/Paddle2ONNX/issues/1608#issuecomment-3875561303)
+暂时先用这个 ONNX 模型，该问题已经反馈到了 Paddle2ONNX issue [#1608](https://github.com/PaddlePaddle/Paddle2ONNX/issues/1608#issuecomment-3875561303)
 
 #### PP-DocLayoutV3
 
@@ -128,9 +128,9 @@ Max relative difference among violations: 0.01754386
 
 ### 剥离推理代码
 
-因为PaddleOCR库中需要兼容的推理代码较多，大而全。这也导致了有些臃肿。这是难以避免的。但是如果只看PP-DocLayout推理代码的话，很多问题就很简单了。
+因为 PaddleOCR 库中需要兼容的推理代码较多，大而全。这也导致了有些臃肿。这是难以避免的。但是如果只看 PP-DocLayout 推理代码的话，很多问题就很简单了。
 
-完整的推理代码，我放到了Gist上 → [link](https://gist.github.com/SWHL/c9455e8947f4abdfbbd8439c0bb83410)
+完整的推理代码，我放到了 Gist 上 → [link](https://gist.github.com/SWHL/c9455e8947f4abdfbbd8439c0bb83410)
 
 ### 字典写入 ONNX
 
@@ -216,7 +216,7 @@ t = ONNXMetaOp.get_meta(new_model_path, key="character")
 print(t)
 ```
 
-输出以下`label`，则认为成功：
+输出以下 `label`，则认为成功：
 
 ```bash linenums="1"
 $ python write_dict.py
@@ -227,7 +227,7 @@ PP-DocLayoutV2 和 PP-DocLayoutV3 字典是一样的。
 
 ### 使用
 
-目前 PP-DocLayoutV2 在`rapid_layout>=1.1.0`已经支持。PP-DocLayoutV3 在`rapid_layout>=1.2.0`中支持。使用示例：
+目前 PP-DocLayoutV2 在 `rapid_layout>=1.1.0` 已经支持。PP-DocLayoutV3 在 `rapid_layout>=1.2.0` 中支持。使用示例：
 
 ```python linenums="1"
 from rapid_layout import EngineType, ModelType, RapidLayout

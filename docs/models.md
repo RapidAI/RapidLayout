@@ -46,4 +46,4 @@ hide:
 
 ## 模型下载
 
-模型均已经托管在[魔搭平台](https://www.modelscope.cn/models/RapidAI/RapidLayout/files)。
+模型均已经托管在 [魔搭平台](https://www.modelscope.cn/models/RapidAI/RapidLayout/files)。
