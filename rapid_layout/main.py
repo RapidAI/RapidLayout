@@ -3,10 +3,7 @@
 # @Contact: liekkaskono@163.com
 import argparse
 import dataclasses
-from pathlib import Path
-from typing import List, Optional, Union
-
-import numpy as np
+from typing import List, Optional
 
 from .inference_engine.base import get_engine
 from .model_handler import ModelHandler, ModelProcessor

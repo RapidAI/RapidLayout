@@ -1,7 +1,8 @@
 ---
-title: 支持PP-DocLayoutV2/V3系列模型
+title: 支持 PP-DocLayoutV2/V3 系列模型
 date:
   created: 2026-02-10
+  updated: 2026-03-24
 authors: [SWHL]
 slug: support-PP-DocLayoutv2-v3
 categories:
@@ -44,7 +45,7 @@ paddle2onnx  --model_dir=models/PP-DocLayoutV2  --model_filename inference.json 
 
 #### PP-DocLayoutV2
 
-⚠️注意：按照上面直接转换后，在相同输入下，ONNX 模型和 Paddle 模型推理结果误差为 **14.8%**。在我看来，这个误差其实挺大的。
+按照上面直接转换后，在相同输入下，ONNX 模型和 Paddle 模型推理结果误差为 **14.8%**。在我看来，这个误差其实挺大的。
 
 但是从可视化示例图结果来看，两者并无明显区别。可能在某些图上会有较大区别。
 
