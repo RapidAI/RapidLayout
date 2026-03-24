@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../../../../static/logo.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -1186,16 +1186,16 @@ You're not viewing the latest version.
 
 
 <!-- Page content -->
-<p>本篇文章主要记录如何集成PP-DocLayoutV2/V3模型的</p>
+<p>本篇文章主要记录如何集成 PP-DocLayoutV2/V3 模型的</p>
 <!-- more -->
 
 <h3 id="_1">引言<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
-<p>PP-DocLayout系列模型在版面分析方面效果很好，目前已经作为PaddleOCR-VL系列模型的前置，起着至关重要的作用。</p>
-<p>文档智能的关键地方就在于此。因此，想着将该模型纳入RapidLayout系列模型中，方便小伙伴们快速使用。</p>
+<p>PP-DocLayout 系列模型在版面分析方面效果很好，目前已经作为 PaddleOCR-VL 系列模型的前置，起着至关重要的作用。</p>
+<p>文档智能的关键地方就在于此。因此，想着将该模型纳入 RapidLayout 系列模型中，方便小伙伴们快速使用。</p>
 <h3 id="_2">运行环境<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <ul>
-<li>操作系统： Ubuntu</li>
-<li>Python： 3.10.14</li>
+<li>操作系统：Ubuntu</li>
+<li>Python：3.10.14</li>
 <li>
 <p>其他依赖环境：</p>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
@@ -1212,9 +1212,9 @@ You're not viewing the latest version.
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>paddle2onnx<span class="w">  </span>--model_dir<span class="o">=</span>models/PP-DocLayoutV2<span class="w">  </span>--model_filename<span class="w"> </span>inference.json<span class="w"> </span>--params_filename<span class="w"> </span>inference.pdiparams<span class="w">  </span>--save_file<span class="o">=</span>./models/PP-DocLayoutV2/inference.onnx<span class="w">  </span>--enable_onnx_checker<span class="o">=</span>True
 </span></code></pre></div>
 <h3 id="_4">比较结果<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>我在<code>/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py</code>中插入以下代码（在 <strong>L103</strong> 行左右），来保证输入相同，比较输出。</p>
+<p>我在 <code>/xxxx/miniforge3/envs/wjh_debug/lib/python3.10/site-packages/paddlex/inference/models/layout_analysis/predictor.py</code> 中插入以下代码（在 <strong>L103</strong> 行左右），来保证输入相同，比较输出。</p>
 <h4 id="pp-doclayoutv2">PP-DocLayoutV2<a class="headerlink" href="#pp-doclayoutv2" title="Permanent link">&para;</a></h4>
-<p>按照上面直接转换后，在相同输入下，ONNX模型和Paddle模型推理结果误差为 <strong>14.8%</strong> 。在我看来，这个误差其实挺大的。</p>
+<p>⚠️注意：按照上面直接转换后，在相同输入下，ONNX 模型和 Paddle 模型推理结果误差为 <strong>14.8%</strong>。在我看来，这个误差其实挺大的。</p>
 <p>但是从可视化示例图结果来看，两者并无明显区别。可能在某些图上会有较大区别。</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">比较两种格式模型推理结果</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
@@ -1313,7 +1313,7 @@ You're not viewing the latest version.
 </span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28"></a><span class="w">        </span><span class="m">2</span>.900000e+02,<span class="w"> </span><span class="m">2</span>.900000e+02<span class="o">]</span>,
 </span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29"></a><span class="w">       </span><span class="o">[</span><span class="m">2</span>.200000e+01,<span class="w"> </span><span class="m">9</span>.888635e-01,<span class="w"> </span><span class="m">3</span>.372382e+01,<span class="w"> </span>...,<span class="w"> </span><span class="m">8</span>.526024e+02,...
 </span></code></pre></div></td></tr></table></div>
-<p>暂时先用这个ONNX模型，该问题已经反馈到了Paddle2ONNX issue <a href="https://github.com/PaddlePaddle/Paddle2ONNX/issues/1608#issuecomment-3875561303">#1608</a></p>
+<p>暂时先用这个 ONNX 模型，该问题已经反馈到了 Paddle2ONNX issue <a href="https://github.com/PaddlePaddle/Paddle2ONNX/issues/1608#issuecomment-3875561303">#1608</a></p>
 <h4 id="pp-doclayoutv3">PP-DocLayoutV3<a class="headerlink" href="#pp-doclayoutv3" title="Permanent link">&para;</a></h4>
 <p>和 PP-DocLayoutV2 相同环境，相同转换代码，这个模型误差就小很多了，仅有 <strong>1.57%</strong> 了。</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>AssertionError:
@@ -1330,8 +1330,8 @@ You're not viewing the latest version.
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">       </span><span class="o">[</span><span class="m">2</span>.200000e+01,<span class="w"> </span><span class="m">9</span>.657924e-01,<span class="w"> </span><span class="m">3</span>.363615e+01,<span class="w"> </span>...,<span class="w"> </span><span class="m">3</span>.633333e+02,...
 </span></code></pre></div>
 <h3 id="_5">剥离推理代码<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>因为PaddleOCR库中需要兼容的推理代码较多，大而全。这也导致了有些臃肿。这是难以避免的。但是如果只看PP-DocLayout推理代码的话，很多问题就很简单了。</p>
-<p>完整的推理代码，我放到了Gist上 → <a href="https://gist.github.com/SWHL/c9455e8947f4abdfbbd8439c0bb83410">link</a></p>
+<p>因为 PaddleOCR 库中需要兼容的推理代码较多，大而全。这也导致了有些臃肿。这是难以避免的。但是如果只看 PP-DocLayout 推理代码的话，很多问题就很简单了。</p>
+<p>完整的推理代码，我放到了 Gist 上 → <a href="https://gist.github.com/SWHL/c9455e8947f4abdfbbd8439c0bb83410">link</a></p>
 <h3 id="onnx">字典写入 ONNX<a class="headerlink" href="#onnx" title="Permanent link">&para;</a></h3>
 <div class="language-python highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">write_dict.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
@@ -1491,14 +1491,14 @@ You're not viewing the latest version.
 </span><span id="__span-5-78"><a id="__codelineno-5-78" name="__codelineno-5-78"></a><span class="n">t</span> <span class="o">=</span> <span class="n">ONNXMetaOp</span><span class="o">.</span><span class="n">get_meta</span><span class="p">(</span><span class="n">new_model_path</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;character&quot;</span><span class="p">)</span>
 </span><span id="__span-5-79"><a id="__codelineno-5-79" name="__codelineno-5-79"></a><span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
-<p>输出以下<code>label</code>，则认为成功：</p>
+<p>输出以下 <code>label</code>，则认为成功：</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span>
 <span class="normal"><a href="#__codelineno-6-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>$<span class="w"> </span>python<span class="w"> </span>write_dict.py
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="o">[</span><span class="s1">&#39;abstract&#39;</span>,<span class="w"> </span><span class="s1">&#39;algorithm&#39;</span>,<span class="w"> </span><span class="s1">&#39;aside_text&#39;</span>,<span class="w"> </span><span class="s1">&#39;chart&#39;</span>,<span class="w"> </span><span class="s1">&#39;content&#39;</span>,<span class="w"> </span><span class="s1">&#39;display_formula&#39;</span>,<span class="w"> </span><span class="s1">&#39;doc_title&#39;</span>,<span class="w"> </span><span class="s1">&#39;figure_title&#39;</span>,<span class="w"> </span><span class="s1">&#39;footer&#39;</span>,<span class="w"> </span><span class="s1">&#39;footer_image&#39;</span>,<span class="w"> </span><span class="s1">&#39;footnote&#39;</span>,<span class="w"> </span><span class="s1">&#39;formula_number&#39;</span>,<span class="w"> </span><span class="s1">&#39;header&#39;</span>,<span class="w"> </span><span class="s1">&#39;header_image&#39;</span>,<span class="w"> </span><span class="s1">&#39;image&#39;</span>,<span class="w"> </span><span class="s1">&#39;inline_formula&#39;</span>,<span class="w"> </span><span class="s1">&#39;number&#39;</span>,<span class="w"> </span><span class="s1">&#39;paragraph_title&#39;</span>,<span class="w"> </span><span class="s1">&#39;reference&#39;</span>,<span class="w"> </span><span class="s1">&#39;reference_content&#39;</span>,<span class="w"> </span><span class="s1">&#39;seal&#39;</span>,<span class="w"> </span><span class="s1">&#39;table&#39;</span>,<span class="w"> </span><span class="s1">&#39;text&#39;</span>,<span class="w"> </span><span class="s1">&#39;vertical_text&#39;</span>,<span class="w"> </span><span class="s1">&#39;vision_footnote&#39;</span><span class="o">]</span>
 </span></code></pre></div></td></tr></table></div>
 <p>PP-DocLayoutV2 和 PP-DocLayoutV3 字典是一样的。</p>
 <h3 id="_6">使用<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>目前 PP-DocLayoutV2 在<code>rapid_layout&gt;=1.1.0</code>已经支持。PP-DocLayoutV3 在<code>rapid_layout&gt;=1.2.0</code>中支持。使用示例：</p>
+<p>目前 PP-DocLayoutV2 在 <code>rapid_layout&gt;=1.1.0</code> 已经支持。PP-DocLayoutV3 在 <code>rapid_layout&gt;=1.2.0</code> 中支持。使用示例：</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
@@ -1547,7 +1547,7 @@ You're not viewing the latest version.
     <span class="md-icon" title="最后更新">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="2026年2月11日 09:32:36 CST">2026-02-11 09:32:36</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_datetime" title="2026年3月24日 09:38:03 CST">2026-03-24 09:38:03</span>
   </span>
 
     
